@@ -138,9 +138,9 @@ apt-get install -y build-essential checkinstall &>> $logfile
 chmod u+rwx /usr/local/src &>> $logfile
 apt-get install -y linux-headers-$(uname -r) &>> $logfile
 apt-get install -y dh-autoreconf libjansson-dev libpcre++-dev uthash-dev libarchive-dev tesseract-ocr libelf-dev libssl-dev libgeoip-dev -y &>> $logfile
-apt-get install python python-pip python-dev libffi-dev libssl-dev libpq-dev libmagic-dev -y &>> $logfile
-apt-get install python-virtualenv python-setuptools -y &>> $logfile
-apt-get install libjpeg-dev zlib1g-dev swig mongodb virtualbox -y &>> $logfile
+apt-get install python python-pip python-dev libffi-dev libssl-dev libpq-dev libmagic-dev python-sqlalchemy -y &>> $logfile
+apt-get install python-virtualenv python-setuptools unattended-upgrades apt-listchanges fail2ban -y &>> $logfile
+apt-get install libjpeg-dev zlib1g-dev swig mongodb virtualbox clamav clamav-daemon clamav-freshclam -y &>> $logfile
 error_check 'Depos installed'
 
 print_status "${YELLOW}Downloading and installing Cuckoo${NC}"
@@ -277,6 +277,43 @@ mitmproxy &
 cp ~/.mitmproxy/mitmproxy-ca-cert.p12 /home/$name/.cuckoo/analyzer/windows/bin/cert.p12 &>> $logfile
 cp ~/.mitmproxy/mitmproxy-ca-cert.p12 /home/$name/tools/ &>> $logfile
 error_check 'MitM proxy certs installed'
+
+###Setup of VirtualBox forwarding rules and host only adapter
+VBoxManage hostonlyif create
+VBoxManage hostonlyif ipconfig vboxnet0 --ip 192.168.56.1
+iptables -A FORWARD -o eth0 -i vboxnet0 -s 192.168.56.0/24 -m conntrack --ctstate NEW -j ACCEPT
+sudo iptables -A FORWARD -m conntrack --ctstate ESTABLISHED,RELATED -j ACCEPT
+sudo iptables -A POSTROUTING -t nat -j MASQUERADE
+sudo sysctl -w net.ipv4.ip_forward=1
+
+read -p "Do you want to iptable changes persistent so that forwarding rules from the created subnet are applied at boot? This is highly recommended. Y/N" -n 1 -r
+if [[ $REPLY =~ ^[Yy]$ ]]
+then
+echo
+apt-get -qq install iptables-persistent -y &>> $logfile
+error_check 'Persistent Iptable entries'
+fi
+echo
+
+##MySQL install
+read -p "Would you like to use a SQL database to support multi-threaded analysis? Y/N" -n 1 -r
+if [[ $REPLY =~ ^[Yy]$ ]]
+then
+print_status "Setting ENV variables"
+debconf-set-selections <<< "mysql-server mysql-server/$root_mysql_pass password root"
+debconf-set-selections <<< "mysql-server mysql-server/$root_mysql_pass password root"
+error_check 'MySQL passwords set'
+print_status "Downloading and installing MySQL"
+apt-get -y install mysql-server python-mysqldb &>> $logfile
+error_check 'MySQL installed'
+#mysqladmin -uroot password $root_mysql_pass &>> $logfile
+#error_check 'MySQL root password change'	
+mysql -uroot -p$root_mysql_pass -e "DELETE FROM mysql.user WHERE User=''; DELETE FROM mysql.user WHERE User='root' AND Host NOT IN ('localhost', '127.0.0.1', '::1'); DROP DATABASE IF EXISTS test; DELETE FROM mysql.db WHERE Db='test' OR Db='test\\_%'; DROP DATABASE IF EXISTS cuckoo; CREATE DATABASE cuckoo; GRANT ALL PRIVILEGES ON cuckoo.* TO 'cuckoo'@'localhost' IDENTIFIED BY '$cuckoo_mysql_pass'; FLUSH PRIVILEGES;" &>> $logfile
+error_check 'MySQL secure installation and cuckoo database/user creation'
+replace "connection =" "connection = mysql://cuckoo:$cuckoo_mysql_pass@localhost/cuckoo" -- /home/$name/.cuckoo/conf/cuckoo.conf &>> $logfile
+error_check 'Configuration files modified'
+fi
+
 
 ##Rooter
 print_status "${YELLOW}Adding Sudo Access to Rooter${NC}"
