@@ -144,8 +144,12 @@ apt-get install libjpeg-dev zlib1g-dev swig mongodb virtualbox -y &>> $logfile
 error_check 'Depos installed'
 
 print_status "${YELLOW}Downloading and installing Cuckoo${NC}"
-pip install -U pip setuptools  &>> $logfile
-pip install -U cuckoo &>> $logfile
+pip install -U pip setuptools &>> $logfile
+pip install -U pip cuckoo &>> $logfile
+#cd ~
+#wget https://github.com/cuckoosandbox/cuckoo/archive/2.0-rc1.zip &>> $logfile
+#unzip 2.0-rc1.zip &>> $logfile
+#mv cuckoo-* cuckoo
 error_check 'Cuckoo downloaded and installed'
 
 ##Java install for elasticsearch
@@ -203,16 +207,6 @@ make install &>> $logfile
 make load &>> $logfile
 error_check 'DTrace installed'
 
-##MitM
-print_status "${YELLOW}Installing MitM proxy${NC}"
-cd ~
-apt-get install -y mitmproxy &>> $logfile
-print_status "${YELLOW}Installing MitM proxy certs for cuckoo${NC}"
-mitmproxy & 
-cp ~/.mitmproxy/mitmproxy-ca-cert.p12 /etc/cuckoo/analyzer/windows/bin/cert.p12 &>> $logfile
-cp ~/.mitmproxy/mitmproxy-ca-cert.p12 /home/$name/tools/ &>> $logfile
-error_check 'MitM proxy installed'
-
 ##Pydeep
 cd /home/$name/tools/
 print_status "${YELLOW}Setting up Pydeep${NC}"
@@ -240,6 +234,13 @@ python setup.py build &>> $logfile
 python setup.py install &>> $logfile
 error_check 'Volatility installed'
 
+##Snort
+print_status "${YELLOW}Installing Snort${NC}"
+apt-get install snort -qq
+chmod -Rv 777 /etc/snort/
+chmod -Rv 777 /var/log/snort/
+error_check 'Snort Installed'
+
 ##Suricata
 cd /home/$name/tools/
 print_status "${YELLOW}Setting up Suricata${NC}"
@@ -257,19 +258,25 @@ chown -R $name:$name /etc/suricata/rules &>> $logfile
 crontab -u $name $gitdir/lib/cron 
 error_check 'Suricata configured for auto-update'
 
-##Snort
-print_status "${YELLOW}Installing Snort${NC}"
-apt-get install snort -qq
-chmod -Rv 777 /etc/snort/
-chmod -Rv 777 /var/log/snort/
-error_check 'Snort Installed'
-
 ##Other tools
 cd /home/$name/tools/
 print_status "${YELLOW}Grabbing other tools${NC}"
 apt-get install libboost-all-dev -y &>> $logfile
 sudo -H pip install git+https://github.com/buffer/pyv8 &>> $logfile
 error_check 'PyV8 installed'
+
+##Start Cuckoo
+sudo -H -u $name bash cuckoo
+
+##MitM
+print_status "${YELLOW}Installing MitM proxy certs${NC}"
+cd ~
+apt-get install -y mitmproxy &>> $logfile
+print_status "${YELLOW}Installing MitM proxy certs for cuckoo${NC}"
+mitmproxy & 
+cp ~/.mitmproxy/mitmproxy-ca-cert.p12 /home/$name/.cuckoo/analyzer/windows/bin/cert.p12 &>> $logfile
+cp ~/.mitmproxy/mitmproxy-ca-cert.p12 /home/$name/tools/ &>> $logfile
+error_check 'MitM proxy certs installed'
 
 ##Rooter
 print_status "${YELLOW}Adding Sudo Access to Rooter${NC}"
