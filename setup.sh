@@ -140,12 +140,13 @@ apt-get install -y linux-headers-$(uname -r) &>> $logfile
 apt-get install -y dh-autoreconf libjansson-dev libpcre++-dev uthash-dev libarchive-dev tesseract-ocr libelf-dev libssl-dev libgeoip-dev -y &>> $logfile
 apt-get install python python-pip python-dev libffi-dev libssl-dev libpq-dev libmagic-dev python-sqlalchemy -y &>> $logfile
 apt-get install python-virtualenv python-setuptools unattended-upgrades apt-listchanges fail2ban libfuzzy-dev -y &>> $logfile
-apt-get install libjpeg-dev zlib1g-dev swig mongodb virtualbox clamav clamav-daemon clamav-freshclam -y &>> $logfile
+apt-get install libjpeg-dev zlib1g-dev swig mongodb virtualbox clamav clamav-daemon clamav-freshclam libconfig-dev-y &>> $logfile
 error_check 'Depos installed'
 
 print_status "${YELLOW}Downloading and installing Cuckoo${NC}"
 pip install -U pip setuptools &>> $logfile
 pip install -U pip cuckoo &>> $logfile
+pip install -U pip distorm3 &>> $logfile
 #cd ~
 #wget https://github.com/cuckoosandbox/cuckoo/archive/2.0-rc1.zip &>> $logfile
 #unzip 2.0-rc1.zip &>> $logfile
@@ -164,6 +165,7 @@ print_status "${YELLOW}Setting up Elasticsearch${NC}"
 update-rc.d elasticsearch defaults 95 10 &>> $logfile
 /etc/init.d/elasticsearch start &>> $logfile
 service elasticsearch start &>> $logfile
+error_check 'Elasticsearch Setup'
 
 ##Add user to vbox and enable mongodb
 print_status "${YELLOW}Setting up Mongodb${NC}"
