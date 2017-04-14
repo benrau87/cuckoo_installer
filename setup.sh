@@ -90,6 +90,7 @@ adduser $name --gecos ""
 cd /home/$name/
 dir=$PWD
 dir_check /home/$name/tools
+dir_check /home/$name/conf
 rm -rf /home/$name/tools/*
 cd tools/
 
@@ -279,23 +280,13 @@ while fuser /var/lib/dpkg/lock >/dev/null 2>&1; do
    sleep 1
 done
 
-##Start Cuckoo
-sudo -H -u $name bash cuckoo
-
-##Holding pattern for dpkg...
-print_status "${YELLOW}Waiting for dpkg process to free up...${NC}"
-print_status "${YELLOW}If this takes too long try running ${RED}sudo rm -f /var/lib/dpkg/lock${YELLOW} in another terminal window.${NC}"
-while fuser /var/lib/dpkg/lock >/dev/null 2>&1; do
-   sleep 1
-done
-
 ##MitM
 print_status "${YELLOW}Installing MitM proxy certs${NC}"
 cd ~
 apt-get install -y mitmproxy &>> $logfile
 print_status "${YELLOW}Installing MitM proxy certs for cuckoo${NC}"
 mitmproxy & 
-cp ~/.mitmproxy/mitmproxy-ca-cert.p12 /home/$name/.cuckoo/analyzer/windows/bin/cert.p12 &>> $logfile
+cp ~/.mitmproxy/mitmproxy-ca-cert.p12 /home/$name/conf/cert.p12 &>> $logfile
 cp ~/.mitmproxy/mitmproxy-ca-cert.p12 /home/$name/tools/ &>> $logfile
 error_check 'MitM proxy certs installed'
 
@@ -331,7 +322,7 @@ error_check 'MySQL installed'
 #error_check 'MySQL root password change'	
 mysql -uroot -p$root_mysql_pass -e "DELETE FROM mysql.user WHERE User=''; DELETE FROM mysql.user WHERE User='root' AND Host NOT IN ('localhost', '127.0.0.1', '::1'); DROP DATABASE IF EXISTS test; DELETE FROM mysql.db WHERE Db='test' OR Db='test\\_%'; DROP DATABASE IF EXISTS cuckoo; CREATE DATABASE cuckoo; GRANT ALL PRIVILEGES ON cuckoo.* TO 'cuckoo'@'localhost' IDENTIFIED BY '$cuckoo_mysql_pass'; FLUSH PRIVILEGES;" &>> $logfile
 error_check 'MySQL secure installation and cuckoo database/user creation'
-replace "connection =" "connection = mysql://cuckoo:$cuckoo_mysql_pass@localhost/cuckoo" -- /home/$name/.cuckoo/conf/cuckoo.conf &>> $logfile
+replace "connection =" "connection = mysql://cuckoo:$cuckoo_mysql_pass@localhost/cuckoo" -- /home/$name/conf/cuckoo.conf &>> $logfile
 error_check 'Configuration files modified'
 fi
 
