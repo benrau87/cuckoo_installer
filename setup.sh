@@ -99,9 +99,11 @@ apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 0C49F3730359A145185
 echo "deb [ arch=amd64,arm64 ] http://repo.mongodb.org/apt/ubuntu xenial/mongodb-org/3.4 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-3.4.list &>> $logfile
 error_check 'Mongodb added'
 
-##Elasticsearch
+##Java
 add-apt-repository ppa:webupd8team/java -y &>> $logfile
 error_check 'Java Repo added'
+
+##Elasticsearch
 wget -qO - https://packages.elasticsearch.org/GPG-KEY-elasticsearch | sudo apt-key add -
 add-apt-repository "deb http://packages.elasticsearch.org/elasticsearch/1.4/debian stable main" &>> $logfile
 error_check 'Elasticsearch Repo added'
@@ -109,6 +111,9 @@ error_check 'Elasticsearch Repo added'
 ##Suricata
 add-apt-repository ppa:oisf/suricata-beta -y &>> $logfile
 error_check 'Suricata Repo added'
+
+####End of repos
+
 
 ##Move Start Script
 chmod +x $gitdir/supporting_scripts/start_cuckoo.sh
@@ -138,7 +143,7 @@ apt-get install -y build-essential checkinstall &>> $logfile
 chmod u+rwx /usr/local/src &>> $logfile
 apt-get install -y linux-headers-$(uname -r) &>> $logfile
 apt-get install -y dh-autoreconf libjansson-dev libpcre++-dev uthash-dev libarchive-dev tesseract-ocr libelf-dev libssl-dev libgeoip-dev -y &>> $logfile
-apt-get install python python-pip python-dev libffi-dev libssl-dev libpq-dev libmagic-dev python-sqlalchemy -y &>> $logfile
+apt-get install python python-pip python-dev libffi-dev libssl-dev libpq-dev libmagic-dev python-sqlalchemy elasticsearch -y &>> $logfile
 apt-get install python-virtualenv python-setuptools unattended-upgrades apt-listchanges fail2ban libfuzzy-dev -y &>> $logfile
 apt-get install libjpeg-dev zlib1g-dev swig mongodb virtualbox clamav clamav-daemon clamav-freshclam libconfig-dev -y &>> $logfile
 error_check 'Depos installed'
