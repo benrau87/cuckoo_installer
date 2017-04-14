@@ -91,7 +91,7 @@ cd /home/$name/
 dir=$PWD
 dir_check /home/$name/tools
 dir_check /home/$name/conf
-cp $gitdir/cuckoo_test/conf/* /home/$name/conf
+cp $gitdir/conf/* /home/$name/conf
 rm -rf /home/$name/tools/*
 cd tools/
 
@@ -118,9 +118,9 @@ error_check 'Suricata Repo added'
 
 
 ##Move Start Script
-chmod +x $gitdir/cuckoo_test/supporting_scripts/start_cuckoo.sh
-chown $name:$name $gitdir/cuckoo_test/supporting_scripts/start_cuckoo.sh
-mv $gitdir/cuckoo_test/supporting_scripts/start_cuckoo.sh /home/$name/
+chmod +x $gitdir/supporting_scripts/start_cuckoo.sh
+chown $name:$name $gitdir/supporting_scripts/start_cuckoo.sh
+mv $gitdir/supporting_scripts/start_cuckoo.sh /home/$name/
 
 ##Start mongodb 
 chmod 755 $gitdir/lib/mongodb.service
@@ -263,8 +263,8 @@ mv etupdate /usr/sbin/
 error_check 'Suricata updateded'
 chown $name:$name /usr/sbin/etupdate &>> $logfile
 chown -R $name:$name /etc/suricata/rules &>> $logfile
-crontab -u $name $gitdir/cuckoo_test/lib/cron 
-cp $gitdir/cuckoo_test/lib/suricata-cuckoo.yaml /etc/suricata/
+crontab -u $name $gitdir/lib/cron 
+cp $gitdir/lib/suricata-cuckoo.yaml /etc/suricata/
 error_check 'Suricata configured for auto-update'
 
 ##Other tools
