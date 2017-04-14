@@ -256,7 +256,6 @@ print_status "${YELLOW}Setting up Suricata${NC}"
 #dir_check /etc/suricata/rules/cuckoo.rules
 touch /etc/suricata/rules/cuckoo.rules &>> $logfile
 echo "alert http any any -> any any (msg:\"FILE store all\"; filestore; noalert; sid:15; rev:1;)"  | sudo tee /etc/suricata/rules/cuckoo.rules &>> $logfile
-cp $gitdir/lib/suricata-cuckoo.yaml /etc/suricata/
 git clone https://github.com/seanthegeek/etupdate &>> $logfile
 cd etupdate
 mv etupdate /usr/sbin/
@@ -265,6 +264,7 @@ error_check 'Suricata updateded'
 chown $name:$name /usr/sbin/etupdate &>> $logfile
 chown -R $name:$name /etc/suricata/rules &>> $logfile
 crontab -u $name $gitdir/lib/cron 
+cp $gitdir/lib/suricata-cuckoo.yaml /etc/suricata/
 error_check 'Suricata configured for auto-update'
 
 ##Other tools
