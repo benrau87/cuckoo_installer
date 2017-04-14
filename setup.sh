@@ -285,11 +285,10 @@ done
 print_status "${YELLOW}Installing MitM proxy certs${NC}"
 cd ~
 apt-get install -y mitmproxy &>> $logfile
-print_status "${YELLOW}Installing MitM proxy certs for cuckoo${NC}"
-mitmproxy & 
-cp ~/.mitmproxy/mitmproxy-ca-cert.p12 /home/$name/conf/cert.p12 &>> $logfile
-cp ~/.mitmproxy/mitmproxy-ca-cert.p12 /home/$name/tools/ &>> $logfile
-error_check 'MitM proxy certs installed'
+#print_status "${YELLOW}Installing MitM proxy certs for cuckoo${NC}"
+#mitmproxy & 
+#cp ~/.mitmproxy/mitmproxy-ca-cert.p12 /home/$name/conf/cert.p12 &>> $logfile
+#cp ~/.mitmproxy/mitmproxy-ca-cert.p12 /home/$name/tools/ &>> $logfile
 
 ###Setup of VirtualBox forwarding rules and host only adapter
 VBoxManage hostonlyif create
