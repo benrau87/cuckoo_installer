@@ -244,11 +244,11 @@ python setup.py install &>> $logfile
 error_check 'Volatility installed'
 
 ##Snort
-print_status "${YELLOW}Installing Snort${NC}"
-apt-get install snort -qq &>> $logfile
-chmod -Rv 777 /etc/snort/ &>> $logfile
-chmod -Rv 777 /var/log/snort/ &>> $logfile
-error_check 'Snort Installed'
+#print_status "${YELLOW}Installing Snort${NC}"
+#apt-get install snort -qq &>> $logfile
+#chmod -Rv 777 /etc/snort/ &>> $logfile
+#chmod -Rv 777 /var/log/snort/ &>> $logfile
+#error_check 'Snort Installed'
 
 ##Suricata
 cd /home/$name/tools/
