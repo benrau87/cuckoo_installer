@@ -155,6 +155,7 @@ print_status "${YELLOW}Downloading and installing Cuckoo${NC}"
 pip install -U pip setuptools &>> $logfile
 pip install -U pip cuckoo &>> $logfile
 pip install -U pip distorm3 &>> $logfile
+pip install -U pip pycrypto &>> $logfile
 #cd ~
 #wget https://github.com/cuckoosandbox/cuckoo/archive/2.0-rc1.zip &>> $logfile
 #unzip 2.0-rc1.zip &>> $logfile
