@@ -243,9 +243,9 @@ error_check 'Volatility installed'
 
 ##Snort
 print_status "${YELLOW}Installing Snort${NC}"
-apt-get install snort -qq
-chmod -Rv 777 /etc/snort/
-chmod -Rv 777 /var/log/snort/
+apt-get install snort -qq &>> $logfile
+chmod -Rv 777 /etc/snort/ &>> $logfile
+chmod -Rv 777 /var/log/snort/ &>> $logfile
 error_check 'Snort Installed'
 
 ##Suricata
@@ -272,8 +272,22 @@ apt-get install libboost-all-dev -y &>> $logfile
 sudo -H pip install git+https://github.com/buffer/pyv8 &>> $logfile
 error_check 'PyV8 installed'
 
+##Holding pattern for dpkg...
+print_status "${YELLOW}Waiting for dpkg process to free up...${NC}"
+print_status "${YELLOW}If this takes too long try running ${RED}sudo rm -f /var/lib/dpkg/lock${YELLOW} in another terminal window.${NC}"
+while fuser /var/lib/dpkg/lock >/dev/null 2>&1; do
+   sleep 1
+done
+
 ##Start Cuckoo
 sudo -H -u $name bash cuckoo
+
+##Holding pattern for dpkg...
+print_status "${YELLOW}Waiting for dpkg process to free up...${NC}"
+print_status "${YELLOW}If this takes too long try running ${RED}sudo rm -f /var/lib/dpkg/lock${YELLOW} in another terminal window.${NC}"
+while fuser /var/lib/dpkg/lock >/dev/null 2>&1; do
+   sleep 1
+done
 
 ##MitM
 print_status "${YELLOW}Installing MitM proxy certs${NC}"
