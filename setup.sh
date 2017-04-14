@@ -328,9 +328,9 @@ fi
 
 
 ##Rooter
-print_status "${YELLOW}Adding Sudo Access to Rooter${NC}"
-echo "$name ALL=(ALL) NOPASSWD: /usr/bin/python /etc/cuckoo/utils/rooter.py" >> /etc/sudoers &>> $logfile
-error_check 'Command Added, please restart to finish installation"
+#print_status "${YELLOW}Adding Sudo Access to Rooter${NC}"
+#echo "$name ALL=(ALL) NOPASSWD: /usr/bin/python /etc/cuckoo/utils/rooter.py" >> /etc/sudoers &>> $logfile
+#error_check 'Command Added, please restart to finish installation"
 
 echo -e "${YELLOW}Installation complete, login as $name and open the terminal. Run the cuckoo command in the terminal to finish setup. Now copy the conf file in your ~ directory to ~/.cuckoo/conf/. In $name home folder you will find the start_cuckoo script. To get started as fast as possible you will need to create a virtualbox vm and name it ${RED}cuckoo1${NC}.${YELLOW} On the Windows VM install the windows_exes that can be found under the tools folder. Name the snapshot ${RED}vmcloak${YELLOW}. Alternatively you can create the VM with the vmcloak.sh script provided in your home directory. This will require you have a local copy of the Windows ISO you wish to use. You can then launch cuckoo_start.sh and navigate to $HOSTNAME:8000 or https://$HOSTNAME if Nginx was installed.${NC}"
 
