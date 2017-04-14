@@ -92,6 +92,7 @@ dir=$PWD
 dir_check /home/$name/tools
 dir_check /home/$name/conf
 cp $gitdir/conf/* /home/$name/conf
+chown $name:$name /home/$name/conf
 rm -rf /home/$name/tools/*
 cd tools/
 
