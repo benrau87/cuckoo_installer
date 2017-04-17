@@ -143,8 +143,8 @@ apt-get install -y build-essential checkinstall &>> $logfile
 chmod u+rwx /usr/local/src &>> $logfile
 apt-get install -y linux-headers-$(uname -r) &>> $logfile
 apt-get install -y dh-autoreconf libjansson-dev libpcre++-dev uthash-dev libarchive-dev tesseract-ocr libelf-dev libssl-dev libgeoip-dev -y &>> $logfile
-apt-get install python python-pip python-dev libffi-dev libssl-dev libpq-dev libmagic-dev python-sqlalchemy elasticsearch  -y &>> $logfile
-apt-get install python-virtualenv python-setuptools unattended-upgrades apt-listchanges fail2ban libfuzzy-dev bison byacc -y &>> $logfile
+apt-get install python python-pip python-dev libffi-dev libssl-dev libpq-dev libmagic-dev python-sqlalchemy elasticsearch suricata  -y &>> $logfile
+apt-get install python-virtualenv python-setuptools unattended-upgrades apt-listchanges fail2ban libfuzzy-dev bison byacc mitmproxy -y &>> $logfile
 apt-get install libjpeg-dev zlib1g-dev swig virtualbox clamav clamav-daemon clamav-freshclam libconfig-dev flex mongodb-org -y &>> $logfile
 error_check 'Depos installed'
 
@@ -288,14 +288,6 @@ while fuser /var/lib/dpkg/lock >/dev/null 2>&1; do
    sleep 1
 done
 
-##MitM
-print_status "${YELLOW}Installing MitM proxy certs${NC}"
-cd ~
-apt-get install -y mitmproxy &>> $logfile
-#print_status "${YELLOW}Installing MitM proxy certs for cuckoo${NC}"
-#mitmproxy & 
-#cp ~/.mitmproxy/mitmproxy-ca-cert.p12 /home/$name/conf/cert.p12 &>> $logfile
-#cp ~/.mitmproxy/mitmproxy-ca-cert.p12 /home/$name/tools/ &>> $logfile
 
 ###Setup of VirtualBox forwarding rules and host only adapter
 VBoxManage hostonlyif create
@@ -333,17 +325,6 @@ error_check 'MySQL secure installation and cuckoo database/user creation'
 replace "connection =" "connection = mysql://cuckoo:$cuckoo_mysql_pass@localhost/cuckoo" -- /home/$name/conf/cuckoo.conf &>> $logfile
 error_check 'Configuration files modified'
 fi
-
-read -p "Do you want to install and configure Snort at this time Y/N" -n 1 -r
-if [[ $REPLY =~ ^[Yy]$ ]]
-then
-echo
-apt-get install snort -y 
-chmod -Rv 777 /etc/snort/ &>> $logfile
-chmod -Rv 777 /var/log/snort/ &>> $logfile
-error_check 'Snort added'
-fi
-echo
 
 ##Rooter
 print_status "${YELLOW}Adding Sudo Access to Rooter${NC}"
