@@ -177,6 +177,7 @@ error_check 'MongoDB Setup'
 ##Setup Elasticsearch
 print_status "${YELLOW}Setting up Elasticsearch${NC}"
 update-rc.d elasticsearch defaults 95 10 &>> $logfile
+/etc/init.d/elasticsearch start &>> $logfile
 service elasticsearch start &>> $logfile
 error_check 'Elasticsearch Setup'
 
