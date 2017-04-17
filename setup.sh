@@ -92,7 +92,10 @@ dir=$PWD
 dir_check /home/$name/tools
 dir_check /home/$name/conf
 cp $gitdir/conf/* /home/$name/conf
+cp $gitdir/supporting_scripts/firstrun.sh /home/$name/
 chown $name:$name -R /home/$name/conf
+chown $name:$name -R /home/$name/firstrun.sh
+chmod +x /home/$name/firstrun.sh
 rm -rf /home/$name/tools/*
 cd tools/
 
