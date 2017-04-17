@@ -99,7 +99,7 @@ cd tools/
 ###Add Repos
 ##Mongodb
 apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 0C49F3730359A14518585931BC711F9BA15703C6 &>> $logfile
-echo "deb [ arch=amd64,arm64 ] http://repo.mongodb.org/apt/ubuntu xenial/mongodb-org/3.4 multiverse" | sudo tee -a /etc/apt/sources.list.d/mongodb-org-3.4.list &>> $logfile
+echo "deb [ arch=amd64,arm64 ] http://repo.mongodb.org/apt/ubuntu xenial/mongodb-org/3.4 multiverse" | tee -a /etc/apt/sources.list.d/mongodb-org-3.4.list &>> $logfile
 error_check 'Mongodb added'
 
 ##Java
@@ -108,7 +108,7 @@ error_check 'Java Repo added'
 
 ##Elasticsearch
 wget -qO - https://packages.elastic.co/GPG-KEY-elasticsearch | sudo apt-key add - &>> $logfile
-echo "deb http://packages.elastic.co/elasticsearch/2.x/debian stable main" | sudo tee -a /etc/apt/sources.list.d/elasticsearch-2.x.list &>> $logfile
+echo "deb http://packages.elastic.co/elasticsearch/2.x/debian stable main" | tee -a /etc/apt/sources.list.d/elasticsearch-2.x.list &>> $logfile
 error_check 'Elasticsearch Repo added'
 
 ##Suricata
@@ -123,9 +123,6 @@ chmod +x $gitdir/supporting_scripts/start_cuckoo.sh
 chown $name:$name $gitdir/supporting_scripts/start_cuckoo.sh
 mv $gitdir/supporting_scripts/start_cuckoo.sh /home/$name/
 
-##Start mongodb 
-chmod 755 $gitdir/lib/mongodb.service
-cp $gitdir/lib/mongodb.service /etc/systemd/system/
 
 ##Holding pattern for dpkg...
 print_status "${YELLOW}Waiting for dpkg process to free up...${NC}"
@@ -168,6 +165,12 @@ echo debconf shared/accepted-oracle-license-v1-1 select true | \
   sudo debconf-set-selections &>> $logfile
 apt-get install oracle-java7-installer -y &>> $logfile
 error_check 'Java Installed'
+
+##Start mongodb 
+print_status "${YELLOW}Setting up MongoDB${NC}"
+chmod 755 $gitdir/lib/mongodb.service
+cp $gitdir/lib/mongodb.service /etc/systemd/system/
+error_check 'MongoDB Setup'
 
 ##Setup Elasticsearch
 print_status "${YELLOW}Setting up Elasticsearch${NC}"
