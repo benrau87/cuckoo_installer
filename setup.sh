@@ -309,16 +309,6 @@ error_check 'Persistent Iptable entries'
 fi
 echo
 
-read -p "Do you want to install and configure Snort at this time Y/N" -n 1 -r
-if [[ $REPLY =~ ^[Yy]$ ]]
-then
-echo
-apt-get install snort -y 
-chmod -Rv 777 /etc/snort/ &>> $logfile
-chmod -Rv 777 /var/log/snort/ &>> $logfile
-error_check 'Snort added'
-fi
-echo
 
 ##MySQL install
 read -p "Would you like to use a SQL database to support multi-threaded analysis? Y/N" -n 1 -r
@@ -339,6 +329,16 @@ replace "connection =" "connection = mysql://cuckoo:$cuckoo_mysql_pass@localhost
 error_check 'Configuration files modified'
 fi
 
+read -p "Do you want to install and configure Snort at this time Y/N" -n 1 -r
+if [[ $REPLY =~ ^[Yy]$ ]]
+then
+echo
+apt-get install snort -y 
+chmod -Rv 777 /etc/snort/ &>> $logfile
+chmod -Rv 777 /var/log/snort/ &>> $logfile
+error_check 'Snort added'
+fi
+echo
 
 ##Rooter
 print_status "${YELLOW}Adding Sudo Access to Rooter${NC}"
