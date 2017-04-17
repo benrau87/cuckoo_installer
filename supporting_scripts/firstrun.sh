@@ -1,5 +1,5 @@
 #!/bin/bash
-
+cp ~/conf/* ~/.cuckoo/conf/
 cuckoo migrate
 cuckoo community --all
-cp ~/conf/* ~/.cuckoo/conf/
+
