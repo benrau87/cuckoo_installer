@@ -143,7 +143,7 @@ apt-get install -y build-essential checkinstall &>> $logfile
 chmod u+rwx /usr/local/src &>> $logfile
 apt-get install -y linux-headers-$(uname -r) &>> $logfile
 apt-get install -y dh-autoreconf libjansson-dev libpcre++-dev uthash-dev libarchive-dev tesseract-ocr libelf-dev libssl-dev libgeoip-dev -y &>> $logfile
-apt-get install python python-pip python-dev libffi-dev libssl-dev libpq-dev libmagic-dev python-sqlalchemy  -y &>> $logfile
+apt-get install python python-pip python-dev libffi-dev libssl-dev libpq-dev libmagic-dev python-sqlalchemy elasticsearch  -y &>> $logfile
 apt-get install python-virtualenv python-setuptools unattended-upgrades apt-listchanges fail2ban libfuzzy-dev bison byacc -y &>> $logfile
 apt-get install libjpeg-dev zlib1g-dev swig virtualbox clamav clamav-daemon clamav-freshclam libconfig-dev flex mongodb-org -y &>> $logfile
 error_check 'Depos installed'
@@ -177,7 +177,6 @@ error_check 'MongoDB Setup'
 ##Setup Elasticsearch
 print_status "${YELLOW}Setting up Elasticsearch${NC}"
 update-rc.d elasticsearch defaults 95 10 &>> $logfile
-/etc/init.d/elasticsearch start &>> $logfile
 service elasticsearch start &>> $logfile
 error_check 'Elasticsearch Setup'
 
