@@ -170,6 +170,8 @@ error_check 'Java Installed'
 print_status "${YELLOW}Setting up MongoDB${NC}"
 chmod 755 $gitdir/lib/mongodb.service
 cp $gitdir/lib/mongodb.service /etc/systemd/system/
+systemctl start mongodb
+systemctl enable mongodb
 error_check 'MongoDB Setup'
 
 ##Setup Elasticsearch
