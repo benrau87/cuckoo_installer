@@ -276,10 +276,18 @@ mv etupdate /usr/sbin/
 error_check 'Suricata updateded'
 chown $name:$name /usr/sbin/etupdate &>> $logfile
 chown -R $name:$name /etc/suricata/rules &>> $logfile
-crontab -u $name $gitdir/lib/cron 
-#crontab -u $name $gitdir/lib/pulledpork_cron 
+crontab -u $name $gitdir/lib/cron  
 cp $gitdir/lib/suricata-cuckoo.yaml /etc/suricata/
 error_check 'Suricata configured for auto-update'
+
+##Snort
+#crontab -u $name $gitdir/lib/pulledpork_cron
+#cp  $gitdir/lib/snort.service /lib/systemd/system/
+#cp  $gitdir/lib/barnyard2.service /lib/systemd/system/
+#systemctl enable snort
+#systemctl start snort
+#systemctl enable barnyard2
+#systemctl start barnyard2
 
 ##Other tools
 cd /home/$name/tools/
