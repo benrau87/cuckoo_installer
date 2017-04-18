@@ -53,8 +53,5 @@ cp * /usr/local/lib/snort_dynamicpreprocessor/
 
 sed -i "s/include \$RULE\_PATH/#include \$RULE\_PATH/" /etc/snort/snort.conf
 
-
-
-
 snort -T -i vboxnet0 -c /etc/snort/snort.conf
 
