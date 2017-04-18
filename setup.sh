@@ -1,10 +1,5 @@
 
 #!/bin/bash
-
-###Change these as needed and save them securely somewhere! Only needed if you plan on using MySQL##################
-root_mysql_pass='w4ndZrsM2H_K4FjqSaog4_jWg'
-cuckoo_mysql_pass='DuZXb7K7cldzU5DS5Q5lVzaay'
-
 ####################################################################################################################
 if [ "$EUID" -ne 0 ]
   then echo "Please run as root"
