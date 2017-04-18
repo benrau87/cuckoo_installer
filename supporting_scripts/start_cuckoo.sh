@@ -12,7 +12,5 @@ else
 VBoxManage hostonlyif create
 VBoxManage hostonlyif ipconfig vboxnet0 --ip 192.168.56.1
 fi
-
-cuckoo community
-cuckoo migrate
-cuckoo web
+cuckoo -d &
+cuckoo web runserver 0.0.0.0:8000
