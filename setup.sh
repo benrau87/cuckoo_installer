@@ -336,7 +336,6 @@ cp etc/*.conf /etc/snort/
 cp $gitdir/lib/pulledpork.conf /etc/snort/
 /usr/local/bin/pulledpork.pl -V
 /usr/local/bin/pulledpork.pl -c /etc/snort/pulledpork.conf -l
-crontab -u $name $gitdir/lib/pulledpork_cron
 cp  $gitdir/lib/snort.service /lib/systemd/system/
 systemctl enable snort
 systemctl start snort
