@@ -284,6 +284,7 @@ cd daq*  &>> $logfile
 make  &>> $logfile
 make install  &>> $logfile
 error_check 'DAQ installed'
+cd $gitdir
 wget https://www.snort.org/downloads/snort/snort-2.9.9.0.tar.gz  &>> $logfile
 tar -xvzf snort-2.9.9.0.tar.gz  &>> $logfile
 cd snort*
@@ -324,16 +325,17 @@ chown -R snort:snort /var/log/snort &>> $logfile
 chown -R snort:snort /var/log/snort &>> $logfile
 chown -R snort:snort /usr/local/lib/snort_dynamicrules &>> $logfile
 chown -R snort:snort /usr/local/lib/snort_dynamicrules &>> $logfile
-cd snort_src/snort-*/etc/ &>> $logfile
+cd $gitdir/snort-*/etc/ &>> $logfile
 cp *.conf* /etc/snort &>> $logfile
 cp *.map /etc/snort &>> $logfile
 cp *.dtd /etc/snort &>> $logfile
-cd ~/snort_src/snort-*/src/dynamic-preprocessors/build/usr/local/lib/snort_dynamicpreprocessor/ &>> $logfile
+cd $gitdir/snort-*/src/dynamic-preprocessors/build/usr/local/lib/snort_dynamicpreprocessor/ &>> $logfile
 cp * /usr/local/lib/snort_dynamicpreprocessor/ &>> $logfile
 cp $gitdir/lib/snort.conf /etc/snort/ &>> $logfile
 sed -i "s/include \$RULE\_PATH/#include \$RULE\_PATH/" /etc/snort/snort.conf &>> $logfile
 
 ##Pulledpork
+cd $gitdir
 git clone https://github.com/shirkdog/pulledpork.git &>> $logfile
 cd pulledpork &>> $logfile
 sudo cp pulledpork.pl /usr/local/bin/ &>> $logfile
