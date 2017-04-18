@@ -179,9 +179,9 @@ error_check 'MongoDB Setup'
 
 ##Setup Elasticsearch
 print_status "${YELLOW}Setting up Elasticsearch${NC}"
-update-rc.d elasticsearch defaults 95 10 &>> $logfile
-/etc/init.d/elasticsearch start &>> $logfile
-service elasticsearch start &>> $logfile
+systemctl daemon-reload &>> $logfile
+systemctl enable elasticsearch.service &>> $logfile
+systemctl start elasticsearch.service &>> $logfile
 error_check 'Elasticsearch Setup'
 
 ##Add user to vbox and enable mongodb
