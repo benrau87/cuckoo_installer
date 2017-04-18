@@ -275,6 +275,7 @@ cp $gitdir/lib/suricata-cuckoo.yaml /etc/suricata/
 error_check 'Suricata configured for auto-update'
 
 ##Snort
+cd $gitdir/
 wget https://www.snort.org/downloads/snort/daq-2.0.6.tar.gz
 tar -zxvf daq-2.0.6.tar.gz
 cd daq*
@@ -326,9 +327,8 @@ cp $gitdir/lib/snort.conf /etc/snort/
 sed -i "s/include \$RULE\_PATH/#include \$RULE\_PATH/" /etc/snort/snort.conf
 
 ##Pulledpork
-wget https://github.com/finchy/pulledpork/archive/patch-3.zip
-unzip patch-3.zip
-cd pulledpork-patch-3
+git clone https://github.com/shirkdog/pulledpork.git
+cd pulledpork*
 sudo cp pulledpork.pl /usr/local/bin/
 chmod +x /usr/local/bin/pulledpork.pl
 cp etc/*.conf /etc/snort/
