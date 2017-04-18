@@ -146,7 +146,7 @@ apt-get install -y build-essential checkinstall &>> $logfile
 chmod u+rwx /usr/local/src &>> $logfile
 apt-get install -y linux-headers-$(uname -r) &>> $logfile
 apt-get install -y dh-autoreconf libjansson-dev libpcre++-dev uthash-dev libarchive-dev tesseract-ocr libelf-dev libssl-dev libgeoip-dev -y &>> $logfile
-apt-get install python python-pip python-dev libffi-dev libssl-dev libpq-dev libmagic-dev python-sqlalchemy elasticsearch suricata  -y &>> $logfile
+apt-get install python python-pip python-dev libffi-dev libssl-dev libpq-dev libmagic-dev python-sqlalchemy elasticsearch=2.4 suricata  -y &>> $logfile
 apt-get install python-virtualenv python-setuptools unattended-upgrades apt-listchanges fail2ban libfuzzy-dev bison byacc mitmproxy -y &>> $logfile
 apt-get install libjpeg-dev zlib1g-dev swig virtualbox clamav clamav-daemon clamav-freshclam libconfig-dev flex mongodb-org -y &>> $logfile
 error_check 'Depos installed'
