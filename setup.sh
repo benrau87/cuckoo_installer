@@ -277,15 +277,19 @@ error_check 'Suricata configured for auto-update'
 ##Snort
 print_status "${YELLOW}Setting up Snort${NC}"
 cd $gitdir/
-wget https://www.snort.org/downloads/snort/daq-2.0.6.tar.gz  &>> $logfile
-tar -zxvf daq-2.0.6.tar.gz  &>> $logfile
+wget https://www.snort.org/downloads/snort/daq-2.0.6.tar.gz &>> $logfile
+tar -zxvf daq-2.0.6.tar.gz &>> $logfile
 cd daq*  &>> $logfile
-./configure && make && make install  &>> $logfile
+./configure &>> $logfile
+make  &>> $logfile
+make install  &>> $logfile
 error_check 'DAQ installed'
 wget https://www.snort.org/downloads/snort/snort-2.9.9.0.tar.gz  &>> $logfile
 tar -xvzf snort-2.9.9.0.tar.gz  &>> $logfile
 cd snort*
-./configure --enable-sourcefire && make && make install  &>> $logfile
+./configure --enable-sourcefire &>> $logfile
+make &>> $logfile
+make install  &>> $logfile
 error_check 'Snort installed'
 ldconfig  &>> $logfile
 ln -s /usr/local/bin/snort /usr/sbin/snort  &>> $logfile
