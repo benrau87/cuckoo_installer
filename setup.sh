@@ -275,71 +275,74 @@ cp $gitdir/lib/suricata-cuckoo.yaml /etc/suricata/
 error_check 'Suricata configured for auto-update'
 
 ##Snort
+print_status "${YELLOW}Setting up Snort${NC}"
 cd $gitdir/
-wget https://www.snort.org/downloads/snort/daq-2.0.6.tar.gz
-tar -zxvf daq-2.0.6.tar.gz
-cd daq*
-./configure && make && make install
-wget https://www.snort.org/downloads/snort/snort-2.9.9.0.tar.gz
-tar -xvzf snort-2.9.9.0.tar.gz
+wget https://www.snort.org/downloads/snort/daq-2.0.6.tar.gz  &>> $logfile
+tar -zxvf daq-2.0.6.tar.gz  &>> $logfile
+cd daq*  &>> $logfile
+./configure && make && make install  &>> $logfile
+error_check 'DAQ installed'
+wget https://www.snort.org/downloads/snort/snort-2.9.9.0.tar.gz  &>> $logfile
+tar -xvzf snort-2.9.9.0.tar.gz  &>> $logfile
 cd snort*
-./configure --enable-sourcefire && make && make install
-ldconfig
-ln -s /usr/local/bin/snort /usr/sbin/snort
-groupadd snort
-sudo useradd snort -r -s /sbin/nologin -c SNORT_IDS -g snort
-mkdir -p /etc/snort/rules/iplists
-mkdir -p /etc/snort/rules/iplists
-mkdir /etc/snort/preproc_rules
-mkdir /etc/snort/preproc_rules
-mkdir /usr/local/lib/snort_dynamicrules
-mkdir /usr/local/lib/snort_dynamicrules
-mkdir /etc/snort/so_rules
-mkdir /etc/snort/so_rules
-mkdir -p /var/log/snort/archived_logs
-mkdir -p /var/log/snort/archived_logs
-touch /etc/snort/rules/iplists/black_list.rules
-touch /etc/snort/rules/iplists/black_list.rules
-touch /etc/snort/rules/iplists/white_list.rules
-touch /etc/snort/rules/iplists/white_list.rules
-touch /etc/snort/rules/local.rules
-touch /etc/snort/rules/local.rules
-touch /etc/snort/sid-msg.map
-touch /etc/snort/sid-msg.map
-chmod -R 5775 /etc/snort
-chmod -R 5775 /var/log/snort
-chmod -R 5775 /var/log/snort
-chmod -R 5775 /usr/local/lib/snort_dynamicrules
-chmod -R 5775 /usr/local/lib/snort_dynamicrules
-chown -R snort:snort /etc/snort
-chown -R snort:snort /etc/snort
-chown -R snort:snort /var/log/snort
-chown -R snort:snort /var/log/snort
-chown -R snort:snort /usr/local/lib/snort_dynamicrules
-chown -R snort:snort /usr/local/lib/snort_dynamicrules
-cd snort_src/snort-*/etc/
-cp *.conf* /etc/snort
-cp *.map /etc/snort
-cp *.dtd /etc/snort
-cd ~/snort_src/snort-*/src/dynamic-preprocessors/build/usr/local/lib/snort_dynamicpreprocessor/
-cp * /usr/local/lib/snort_dynamicpreprocessor/
-cp $gitdir/lib/snort.conf /etc/snort/
-sed -i "s/include \$RULE\_PATH/#include \$RULE\_PATH/" /etc/snort/snort.conf
+./configure --enable-sourcefire && make && make install  &>> $logfile
+error_check 'Snort installed'
+ldconfig  &>> $logfile
+ln -s /usr/local/bin/snort /usr/sbin/snort  &>> $logfile
+groupadd snort  &>> $logfile 
+sudo useradd snort -r -s /sbin/nologin -c SNORT_IDS -g snort  &>> $logfile
+mkdir -p /etc/snort/rules/iplists  &>> $logfile
+mkdir -p /etc/snort/rules/iplists &>> $logfile
+mkdir /etc/snort/preproc_rules &>> $logfile
+mkdir /etc/snort/preproc_rules &>> $logfile
+mkdir /usr/local/lib/snort_dynamicrules &>> $logfile
+mkdir /usr/local/lib/snort_dynamicrules &>> $logfile
+mkdir /etc/snort/so_rules &>> $logfile
+mkdir /etc/snort/so_rules &>> $logfile
+mkdir -p /var/log/snort/archived_logs &>> $logfile
+mkdir -p /var/log/snort/archived_logs &>> $logfile
+touch /etc/snort/rules/iplists/black_list.rules &>> $logfile
+touch /etc/snort/rules/iplists/black_list.rules &>> $logfile
+touch /etc/snort/rules/iplists/white_list.rules &>> $logfile
+touch /etc/snort/rules/iplists/white_list.rules &>> $logfile
+touch /etc/snort/rules/local.rules &>> $logfile
+touch /etc/snort/rules/local.rules &>> $logfile
+touch /etc/snort/sid-msg.map &>> $logfile
+touch /etc/snort/sid-msg.map &>> $logfile
+chmod -R 5775 /etc/snort &>> $logfile
+chmod -R 5775 /var/log/snort &>> $logfile
+chmod -R 5775 /var/log/snort &>> $logfile
+chmod -R 5775 /usr/local/lib/snort_dynamicrules &>> $logfile
+chmod -R 5775 /usr/local/lib/snort_dynamicrules &>> $logfile
+chown -R snort:snort /etc/snort &>> $logfile
+chown -R snort:snort /etc/snort &>> $logfile
+chown -R snort:snort /var/log/snort &>> $logfile
+chown -R snort:snort /var/log/snort &>> $logfile
+chown -R snort:snort /usr/local/lib/snort_dynamicrules &>> $logfile
+chown -R snort:snort /usr/local/lib/snort_dynamicrules &>> $logfile
+cd snort_src/snort-*/etc/ &>> $logfile
+cp *.conf* /etc/snort &>> $logfile
+cp *.map /etc/snort &>> $logfile
+cp *.dtd /etc/snort &>> $logfile
+cd ~/snort_src/snort-*/src/dynamic-preprocessors/build/usr/local/lib/snort_dynamicpreprocessor/ &>> $logfile
+cp * /usr/local/lib/snort_dynamicpreprocessor/ &>> $logfile
+cp $gitdir/lib/snort.conf /etc/snort/ &>> $logfile
+sed -i "s/include \$RULE\_PATH/#include \$RULE\_PATH/" /etc/snort/snort.conf &>> $logfile
 
 ##Pulledpork
-git clone https://github.com/shirkdog/pulledpork.git
-cd pulledpork
-sudo cp pulledpork.pl /usr/local/bin/
-chmod +x /usr/local/bin/pulledpork.pl
-cp etc/*.conf /etc/snort/
-/usr/local/bin/pulledpork.pl -V
-cp $gitdir/lib/pulledpork.conf /etc/snort/
-/usr/local/bin/pulledpork.pl -V
-/usr/local/bin/pulledpork.pl -c /etc/snort/pulledpork.conf -l
-cp  $gitdir/lib/snort.service /lib/systemd/system/
-systemctl enable snort
-systemctl start snort
-
+git clone https://github.com/shirkdog/pulledpork.git &>> $logfile
+cd pulledpork &>> $logfile
+sudo cp pulledpork.pl /usr/local/bin/ &>> $logfile
+chmod +x /usr/local/bin/pulledpork.pl &>> $logfile
+cp etc/*.conf /etc/snort/ &>> $logfile
+/usr/local/bin/pulledpork.pl -V &>> $logfile
+cp $gitdir/lib/pulledpork.conf /etc/snort/ &>> $logfile
+/usr/local/bin/pulledpork.pl -V &>> $logfile
+/usr/local/bin/pulledpork.pl -c /etc/snort/pulledpork.conf -l &>> $logfile
+cp  $gitdir/lib/snort.service /lib/systemd/system/ &>> $logfile
+systemctl enable snort &>> $logfile
+systemctl start snort &>> $logfile
+error_check 'Pulledpork installed'
 
 ##Other tools
 cd /home/$name/tools/
