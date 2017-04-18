@@ -256,12 +256,6 @@ python setup.py build &>> $logfile
 python setup.py install &>> $logfile
 error_check 'Volatility installed'
 
-##Snort
-#print_status "${YELLOW}Installing Snort${NC}"
-#apt-get install snort -qq &>> $logfile
-#chmod -Rv 777 /etc/snort/ &>> $logfile
-#chmod -Rv 777 /var/log/snort/ &>> $logfile
-#error_check 'Snort Installed'
 
 ##Suricata
 cd /home/$name/tools/
@@ -281,13 +275,71 @@ cp $gitdir/lib/suricata-cuckoo.yaml /etc/suricata/
 error_check 'Suricata configured for auto-update'
 
 ##Snort
-#crontab -u $name $gitdir/lib/pulledpork_cron
-#cp  $gitdir/lib/snort.service /lib/systemd/system/
-#cp  $gitdir/lib/barnyard2.service /lib/systemd/system/
-#systemctl enable snort
-#systemctl start snort
-#systemctl enable barnyard2
-#systemctl start barnyard2
+get https://www.snort.org/downloads/snort/daq-2.0.6.tar.gz
+tar -zxvf daq-2.0.6.tar.gz
+cd daq*
+./configure && make && make install
+wget https://www.snort.org/downloads/snort/snort-2.9.9.0.tar.gz
+tar -xvzf snort-2.9.8.3.tar.gz
+cd snort*
+./configure --enable-sourcefire && make && make install
+ldconfig
+ln -s /usr/local/bin/snort /usr/sbin/snort
+groupadd snort
+sudo useradd snort -r -s /sbin/nologin -c SNORT_IDS -g snort
+mkdir -p /etc/snort/rules/iplists
+mkdir -p /etc/snort/rules/iplists
+mkdir /etc/snort/preproc_rules
+mkdir /etc/snort/preproc_rules
+mkdir /usr/local/lib/snort_dynamicrules
+mkdir /usr/local/lib/snort_dynamicrules
+mkdir /etc/snort/so_rules
+mkdir /etc/snort/so_rules
+mkdir -p /var/log/snort/archived_logs
+mkdir -p /var/log/snort/archived_logs
+touch /etc/snort/rules/iplists/black_list.rules
+touch /etc/snort/rules/iplists/black_list.rules
+touch /etc/snort/rules/iplists/white_list.rules
+touch /etc/snort/rules/iplists/white_list.rules
+touch /etc/snort/rules/local.rules
+touch /etc/snort/rules/local.rules
+touch /etc/snort/sid-msg.map
+touch /etc/snort/sid-msg.map
+chmod -R 5775 /etc/snort
+chmod -R 5775 /var/log/snort
+chmod -R 5775 /var/log/snort
+chmod -R 5775 /usr/local/lib/snort_dynamicrules
+chmod -R 5775 /usr/local/lib/snort_dynamicrules
+chown -R snort:snort /etc/snort
+chown -R snort:snort /etc/snort
+chown -R snort:snort /var/log/snort
+chown -R snort:snort /var/log/snort
+chown -R snort:snort /usr/local/lib/snort_dynamicrules
+chown -R snort:snort /usr/local/lib/snort_dynamicrules
+cd snort_src/snort-*/etc/
+cp *.conf* /etc/snort
+cp *.map /etc/snort
+cp *.dtd /etc/snort
+cd ~/snort_src/snort-*/src/dynamic-preprocessors/build/usr/local/lib/snort_dynamicpreprocessor/
+cp * /usr/local/lib/snort_dynamicpreprocessor/
+sed -i "s/include \$RULE\_PATH/#include \$RULE\_PATH/" /etc/snort/snort.conf
+
+##Pulledpork
+wget https://github.com/finchy/pulledpork/archive/patch-3.zip
+unzip patch-3.zip
+cd pulledpork-patch-3
+sudo cp pulledpork.pl /usr/local/bin/
+chmod +x /usr/local/bin/pulledpork.pl
+cp etc/*.conf /etc/snort/
+/usr/local/bin/pulledpork.pl -V
+cp $gitdir/lib/pulledpork.conf /etc/snort/
+/usr/local/bin/pulledpork.pl -V
+/usr/local/bin/pulledpork.pl -c /etc/snort/pulledpork.conf -l
+crontab -u $name $gitdir/lib/pulledpork_cron
+cp  $gitdir/lib/snort.service /lib/systemd/system/
+systemctl enable snort
+systemctl start snort
+
 
 ##Other tools
 cd /home/$name/tools/
