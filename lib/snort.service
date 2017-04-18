@@ -4,6 +4,6 @@ Description=Snort NIDS Daemon
 After=syslog.target network.target
 [Service]
 Type=simple
-ExecStart=/usr/local/bin/snort -q -u snort -g snort -c /etc/snort/snort.conf -i ens160
+ExecStart=/usr/local/bin/snort -q -u snort -g snort -c /etc/snort/snort.conf -i ens33
 [Install]
 WantedBy=multi-user.target
