@@ -328,7 +328,7 @@ sed -i "s/include \$RULE\_PATH/#include \$RULE\_PATH/" /etc/snort/snort.conf
 
 ##Pulledpork
 git clone https://github.com/shirkdog/pulledpork.git
-cd pulledpork*
+cd pulledpork
 sudo cp pulledpork.pl /usr/local/bin/
 chmod +x /usr/local/bin/pulledpork.pl
 cp etc/*.conf /etc/snort/
