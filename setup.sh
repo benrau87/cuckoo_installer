@@ -275,12 +275,12 @@ cp $gitdir/lib/suricata-cuckoo.yaml /etc/suricata/
 error_check 'Suricata configured for auto-update'
 
 ##Snort
-get https://www.snort.org/downloads/snort/daq-2.0.6.tar.gz
+wget https://www.snort.org/downloads/snort/daq-2.0.6.tar.gz
 tar -zxvf daq-2.0.6.tar.gz
 cd daq*
 ./configure && make && make install
 wget https://www.snort.org/downloads/snort/snort-2.9.9.0.tar.gz
-tar -xvzf snort-2.9.8.3.tar.gz
+tar -xvzf snort-2.9.9.0.tar.gz
 cd snort*
 ./configure --enable-sourcefire && make && make install
 ldconfig
