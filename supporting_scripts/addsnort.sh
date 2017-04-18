@@ -25,7 +25,5 @@ cp -avr *.conf *.map *.dtd /etc/snort/
 cp -avr src/dynamic-preprocessors/build/usr/local/lib/snort_dynamicpreprocessor/*  /usr/local/lib/snort_dynamicpreprocessor/
 sed -i "s/include \$RULE\_PATH/#include \$RULE\_PATH/" /etc/snort/snort.conf
 
+snort -T -i vboxnet0 -c /etc/snort/snort.conf
 
-apt-get install snort -y 
-chmod -Rv 777 /etc/snort/ 
-chmod -Rv 777 /var/log/snort/ 
