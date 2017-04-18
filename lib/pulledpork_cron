@@ -1,0 +1,1 @@
+30 02 * * * /usr/local/bin/pulledpork.pl -c /etc/snort/pulledpork.conf -l
