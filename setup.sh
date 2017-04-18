@@ -322,6 +322,7 @@ cp *.map /etc/snort
 cp *.dtd /etc/snort
 cd ~/snort_src/snort-*/src/dynamic-preprocessors/build/usr/local/lib/snort_dynamicpreprocessor/
 cp * /usr/local/lib/snort_dynamicpreprocessor/
+cp $gitdir/lib/snort.conf /etc/snort/
 sed -i "s/include \$RULE\_PATH/#include \$RULE\_PATH/" /etc/snort/snort.conf
 
 ##Pulledpork
