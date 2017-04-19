@@ -346,12 +346,10 @@ cd pulledpork &>> $logfile
 sudo cp pulledpork.pl /usr/local/bin/ &>> $logfile
 chmod +x /usr/local/bin/pulledpork.pl &>> $logfile
 cp etc/*.conf /etc/snort/ &>> $logfile
-/usr/local/bin/pulledpork.pl -V &>> $logfile
 cp $gitdir/lib/pulledpork.conf /etc/snort/ &>> $logfile
-/usr/local/bin/pulledpork.pl -V &>> $logfile
+sed -ie "s/<oinkcode>/$oinkcode/g" /etc/snort/pulledpork.conf
 /usr/local/bin/pulledpork.pl -c /etc/snort/pulledpork.conf -l &>> $logfile
 cp  $gitdir/lib/snort.service /lib/systemd/system/ &>> $logfile
-sed -ie "s/<oinkcode>/$oinkcode/g" /etc/snort/pulledpork.conf
 systemctl enable snort &>> $logfile
 systemctl start snort &>> $logfile
 error_check 'Pulledpork installed'
