@@ -147,11 +147,10 @@ error_check 'Updated system'
 print_status "${YELLOW}Downloading and installing depos${NC}"
 apt-get install -y build-essential checkinstall &>> $logfile
 chmod u+rwx /usr/local/src &>> $logfile
-dpkg --remove apparmor -y &>> $logfile
 apt-get install -y linux-headers-$(uname -r) &>> $logfile
-apt-get install -y dh-autoreconf libjansson-dev libpcre++-dev uthash-dev libarchive-dev tesseract-ocr libelf-dev libssl-dev libgeoip-dev -y &>> $logfile
+apt-get install -y apparmor-utils dh-autoreconf libjansson-dev libpcre++-dev uthash-dev libarchive-dev tesseract-ocr libelf-dev libssl-dev libgeoip-dev -y &>> $logfile
 apt-get install python python-pip python-dev libffi-dev libssl-dev libpq-dev libmagic-dev python-sqlalchemy elasticsearch suricata  -y &>> $logfile
-apt-get install python-virtualenv python-setuptools unattended-upgrades apt-listchanges fail2ban libfuzzy-dev bison byacc mitmproxy -y &>> $logfile
+apt-get install python-virtualenv python-setuptools unattended-upgrades apt-listchanges fail2ban libfuzzy-dev bison byacc -y &>> $logfile
 apt-get install libjpeg-dev zlib1g-dev swig virtualbox clamav clamav-daemon clamav-freshclam libconfig-dev flex mongodb-org -y &>> $logfile
 apt-get install automake libtool make gcc libdumbnet-dev libcap2-bin liblzma-dev libcrypt-ssleay-perl liblwp-useragent-determined-perl libpcap-dev -y  &>> $logfile
 error_check 'Depos installed'
@@ -353,6 +352,12 @@ cp  $gitdir/lib/snort.service /lib/systemd/system/ &>> $logfile
 systemctl enable snort &>> $logfile
 systemctl start snort &>> $logfile
 error_check 'Pulledpork installed'
+
+##MITMProxy
+print_status "${YELLOW}Installing MITM${NC}"
+apt-get install python3-dev python3-pip libffi-dev libssl-dev &>> $logfile
+pip3 install mitmproxy &>> $logfile
+error_check 'MITM installed'
 
 ##Other tools
 cd /home/$name/tools/
