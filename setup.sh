@@ -148,12 +148,18 @@ print_status "${YELLOW}Downloading and installing depos${NC}"
 apt-get install -y build-essential checkinstall &>> $logfile
 chmod u+rwx /usr/local/src &>> $logfile
 apt-get install -y linux-headers-$(uname -r) &>> $logfile
-apt-get install -y apparmor-utils dh-autoreconf libjansson-dev libpcre++-dev uthash-dev libarchive-dev tesseract-ocr libelf-dev libssl-dev libgeoip-dev -y &>> $logfile
+apt-get install -y apparmor-utils tcpdump dh-autoreconf libjansson-dev libpcre++-dev uthash-dev libarchive-dev tesseract-ocr libelf-dev libssl-dev libgeoip-dev -y &>> $logfile
 apt-get install python python-pip python-dev libffi-dev libssl-dev libpq-dev libmagic-dev python-sqlalchemy elasticsearch suricata  -y &>> $logfile
 apt-get install python-virtualenv python-setuptools unattended-upgrades apt-listchanges fail2ban libfuzzy-dev bison byacc -y &>> $logfile
 apt-get install libjpeg-dev zlib1g-dev swig virtualbox clamav clamav-daemon clamav-freshclam libconfig-dev flex mongodb-org -y &>> $logfile
 apt-get install automake libtool make gcc libdumbnet-dev libcap2-bin liblzma-dev libcrypt-ssleay-perl liblwp-useragent-determined-perl libpcap-dev -y  &>> $logfile
 error_check 'Depos installed'
+
+##tcpdump permissions
+print_status "${YELLOW}Setting tcpdump permissions${NC}"
+setcap cap_net_raw,cap_net_admin=eip /usr/sbin/tcpdump
+aa-disable /usr/sbin/tcpdump
+error_check 'Permissions set'
 
 print_status "${YELLOW}Downloading and installing Cuckoo${NC}"
 pip install -U pip setuptools &>> $logfile
@@ -217,9 +223,6 @@ make &>> $logfile
 make install &>> $logfile
 make check &>> $logfile
 error_check 'Yara installed'
-
-##tcpdump permissions
-setcap cap_net_raw,cap_net_admin=eip /usr/sbin/tcpdump
 
 ##DTrace
 print_status "${YELLOW}Downloading and installing DTrace${NC}"
