@@ -243,7 +243,6 @@ error_check 'Volatility installed'
 ##Suricata
 cd /home/$name/tools/
 print_status "${YELLOW}Setting up Suricata${NC}"
-#dir_check /etc/suricata/rules/cuckoo.rules
 touch /etc/suricata/rules/cuckoo.rules &>> $logfile
 echo "alert http any any -> any any (msg:\"FILE store all\"; filestore; noalert; sid:15; rev:1;)"  | sudo tee /etc/suricata/rules/cuckoo.rules &>> $logfile
 git clone https://github.com/seanthegeek/etupdate &>> $logfile
@@ -347,8 +346,6 @@ error_check 'MySQL passwords set'
 print_status "Downloading and installing MySQL"
 apt-get -y install mysql-server python-mysqldb &>> $logfile 
 error_check 'MySQL installed'
-#mysqladmin -uroot password $root_mysql_pass &>> $logfile
-#error_check 'MySQL root password change'\
 print_status "Configuring MySQL"
 mysql -uroot -p$root_mysql_pass -e "DELETE FROM mysql.user WHERE User=''; DELETE FROM mysql.user WHERE User='root' AND Host NOT IN ('localhost', '127.0.0.1', '::1'); DROP DATABASE IF EXISTS test; DELETE FROM mysql.db WHERE Db='test' OR Db='test\\_%'; DROP DATABASE IF EXISTS cuckoo; CREATE DATABASE cuckoo; GRANT ALL PRIVILEGES ON cuckoo.* TO 'cuckoo'@'localhost' IDENTIFIED BY '$cuckoo_mysql_pass'; FLUSH PRIVILEGES;" &>> $logfile
 error_check 'MySQL secure installation and cuckoo database/user creation'
