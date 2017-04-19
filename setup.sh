@@ -106,20 +106,20 @@ cd tools/
 ##Mongodb
 apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 0C49F3730359A14518585931BC711F9BA15703C6 &>> $logfile
 echo "deb [ arch=amd64,arm64 ] http://repo.mongodb.org/apt/ubuntu xenial/mongodb-org/3.4 multiverse" | tee /etc/apt/sources.list.d/mongodb-org-3.4.list &>> $logfile
-error_check 'Mongodb added'
+error_check 'Mongodb repo added'
 
 ##Java
 add-apt-repository ppa:webupd8team/java -y &>> $logfile
-error_check 'Java Repo added'
+error_check 'Java repo added'
 
 ##Elasticsearch
 wget -qO - https://packages.elastic.co/GPG-KEY-elasticsearch | sudo apt-key add - &>> $logfile
 echo "deb http://packages.elastic.co/elasticsearch/2.x/debian stable main" | tee /etc/apt/sources.list.d/elasticsearch-2.x.list &>> $logfile
-error_check 'Elasticsearch Repo added'
+error_check 'Elasticsearch repo added'
 
 ##Suricata
 add-apt-repository ppa:oisf/suricata-beta -y &>> $logfile
-error_check 'Suricata Repo added'
+error_check 'Suricata repo added'
 
 ####End of repos
 
