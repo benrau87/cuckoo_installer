@@ -1,6 +1,8 @@
 
 #!/bin/bash
 ####################################################################################################################
+#Might need to add SQL pass variables back here...
+
 if [ "$EUID" -ne 0 ]
   then echo "Please run as root"
   exit 1
@@ -334,6 +336,7 @@ cp $gitdir/lib/snort.conf /etc/snort/ &>> $logfile
 sed -i "s/include \$RULE\_PATH/#include \$RULE\_PATH/" /etc/snort/snort.conf &>> $logfile
 
 ##Pulledpork
+##Still not installing rules, check commands after installation
 cd $gitdir
 git clone https://github.com/shirkdog/pulledpork.git &>> $logfile
 cd pulledpork &>> $logfile
