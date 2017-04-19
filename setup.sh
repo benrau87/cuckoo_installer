@@ -315,6 +315,7 @@ touch /etc/snort/rules/iplists/white_list.rules &>> $logfile
 touch /etc/snort/rules/iplists/white_list.rules &>> $logfile
 touch /etc/snort/rules/local.rules &>> $logfile
 touch /etc/snort/rules/local.rules &>> $logfile
+touch /etc/snort/rules/snort.rules &>> $logfile
 touch /etc/snort/sid-msg.map &>> $logfile
 touch /etc/snort/sid-msg.map &>> $logfile
 chmod -R 5775 /etc/snort &>> $logfile
