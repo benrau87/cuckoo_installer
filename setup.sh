@@ -336,7 +336,6 @@ cp *.dtd /etc/snort &>> $logfile
 cd $gitdir/snort-*/src/dynamic-preprocessors/build/usr/local/lib/snort_dynamicpreprocessor/ &>> $logfile
 cp * /usr/local/lib/snort_dynamicpreprocessor/ &>> $logfile
 cp $gitdir/lib/snort.conf /etc/snort/ &>> $logfile
-sed -i "s/include \$RULE\_PATH/#include \$RULE\_PATH/" /etc/snort/snort.conf &>> $logfile
 
 ##Pulledpork
 ##Still not installing rules, check commands after installation
