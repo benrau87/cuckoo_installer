@@ -377,7 +377,7 @@ iptables -A FORWARD -o eth0 -i vboxnet0 -s 192.168.56.0/24 -m conntrack --ctstat
 sudo iptables -A FORWARD -m conntrack --ctstate ESTABLISHED,RELATED -j ACCEPT &>> $logfile
 sudo iptables -A POSTROUTING -t nat -j MASQUERADE &>> $logfile
 sudo sysctl -w net.ipv4.ip_forward=1 &>> $logfile
-echo -e "${YELLOW}Preserving Iptables${NC}"
+print_status "${YELLOW}Preserving Iptables${NC}"
 apt-get -qq install iptables-persistent -y &>> $logfile
 error_check 'Persistent Iptable entries'
 
