@@ -91,7 +91,7 @@ read interface
 echo -e "${YELLOW}If you want to use Snort, please type in your Oinkcode, if you do not have it now you will need to append it to /etc/snort/pulledpork.conf in the future, the cron job will take care of updating it.${NC}"
 read oinkcode
 
-##Create directories for later
+##Create directories and scripts for later
 cd /home/$name/
 dir=$PWD
 dir_check /home/$name/tools
@@ -103,6 +103,9 @@ chown $name:$name -R /home/$name/conf
 chown $name:$name -R /home/$name/firstrun.sh
 chmod +x /home/$name/firstrun.sh
 rm -rf /home/$name/tools/*
+chmod +x $gitdir/supporting_scripts/start_cuckoo.sh
+chown $name:$name $gitdir/supporting_scripts/start_cuckoo.sh
+mv $gitdir/supporting_scripts/start_cuckoo.sh /home/$name/
 cd tools/
 
 ###Add Repos
@@ -125,14 +128,6 @@ add-apt-repository ppa:oisf/suricata-beta -y &>> $logfile
 error_check 'Suricata repo added'
 
 ####End of repos
-
-
-##Move Start Script
-chmod +x $gitdir/supporting_scripts/start_cuckoo.sh
-chown $name:$name $gitdir/supporting_scripts/start_cuckoo.sh
-mv $gitdir/supporting_scripts/start_cuckoo.sh /home/$name/
-
-
 ##Holding pattern for dpkg...
 print_status "${YELLOW}Waiting for dpkg process to free up...${NC}"
 print_status "${YELLOW}If this takes too long try running ${RED}sudo rm -f /var/lib/dpkg/lock${YELLOW} in another terminal window.${NC}"
@@ -140,11 +135,10 @@ while fuser /var/lib/dpkg/lock >/dev/null 2>&1; do
    sleep 1
 done
 
-# System updates
+### System updates
 print_status "${YELLOW}Performing apt-get update and upgrade (May take a while if this is a fresh install)..${NC}"
 apt-get update &>> $logfile && apt-get -y upgrade &>> $logfile
 error_check 'Updated system'
-
 
 ##Main Packages
 print_status "${YELLOW}Downloading and installing depos${NC}"
@@ -158,23 +152,13 @@ apt-get install libjpeg-dev zlib1g-dev swig virtualbox clamav clamav-daemon clam
 apt-get install automake libtool make gcc libdumbnet-dev libcap2-bin liblzma-dev libcrypt-ssleay-perl liblwp-useragent-determined-perl libpcap-dev -y  &>> $logfile
 error_check 'Depos installed'
 
-##tcpdump permissions
-print_status "${YELLOW}Setting tcpdump permissions${NC}"
-setcap cap_net_raw,cap_net_admin=eip /usr/sbin/tcpdump
-aa-disable /usr/sbin/tcpdump
-error_check 'Permissions set'
-
-print_status "${YELLOW}Downloading and installing Cuckoo${NC}"
+print_status "${YELLOW}Downloading and installing Cuckoo and Python dependencies${NC}"
 pip install -U pip setuptools &>> $logfile
 pip install -U pip cuckoo &>> $logfile
 pip install -U pip distorm3 &>> $logfile
 pip install -U pip pycrypto &>> $logfile
 pip install -U pip weasyprint &>> $logfile
 pip install -U pip yara-python &>> $logfile
-#cd ~
-#wget https://github.com/cuckoosandbox/cuckoo/archive/2.0-rc1.zip &>> $logfile
-#unzip 2.0-rc1.zip &>> $logfile
-#mv cuckoo-* cuckoo
 error_check 'Cuckoo downloaded and installed'
 
 ##Java install for elasticsearch
@@ -198,15 +182,6 @@ systemctl daemon-reload &>> $logfile
 systemctl enable elasticsearch.service &>> $logfile
 systemctl start elasticsearch.service &>> $logfile
 error_check 'Elasticsearch Setup'
-
-##Add user to vbox and enable mongodb
-print_status "${YELLOW}Setting up Mongodb${NC}"
-usermod -a -G vboxusers $name
-systemctl start mongodb &>> $logfile
-sleep 5
-systemctl enable mongodb &>> $logfile
-systemctl daemon-reload &>> $logfile
-error_check 'Mongodb setup'
 
 ##Yara
 cd /home/$name/tools/
@@ -264,7 +239,6 @@ cd volatility
 python setup.py build &>> $logfile
 python setup.py install &>> $logfile
 error_check 'Volatility installed'
-
 
 ##Suricata
 cd /home/$name/tools/
@@ -365,34 +339,6 @@ apt-get install python3-dev python3-pip libffi-dev libssl-dev &>> $logfile
 pip3 install mitmproxy &>> $logfile
 error_check 'MITM installed'
 
-##Other tools
-cd /home/$name/tools/
-print_status "${YELLOW}Grabbing other tools${NC}"
-apt-get install libboost-all-dev -y &>> $logfile
-sudo -H pip install git+https://github.com/buffer/pyv8 &>> $logfile
-error_check 'PyV8 installed'
-
-##Holding pattern for dpkg...
-print_status "${YELLOW}Waiting for dpkg process to free up...${NC}"
-print_status "${YELLOW}If this takes too long try running ${RED}sudo rm -f /var/lib/dpkg/lock${YELLOW} in another terminal window.${NC}"
-while fuser /var/lib/dpkg/lock >/dev/null 2>&1; do
-   sleep 1
-done
-
-
-###Setup of VirtualBox forwarding rules and host only adapter
-print_status "${YELLOW}Creating virtual adapter${NC}"
-VBoxManage hostonlyif create &>> $logfile
-VBoxManage hostonlyif ipconfig vboxnet0 --ip 192.168.56.1 &>> $logfile
-iptables -A FORWARD -o eth0 -i vboxnet0 -s 192.168.56.0/24 -m conntrack --ctstate NEW -j ACCEPT &>> $logfile
-sudo iptables -A FORWARD -m conntrack --ctstate ESTABLISHED,RELATED -j ACCEPT &>> $logfile
-sudo iptables -A POSTROUTING -t nat -j MASQUERADE &>> $logfile
-sudo sysctl -w net.ipv4.ip_forward=1 &>> $logfile
-print_status "${YELLOW}Preserving Iptables${NC}"
-apt-get -qq install iptables-persistent -y &>> $logfile
-error_check 'Persistent Iptable entries'
-
-
 ##MySQL install
 print_status "Installing MySQL"
 debconf-set-selections <<< "mysql-server mysql-server/$root_mysql_pass password root" &>> $logfile
@@ -409,8 +355,41 @@ error_check 'MySQL secure installation and cuckoo database/user creation'
 replace "connection =" "connection = mysql://cuckoo:$cuckoo_mysql_pass@localhost/cuckoo" -- /home/$name/conf/cuckoo.conf &>> $logfile
 error_check 'Configuration files modified'
 
+##Other tools
+cd /home/$name/tools/
+print_status "${YELLOW}Grabbing other tools${NC}"
+apt-get install libboost-all-dev -y &>> $logfile
+sudo -H pip install git+https://github.com/buffer/pyv8 &>> $logfile
+error_check 'PyV8 installed'
+
+##Holding pattern for dpkg...
+print_status "${YELLOW}Waiting for dpkg process to free up...${NC}"
+print_status "${YELLOW}If this takes too long try running ${RED}sudo rm -f /var/lib/dpkg/lock${YELLOW} in another terminal window.${NC}"
+while fuser /var/lib/dpkg/lock >/dev/null 2>&1; do
+   sleep 1
+done
+
+##Permissions
+print_status "${YELLOW}Setting tcpdump vbox permissions${NC}"
+setcap cap_net_raw,cap_net_admin=eip /usr/sbin/tcpdump
+aa-disable /usr/sbin/tcpdump
+usermod -a -G vboxusers $name
+error_check 'Permissions set'
+
+###Setup of VirtualBox forwarding rules and host only adapter
+print_status "${YELLOW}Creating virtual adapter${NC}"
+VBoxManage hostonlyif create &>> $logfile
+VBoxManage hostonlyif ipconfig vboxnet0 --ip 192.168.56.1 &>> $logfile
+iptables -A FORWARD -o eth0 -i vboxnet0 -s 192.168.56.0/24 -m conntrack --ctstate NEW -j ACCEPT &>> $logfile
+sudo iptables -A FORWARD -m conntrack --ctstate ESTABLISHED,RELATED -j ACCEPT &>> $logfile
+sudo iptables -A POSTROUTING -t nat -j MASQUERADE &>> $logfile
+sudo sysctl -w net.ipv4.ip_forward=1 &>> $logfile
+print_status "${YELLOW}Preserving Iptables${NC}"
+apt-get -qq install iptables-persistent -y &>> $logfile
+error_check 'Persistent Iptable entries'
+
 ##Rooter
-print_status "${YELLOW}Adding Sudo Access to Rooter${NC}"
+print_status "${YELLOW}Adding route commands and crons${NC}"
 echo "400    $interface" | tee -a /etc/iproute2/rt_tables &>> $logfile
 systemctl enable rc-local &>> $logfile
 error_check "Commands Added, please restart to finish installation"
