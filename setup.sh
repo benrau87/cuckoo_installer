@@ -334,7 +334,7 @@ error_check 'Pulledpork installed'
 
 ##MITMProxy
 print_status "${YELLOW}Installing MITM${NC}"
-apt-get install python3-dev python3-pip libffi-dev libssl-dev &>> $logfile
+apt-get install python3-dev python3-pip libffi-dev libssl-dev -y &>> $logfile
 pip3 install mitmproxy &>> $logfile
 error_check 'MITM installed'
 
