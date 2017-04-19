@@ -398,7 +398,7 @@ error_check 'Configuration files modified'
 ##Rooter
 print_status "${YELLOW}Adding Sudo Access to Rooter${NC}"
 echo "400    ens33" >> /etc/iproute2/rt_tables &>> $logfile
-echo "/usr/local/bin/cuckoo rooter --sudo &" | tee -a /etc/rc.local &>> $logfile
+#echo "/usr/local/bin/cuckoo rooter --sudo &" | tee -a /etc/rc.local &>> $logfile
 systemctl enable rc-local &>> $logfile
 #echo "401    eth0" >> /etc/iproute2/rt_tables &>> $logfile
 error_check "Command Added, please restart to finish installation"
