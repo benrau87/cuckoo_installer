@@ -1,8 +1,6 @@
 # cuckoo_test
 
-Run the script
-
-Run apt-get install snort and follow the prompts
+Run the scrip
 
 Switch to your cuckoo user
 
