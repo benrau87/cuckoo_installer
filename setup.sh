@@ -371,9 +371,10 @@ done
 
 
 ###Setup of VirtualBox forwarding rules and host only adapter
-VBoxManage hostonlyif create
-VBoxManage hostonlyif ipconfig vboxnet0 --ip 192.168.56.1
-iptables -A FORWARD -o eth0 -i vboxnet0 -s 192.168.56.0/24 -m conntrack --ctstate NEW -j ACCEPT
+print_status "${YELLOW}Creating virtual adapter${NC}"
+VBoxManage hostonlyif create &>> $logfile
+VBoxManage hostonlyif ipconfig vboxnet0 --ip 192.168.56.1 &>> $logfile
+iptables -A FORWARD -o eth0 -i vboxnet0 -s 192.168.56.0/24 -m conntrack --ctstate NEW -j ACCEPT 
 sudo iptables -A FORWARD -m conntrack --ctstate ESTABLISHED,RELATED -j ACCEPT
 sudo iptables -A POSTROUTING -t nat -j MASQUERADE
 sudo sysctl -w net.ipv4.ip_forward=1
