@@ -86,6 +86,8 @@ echo -e "${YELLOW}Please type in a MySQL root password${NC}"
 read root_mysql_pass
 echo -e "${YELLOW}Please type in a MySQL cuckoo password${NC}"
 read cuckoo_mysql_pass
+echo -e "${YELLOW}What is the name of the interface you wish to route traffic through?(ex: eth0)${NC}"
+read interface
 echo -e "${YELLOW}If you want to use Snort, please type in your Oinkcode, if you do not have it now you will need to append it to /etc/snort/pulledpork.conf in the future, the cron job will take care of updating it.${NC}"
 read oinkcode
 
@@ -408,7 +410,7 @@ error_check 'Configuration files modified'
 
 ##Rooter
 print_status "${YELLOW}Adding Sudo Access to Rooter${NC}"
-echo "400    ens33" | tee -a /etc/iproute2/rt_tables &>> $logfile
+echo "400    $interface" | tee -a /etc/iproute2/rt_tables &>> $logfile
 #echo "/usr/local/bin/cuckoo rooter --sudo &" | tee -a /etc/rc.local &>> $logfile
 systemctl enable rc-local &>> $logfile
 #echo "401    eth0" >> /etc/iproute2/rt_tables &>> $logfile
