@@ -1,7 +1,7 @@
-
 #!/bin/bash
 ####################################################################################################################
-#Might need to add SQL pass variables back here...
+#check against PAfish
+#open/create some files on the vms
 
 if [ "$EUID" -ne 0 ]
   then echo "Please run as root"
