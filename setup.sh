@@ -96,7 +96,7 @@ cd /home/$name/
 dir=$PWD
 dir_check /home/$name/tools
 dir_check /home/$name/conf
-sed -ie "s/interface= ens33/interface = $interface/g" $gitdir/conf/routing.conf &>> $logfile
+sed -ie "s/interface = ens33/interface = $interface/g" $gitdir/conf/routing.conf &>> $logfile
 cp $gitdir/conf/* /home/$name/conf
 cp $gitdir/supporting_scripts/firstrun.sh /home/$name/
 chown $name:$name -R /home/$name/conf
