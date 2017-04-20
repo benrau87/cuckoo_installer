@@ -1,7 +1,12 @@
 #!/bin/bash
 ####################################################################################################################
-#check against PAfish
+
+#run https://github.com/nsmfoo/antivmdetection/ on vms
 #open/create some files on the vms
+#check against PAfish
+#create a robust and complete virtual domain (connect vms to smb shares, connect to domain...)
+#inetsim and honeyd
+
 
 if [ "$EUID" -ne 0 ]
   then echo "Please run as root"
