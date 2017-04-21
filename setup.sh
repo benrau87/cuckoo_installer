@@ -381,12 +381,14 @@ error_check 'Permissions set'
 
 ###Setup of VirtualBox forwarding rules and host only adapter
 print_status "${YELLOW}Creating virtual adapter${NC}"
-VBoxManage hostonlyif create &>> $logfile
-VBoxManage hostonlyif ipconfig vboxnet0 --ip 192.168.56.1 &>> $logfile
-iptables -A FORWARD -o eth0 -i vboxnet0 -s 192.168.56.0/24 -m conntrack --ctstate NEW -j ACCEPT &>> $logfile
-sudo iptables -A FORWARD -m conntrack --ctstate ESTABLISHED,RELATED -j ACCEPT &>> $logfile
-sudo iptables -A POSTROUTING -t nat -j MASQUERADE &>> $logfile
-sudo sysctl -w net.ipv4.ip_forward=1 &>> $logfile
+iptables -t nat -A POSTROUTING -o $interface -s 192.168.56.0/24 -j MASQUERADE
+iptables -P FORWARD DROP
+iptables -A FORWARD -m state --state RELATED,ESTABLISHED -j ACCEPT
+iptables -A FORWARD -s 192.168.56.0/24 -j ACCEPT
+iptables -A FORWARD -s 192.168.56.0/24 -d 192.168.56.0/24 -j ACCEPT
+iptables -A FORWARD -j LOG
+echo 1 | sudo tee -a /proc/sys/net/ipv4/ip_forward
+sysctl -w net.ipv4.ip_forward=1
 print_status "${YELLOW}Preserving Iptables${NC}"
 apt-get -qq install iptables-persistent -y &>> $logfile
 error_check 'Persistent Iptable entries'
