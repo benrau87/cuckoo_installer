@@ -293,34 +293,20 @@ ln -s /usr/local/bin/snort /usr/sbin/snort  &>> $logfile
 groupadd snort  &>> $logfile 
 sudo useradd snort -r -s /sbin/nologin -c SNORT_IDS -g snort  &>> $logfile
 mkdir -p /etc/snort/rules/iplists  &>> $logfile
-mkdir -p /etc/snort/rules/iplists &>> $logfile
-mkdir /etc/snort/preproc_rules &>> $logfile
 mkdir /etc/snort/preproc_rules &>> $logfile
 mkdir /usr/local/lib/snort_dynamicrules &>> $logfile
-mkdir /usr/local/lib/snort_dynamicrules &>> $logfile
-mkdir /etc/snort/so_rules &>> $logfile
 mkdir /etc/snort/so_rules &>> $logfile
 mkdir -p /var/log/snort/archived_logs &>> $logfile
-mkdir -p /var/log/snort/archived_logs &>> $logfile
-touch /etc/snort/rules/iplists/black_list.rules &>> $logfile
 touch /etc/snort/rules/iplists/black_list.rules &>> $logfile
 touch /etc/snort/rules/iplists/white_list.rules &>> $logfile
-touch /etc/snort/rules/iplists/white_list.rules &>> $logfile
-touch /etc/snort/rules/local.rules &>> $logfile
 touch /etc/snort/rules/local.rules &>> $logfile
 touch /etc/snort/rules/snort.rules &>> $logfile
 touch /etc/snort/sid-msg.map &>> $logfile
-touch /etc/snort/sid-msg.map &>> $logfile
 chmod -R 5775 /etc/snort &>> $logfile
 chmod -R 5775 /var/log/snort &>> $logfile
-chmod -R 5775 /var/log/snort &>> $logfile
-chmod -R 5775 /usr/local/lib/snort_dynamicrules &>> $logfile
 chmod -R 5775 /usr/local/lib/snort_dynamicrules &>> $logfile
 chown -R snort:snort /etc/snort &>> $logfile
-chown -R snort:snort /etc/snort &>> $logfile
-chown -R snort:snort /var/log/snort &>> $logfile
-chown -R snort:snort /var/log/snort &>> $logfile
-chown -R snort:snort /usr/local/lib/snort_dynamicrules &>> $logfile
+chown -R $name:$name /var/log/snort &>> $logfile
 chown -R snort:snort /usr/local/lib/snort_dynamicrules &>> $logfile
 cd $gitdir/snort-*/etc/ &>> $logfile
 cp *.conf* /etc/snort &>> $logfile
