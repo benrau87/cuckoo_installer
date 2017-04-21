@@ -13,6 +13,7 @@ rm ~/.cuckoo/yara/binaries/vmdetect.yar
 rm ~/.cuckoo/yara/binaries/antidebug_antivm.yar  
 rm ~/.cuckoo/yara/binaries/MALW_AdGholas.yar  
 rm ~/.cuckoo/yara/binaries/APT_Shamoon*.yar  
+rm ~/.cuckoo/yara/binaries/peid.yar  
 
 
 
