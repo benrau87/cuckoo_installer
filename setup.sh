@@ -362,21 +362,21 @@ done
 
 ##Permissions
 print_status "${YELLOW}Setting tcpdump vbox permissions${NC}"
-setcap cap_net_raw,cap_net_admin=eip /usr/sbin/tcpdump
-aa-disable /usr/sbin/tcpdump
-usermod -a -G vboxusers $name
+setcap cap_net_raw,cap_net_admin=eip /usr/sbin/tcpdump &>> $logfile
+aa-disable /usr/sbin/tcpdump &>> $logfile
+usermod -a -G vboxusers $name &>> $logfile
 error_check 'Permissions set'
 
 ###Setup of VirtualBox forwarding rules and host only adapter
 print_status "${YELLOW}Creating virtual adapter${NC}"
-iptables -t nat -A POSTROUTING -o $interface -s 192.168.56.0/24 -j MASQUERADE
-iptables -P FORWARD DROP
-iptables -A FORWARD -m state --state RELATED,ESTABLISHED -j ACCEPT
-iptables -A FORWARD -s 192.168.56.0/24 -j ACCEPT
-iptables -A FORWARD -s 192.168.56.0/24 -d 192.168.56.0/24 -j ACCEPT
-iptables -A FORWARD -j LOG
-echo 1 | sudo tee -a /proc/sys/net/ipv4/ip_forward
-sysctl -w net.ipv4.ip_forward=1
+iptables -t nat -A POSTROUTING -o $interface -s 192.168.56.0/24 -j MASQUERADE &>> $logfile
+iptables -P FORWARD DROP &>> $logfile
+iptables -A FORWARD -m state --state RELATED,ESTABLISHED -j ACCEPT &>> $logfile
+iptables -A FORWARD -s 192.168.56.0/24 -j ACCEPT &>> $logfile
+iptables -A FORWARD -s 192.168.56.0/24 -d 192.168.56.0/24 -j ACCEPT &>> $logfile
+iptables -A FORWARD -j LOG &>> $logfile
+echo 1 | sudo tee -a /proc/sys/net/ipv4/ip_forward &>> $logfile
+sysctl -w net.ipv4.ip_forward=1 &>> $logfile
 print_status "${YELLOW}Preserving Iptables${NC}"
 apt-get -qq install iptables-persistent -y &>> $logfile
 error_check 'Persistent Iptable entries'
