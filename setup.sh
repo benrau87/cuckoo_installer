@@ -395,6 +395,7 @@ error_check 'Persistent Iptable entries'
 print_status "${YELLOW}Adding route commands and crons${NC}"
 echo "400    $interface" | tee -a /etc/iproute2/rt_tables &>> $logfile
 systemctl enable rc-local &>> $logfile
+cp $gitdir/lib/threshold.conf /etc/suricata/
 error_check "Commands Added, please restart to finish installation"
 
 echo -e "${YELLOW}Installation complete, login as $name and open the terminal. Run the cuckoo command in the terminal to finish setup. Now copy the conf file in your ~ directory to ~/.cuckoo/conf/. In $name home folder you will find the start_cuckoo script. To get started as fast as possible you will need to create a virtualbox vm and name it ${RED}cuckoo1${NC}.${YELLOW} On the Windows VM install the windows_exes that can be found under the tools folder. Name the snapshot ${RED}vmcloak${YELLOW}. Alternatively you can create the VM with the vmcloak.sh script provided in your home directory. This will require you have a local copy of the Windows ISO you wish to use. You can then launch cuckoo_start.sh and navigate to $HOSTNAME:8000 or https://$HOSTNAME if Nginx was installed.${NC}"
