@@ -246,12 +246,104 @@ python setup.py build &>> $logfile
 python setup.py install &>> $logfile
 error_check 'Volatility installed'
 
-
 ##MITMProxy
 print_status "${YELLOW}Installing MITM${NC}"
 apt-get install python3-dev python3-pip libffi-dev libssl-dev -y &>> $logfile
 pip3 install mitmproxy &>> $logfile
 error_check 'MITM installed'
+
+##Suricata
+cd /home/$name/tools/
+print_status "${YELLOW}Setting up Suricata${NC}"
+touch /etc/suricata/rules/cuckoo.rules &>> $logfile
+echo "alert http any any -> any any (msg:\"FILE store all\"; filestore; noalert; sid:15; rev:1;)"  | sudo tee /etc/suricata/rules/cuckoo.rules &>> $logfile
+
+##etupdate
+git clone https://github.com/seanthegeek/etupdate &>> $logfile
+cd etupdate
+mv etupdate /usr/sbin/
+/usr/sbin/etupdate -V &>> $logfile
+error_check 'Suricata updateded'
+chown $name:$name /usr/sbin/etupdate &>> $logfile
+chown -R $name:$name /etc/suricata/rules &>> $logfile
+crontab -u $name $gitdir/lib/cron  
+cp $gitdir/lib/suricata-cuckoo.yaml /etc/suricata/
+error_check 'Suricata configured for auto-update'
+
+##Snort
+print_status "${YELLOW}Setting up Snort${NC}"
+cd $gitdir/
+wget https://www.snort.org/downloads/snort/daq-2.0.6.tar.gz &>> $logfile
+tar -zxvf daq-2.0.6.tar.gz &>> $logfile
+cd daq*  &>> $logfile
+./configure &>> $logfile
+make  &>> $logfile
+make install  &>> $logfile
+error_check 'DAQ installed'
+cd $gitdir
+wget https://www.snort.org/downloads/snort/snort-2.9.9.0.tar.gz  &>> $logfile
+tar -xvzf snort-2.9.9.0.tar.gz  &>> $logfile
+cd snort*
+./configure --enable-sourcefire &>> $logfile
+make &>> $logfile
+make install  &>> $logfile
+error_check 'Snort installed'
+ldconfig  &>> $logfile
+ln -s /usr/local/bin/snort /usr/sbin/snort  &>> $logfile
+groupadd snort  &>> $logfile 
+sudo useradd snort -r -s /sbin/nologin -c SNORT_IDS -g snort  &>> $logfile
+mkdir -p /etc/snort/rules/iplists  &>> $logfile
+mkdir -p /etc/snort/rules/iplists &>> $logfile
+mkdir /etc/snort/preproc_rules &>> $logfile
+mkdir /etc/snort/preproc_rules &>> $logfile
+mkdir /usr/local/lib/snort_dynamicrules &>> $logfile
+mkdir /usr/local/lib/snort_dynamicrules &>> $logfile
+mkdir /etc/snort/so_rules &>> $logfile
+mkdir /etc/snort/so_rules &>> $logfile
+mkdir -p /var/log/snort/archived_logs &>> $logfile
+mkdir -p /var/log/snort/archived_logs &>> $logfile
+touch /etc/snort/rules/iplists/black_list.rules &>> $logfile
+touch /etc/snort/rules/iplists/black_list.rules &>> $logfile
+touch /etc/snort/rules/iplists/white_list.rules &>> $logfile
+touch /etc/snort/rules/iplists/white_list.rules &>> $logfile
+touch /etc/snort/rules/local.rules &>> $logfile
+touch /etc/snort/rules/local.rules &>> $logfile
+touch /etc/snort/rules/snort.rules &>> $logfile
+touch /etc/snort/sid-msg.map &>> $logfile
+touch /etc/snort/sid-msg.map &>> $logfile
+chmod -R 5775 /etc/snort &>> $logfile
+chmod -R 5775 /var/log/snort &>> $logfile
+chmod -R 5775 /var/log/snort &>> $logfile
+chmod -R 5775 /usr/local/lib/snort_dynamicrules &>> $logfile
+chmod -R 5775 /usr/local/lib/snort_dynamicrules &>> $logfile
+chown -R snort:snort /etc/snort &>> $logfile
+chown -R snort:snort /etc/snort &>> $logfile
+chown -R snort:snort /var/log/snort &>> $logfile
+chown -R snort:snort /var/log/snort &>> $logfile
+chown -R snort:snort /usr/local/lib/snort_dynamicrules &>> $logfile
+chown -R snort:snort /usr/local/lib/snort_dynamicrules &>> $logfile
+cd $gitdir/snort-*/etc/ &>> $logfile
+cp *.conf* /etc/snort &>> $logfile
+cp *.map /etc/snort &>> $logfile
+cp *.dtd /etc/snort &>> $logfile
+cd $gitdir/snort-*/src/dynamic-preprocessors/build/usr/local/lib/snort_dynamicpreprocessor/ &>> $logfile
+cp * /usr/local/lib/snort_dynamicpreprocessor/ &>> $logfile
+cp $gitdir/lib/snort.conf /etc/snort/ &>> $logfile
+
+##Pulledpork
+cd $gitdir
+git clone https://github.com/shirkdog/pulledpork.git &>> $logfile
+cd pulledpork &>> $logfile
+sudo cp pulledpork.pl /usr/local/bin/ &>> $logfile
+chmod +x /usr/local/bin/pulledpork.pl &>> $logfile
+cp etc/*.conf /etc/snort/ &>> $logfile
+cp $gitdir/lib/pulledpork.conf /etc/snort/ &>> $logfile
+sed -ie "s/<oinkcode>/$oinkcode/g" /etc/snort/pulledpork.conf
+/usr/local/bin/pulledpork.pl -c /etc/snort/pulledpork.conf -l &>> $logfile
+cp  $gitdir/lib/snort.service /lib/systemd/system/ &>> $logfile
+systemctl enable snort &>> $logfile
+systemctl start snort &>> $logfile
+error_check 'Pulledpork installed'
 
 ##MySQL install
 print_status "Installing MySQL"
