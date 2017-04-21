@@ -267,7 +267,7 @@ error_check 'Suricata updateded'
 chown $name:$name /usr/sbin/etupdate &>> $logfile
 chown -R $name:$name /etc/suricata/rules &>> $logfile
 crontab -u $name $gitdir/lib/cron  
-cp $gitdir/lib/suricata-cuckoo.yaml /etc/suricata/
+cp $gitdir/lib/suricata-cuckoo.yaml /etc/suricata/suricata.yaml
 error_check 'Suricata configured for auto-update'
 
 ##Snort
