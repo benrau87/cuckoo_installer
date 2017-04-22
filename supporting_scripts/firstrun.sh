@@ -1,9 +1,9 @@
 #!/bin/bash
-cd ~/.cuckoo/yara/
-git clone https://github.com/yara-rules/rules.git 
 cuckoo &
 sleep 20
 cuckoo community
+cd ~/.cuckoo/yara/
+git clone https://github.com/yara-rules/rules.git 
 cp rules/**/*.yar ~/.cuckoo/yara/binaries/
 cp ~/.mitmproxy/mitmproxy-ca-cert.p12 ~/.cuckoo/analyzer/windows/bin/cert.p12
 cp ~/conf/* ~/.cuckoo/conf
