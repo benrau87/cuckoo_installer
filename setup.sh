@@ -369,11 +369,11 @@ error_check 'Permissions set'
 
 ###Setup of VirtualBox forwarding rules and host only adapter
 print_status "${YELLOW}Creating virtual adapter${NC}"
-iptables -t nat -A POSTROUTING -o $interface -s 192.168.56.0/24 -j MASQUERADE &>> $logfile
+iptables -t nat -A POSTROUTING -o $interface -s 10.1.1.0/24 -j MASQUERADE &>> $logfile
 iptables -P FORWARD DROP &>> $logfile
 iptables -A FORWARD -m state --state RELATED,ESTABLISHED -j ACCEPT &>> $logfile
-iptables -A FORWARD -s 192.168.56.0/24 -j ACCEPT &>> $logfile
-iptables -A FORWARD -s 192.168.56.0/24 -d 192.168.56.0/24 -j ACCEPT &>> $logfile
+iptables -A FORWARD -s 10.1.1.0/24 -j ACCEPT &>> $logfile
+iptables -A FORWARD -s 10.1.1.0/24 -d 10.1.1.0/24 -j ACCEPT &>> $logfile
 iptables -A FORWARD -j LOG &>> $logfile
 echo 1 | sudo tee -a /proc/sys/net/ipv4/ip_forward &>> $logfile
 sysctl -w net.ipv4.ip_forward=1 &>> $logfile
