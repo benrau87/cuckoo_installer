@@ -10,7 +10,7 @@ then
   echo "Host only interface is up"
 else 
 VBoxManage hostonlyif create
-VBoxManage hostonlyif ipconfig vboxnet0 --ip 192.168.56.1
+VBoxManage hostonlyif ipconfig vboxnet0 --ip 10.1.1.254
 fi
 cuckoo -d &
 cuckoo web runserver 0.0.0.0:8000
