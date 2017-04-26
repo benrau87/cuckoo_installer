@@ -156,6 +156,7 @@ apt-get install python-virtualenv python-setuptools unattended-upgrades apt-list
 apt-get install libjpeg-dev zlib1g-dev swig virtualbox clamav clamav-daemon clamav-freshclam libconfig-dev flex mongodb-org -y &>> $logfile
 apt-get install automake libtool make gcc libdumbnet-dev libcap2-bin liblzma-dev libcrypt-ssleay-perl liblwp-useragent-determined-perl libpcap-dev -y  &>> $logfile
 apt-get install wkhtmltopdf xvfb xfonts-100dpi -y &>> $logfile
+apt-get install libstdc++6:i386 libgcc1:i386 zlib1g:i386 libncurses5:i386 -y &>> $logfile
 error_check 'Depos installed'
 
 print_status "${YELLOW}Downloading and installing Cuckoo and Python dependencies${NC}"
