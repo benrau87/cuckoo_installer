@@ -382,7 +382,7 @@ touch user.lst
 #64-bit
 cd /home/$name/tools/antivmdetection_64-bit
 mv /home/$name/tools/DSDT-Intel-BOXDP55KG.bin $PWD
-mv /home/$name/tools/Volumeid64.exe /home/$name/tools/antivmdetection_64-bit/
+mv /home/$name/tools/Volumeid64.exe /home/$name/tools/antivmdetection_64-bit/Volumeid.exe
 mv /home/$name/tools/devmanview_64* /home/$name/tools/antivmdetection_64-bit/DevManView.exe
 touch computer.lst
 touch user.lst
