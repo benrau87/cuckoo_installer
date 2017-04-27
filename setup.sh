@@ -366,6 +366,7 @@ dir_check /home/$name/tools
 cd /home/$name/tools
 git clone https://github.com/nsmfoo/antivmdetection.git  &>> $logfile
 mv antivmdetection antivmdetection_32-bit
+mv $gitdir/lib/config_32-bitVM.sh $PWD
 cp -r antivmdetection_32-bit/ /home/$name/tools/antivmdetection_64-bit
 wget https://download.sysinternals.com/files/VolumeId.zip  &>> $logfile
 wget http://www.afterdawn.com/software/general/download.cfm/devmanview_32-bit?mirror_id=0&version_id=88412&software_id=4019  &>> $logfile
@@ -374,8 +375,9 @@ sleep 10
 unzip VolumeId  &>> $logfile
 #32-bit
 cd /home/$name/tools/antivmdetection_32-bit
+mv $gitdir/lib/config_64-bitVM.sh $PWD
 cp /home/$name/tools/DSDT-Intel-BOXDP55KG.bin $PWD
-mv /home/$name/tools/Volumeid.exe /home/$name/tools/antivmdetection_32-bit/
+cp /home/$name/tools/Volumeid.exe /home/$name/tools/antivmdetection_32-bit/
 mv /home/$name/tools/devmanview_32* /home/$name/tools/antivmdetection_32-bit/DevManView.exe
 touch computer.lst
 touch user.lst
