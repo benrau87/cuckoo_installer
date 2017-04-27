@@ -373,14 +373,14 @@ sleep 10
 unzip VolumeId  &>> $logfile
 #32-bit
 cd /home/$name/tools/antivmdetection_32-bit
-cp /home/$name/tools/VolumeId/Volumeid $PWD
-cp /home/$name/tools/devmanview_32-bit* /home/$name/tools/antivmdetection_32-bit/DevManView.exe
+mv /home/$name/tools/Volumeid.exe /home/$name/tools/antivmdetection_32-bit/
+mv /home/$name/tools/devmanview_32* /home/$name/tools/antivmdetection_32-bit/DevManView.exe
 touch computer.lst
 touch user.lst
 #64-bit
 cd /home/$name/tools/antivmdetection_64-bit
-cp /home/$name/tools/VolumeId/Volumeid64 $PWD
-cp /home/$name/tools/devmanview_64-bit* /home/$name/tools/antivmdetection_64-bit/DevManView.exe
+mv /home/$name/tools/Volumeid64.exe /home/$name/tools/antivmdetection_64-bit/
+mv /home/$name/tools/devmanview_64* /home/$name/tools/antivmdetection_64-bit/DevManView.exe
 touch computer.lst
 touch user.lst
 ##File permissions
