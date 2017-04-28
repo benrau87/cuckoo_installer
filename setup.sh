@@ -356,41 +356,14 @@ while fuser /var/lib/dpkg/lock >/dev/null 2>&1; do
    sleep 1
 done
 print_status "${YELLOW}Grabbing other tools${NC}"
-install_packages python-dmidecode re acpidump unzip mesa-utils libboost-all-dev
+install_packages libboost-all-dev
 sudo -H pip install git+https://github.com/buffer/pyv8 &>> $logfile
 print_status "${YELLOW}Installing antivmdetect and tools${NC}"
 ##Folder setup
 dir_check /usr/bin/cd-drive
-dir_check /home/$name/tools
-##Antivm install
-cd /home/$name/tools
-git clone https://github.com/nsmfoo/antivmdetection.git  &>> $logfile
-mv antivmdetection antivmdetection_32-bit
-mv $gitdir/lib/config_32-bitVM.sh $PWD
-cp -r antivmdetection_32-bit/ /home/$name/tools/antivmdetection_64-bit
-wget https://download.sysinternals.com/files/VolumeId.zip  &>> $logfile
-wget http://www.afterdawn.com/software/general/download.cfm/devmanview_32-bit?mirror_id=0&version_id=88412&software_id=4019  &>> $logfile
-wget http://www.afterdawn.com/software/general/download.cfm/devmanview_64-bit?mirror_id=0&version_id=88411&software_id=4018  &>> $logfile
-sleep 10
-unzip VolumeId  &>> $logfile
-#32-bit
-cd /home/$name/tools/antivmdetection_32-bit
-mv $gitdir/lib/config_64-bitVM.sh $PWD
-cp /home/$name/tools/DSDT-Intel-BOXDP55KG.bin $PWD
-cp /home/$name/tools/Volumeid.exe /home/$name/tools/antivmdetection_32-bit/
-mv /home/$name/tools/devmanview_32* /home/$name/tools/antivmdetection_32-bit/DevManView.exe
-touch computer.lst
-touch user.lst
-#64-bit
-cd /home/$name/tools/antivmdetection_64-bit
-mv /home/$name/tools/DSDT-Intel-BOXDP55KG.bin $PWD
-mv /home/$name/tools/Volumeid64.exe /home/$name/tools/antivmdetection_64-bit/Volumeid.exe
-mv /home/$name/tools/devmanview_64* /home/$name/tools/antivmdetection_64-bit/DevManView.exe
-touch computer.lst
-touch user.lst
-##File permissions
-chown $name:$name -R /home/$name/tools/
-error_check 'Antivm tools installed'
+##Antivm download
+git clone https://github.com/benrau87/antivmdetect.git
+error_check 'Antivm tools downloaded'
 
 ##Holding pattern for dpkg...
 print_status "${YELLOW}Waiting for dpkg process to free up...${NC}"
