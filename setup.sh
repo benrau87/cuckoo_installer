@@ -380,18 +380,18 @@ usermod -a -G vboxusers $name &>> $logfile
 error_check 'Permissions set'
 
 ###Setup of VirtualBox forwarding rules and host only adapter
-print_status "${YELLOW}Creating virtual adapter${NC}"
-iptables -t nat -A POSTROUTING -o $interface -s 10.1.1.0/24 -j MASQUERADE &>> $logfile
-iptables -P FORWARD DROP &>> $logfile
-iptables -A FORWARD -m state --state RELATED,ESTABLISHED -j ACCEPT &>> $logfile
-iptables -A FORWARD -s 10.1.1.0/24 -j ACCEPT &>> $logfile
-iptables -A FORWARD -s 10.1.1.0/24 -d 10.1.1.0/24 -j ACCEPT &>> $logfile
-iptables -A FORWARD -j LOG &>> $logfile
-echo 1 | sudo tee -a /proc/sys/net/ipv4/ip_forward &>> $logfile
-sysctl -w net.ipv4.ip_forward=1 &>> $logfile
-print_status "${YELLOW}Preserving Iptables${NC}"
-apt-get -qq install iptables-persistent -y &>> $logfile
-error_check 'Persistent Iptable entries'
+#print_status "${YELLOW}Creating virtual adapter${NC}"
+#iptables -t nat -A POSTROUTING -o $interface -s 10.1.1.0/24 -j MASQUERADE &>> $logfile
+#iptables -P FORWARD DROP &>> $logfile
+#iptables -A FORWARD -m state --state RELATED,ESTABLISHED -j ACCEPT &>> $logfile
+#iptables -A FORWARD -s 10.1.1.0/24 -j ACCEPT &>> $logfile
+#iptables -A FORWARD -s 10.1.1.0/24 -d 10.1.1.0/24 -j ACCEPT &>> $logfile
+#iptables -A FORWARD -j LOG &>> $logfile
+#echo 1 | sudo tee -a /proc/sys/net/ipv4/ip_forward &>> $logfile
+#sysctl -w net.ipv4.ip_forward=1 &>> $logfile
+#print_status "${YELLOW}Preserving Iptables${NC}"
+#apt-get -qq install iptables-persistent -y &>> $logfile
+#error_check 'Persistent Iptable entries'
 
 ##Rooter
 print_status "${YELLOW}Adding route commands and crons${NC}"
