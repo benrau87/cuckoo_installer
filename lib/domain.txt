@@ -1,371 +1,374 @@
-http://www.expedia.com/favicon.ico
-    http://uk.ask.com/favicon.ico
-    http://www.priceminister.com/
-    http://www.iask.com/favicon.ico
-    http://www.merlin.com.pl/favicon.ico
-    http://www.cnet.com/favicon.ico
-    http://search.nifty.com/
-    http://ns.adobe.com/exif/1.0/
-    http://www.etmall.com.tw/
-    http://search.goo.ne.jp/
-    http://fr.wikipedia.org/favicon.ico
-    http://busca.estadao.com.br/favicon.ico
-    http://search.hanafos.com/favicon.ico
-    http://search.chol.com/favicon.ico
-    http://amazon.fr/
-    http://www.amazon.co.jp/
-    http://www.mtv.com/favicon.ico
-    http://busqueda.aol.com.mx/
-    http://search.live.com/results.aspx?FORM=SOLTDF
-    http://msdn.microsoft.com/
-    http://msdn.microsoft.com/workshop/security/privacy/overview/privacyimportxml.asp)
-    http://www.sify.com/favicon.ico
-    http://yellowpages.superpages.com/
-    http://suche.freenet.de/
-    http://search.aol.com/
-    http://browse.guardian.co.uk/
-    http://www.mercadolibre.com.mx/
-    http://www.asharqalawsat.com/
-    http://www.facebook.com/
-    http://si.wikipedia.org/favicon.ico
-    http://www.rtl.de/favicon.ico
-    http://search.msn.com/results.aspx?q=
-    http://www.microsoft.com.
-    http://search.naver.com/favicon.ico
-    http://en.wikipedia.org/favicon.ico
-    http://si.wikipedia.org/w/api.php?action=opensearch
-    http://udn.com/favicon.ico
-    http://rover.ebay.com
-    http://search.ebay.fr/
-    http://www.univision.com/
-    http://pt.wikipedia.org/w/api.php?action=opensearch
-    http://it.wikipedia.org/favicon.ico
-    http://uk.ask.com/
-    http://www.google.co.uk/
-    http://cnweb.search.live.com/results.aspx?q=
-    http://www.google.cz/
-    http://www.google.co.jp/
-    http://search.ebay.co.uk/
-    http://www.weather.com/
-    http://www.taobao.com/favicon.ico
-    http://www.news.com.au/favicon.ico
-    http://search.orange.co.uk/favicon.ico
-    http://video.globo.com/
-    http://search.ebay.de/
-    http://www.taobao.com/
-    http://corp.naukri.com/favicon.ico
-    http://www.servicios.clarin.com/
-    http://localhost
-    http://www.rambler.ru/favicon.ico
-    http://www.linternaute.com/favicon.ico
-    http://ns.adobe.com/photoshop/1.0/
-    http://www.shopzilla.com/
-    http://www.amazon.com/gp/search?ie=UTF8
-    http://search.live.com/results.aspx?FORM=SO2TDF
-    http://busca.orange.es/
-    http://www.excite.co.jp/
-    http://cs.wikipedia.org/
-    http://www.gismeteo.ru/favicon.ico
-    http://www.cjmall.com/favicon.ico
-    http://suche.t-online.de/
-    http://www.ya.com/favicon.ico
-    http://www.priceminister.com/favicon.ico
-    http://www.mercadolibre.com.mx/favicon.ico
-    http://ns.adobe.com/tiff/1.0/
-    http://www.otto.de/favicon.ico
-    http://www.iask.com/
-    http://www.arrakis.com/
-    http://www.microsofttranslator.com/BVPrev.aspx?ref=IE8Activity
-    http://search.hanafos.com/
-    http://search.gamer.com.tw/
-    http://www.tiscali.it/favicon.ico
-    http://ns.adobe.com/xap/1.0/
-    http://www.soso.com/favicon.ico
-    http://recherche.tf1.fr/
-    http://si.wikipedia.org/
-    http://search.livedoor.com/
-    http://search.centrum.cz/
-    http://www.auction.co.kr/auction.ico
-    http://www.t-online.de/favicon.ico
-    http://ja.wikipedia.org/favicon.ico
-    http://www.abril.com.br/favicon.ico
-    http://clients5.google.com/complete/search?hl=
-    http://www.ozon.ru/
-    http://search.alice.it/
-    http://www.microsoft.com/windowsxp/expertzone/
-    http://search.yahoo.co.jp/favicon.ico
-    http://cnet.search.com/
-    http://www.walmart.com/
-    http://espn.go.com/favicon.ico
-    http://msdn.microsoft.com/workshop/security/szone/overview/templates.asp)
-    http://search.interpark.com/
-    http://www.gmarket.co.kr/favicon.ico
-    http://www.neckermann.de/favicon.ico
-    http://sitesearch.timesonline.co.uk/
-    http://cn.bing.com/search?q=
-    http://video.globo.com/favicon.ico
-    http://es.wikipedia.org/
-    http://img.atlas.cz/favicon.ico
-    http://searchresults.news.com.au/
-    http://search.rediff.com/
-    http://search.lycos.co.uk/
-    http://en.wikipedia.org/
-    http://www.google.com.tw/
-    http://www.tchibo.de/
-    http://www.google.com/
-    http://buscador.terra.es/
-    http://search.msn.co.jp/results.aspx?q=
-    http://www.mercadolivre.com.br/favicon.ico
-    http://ja.wikipedia.org/
-    http://search.chol.com/
-    http://search.espn.go.com/
-    http://www.google.com.sa/
-    http://jobsearch.monster.com/
-    http://buscador.terra.com/
-    http://www.google.co.in/
-    http://www.google.fr/
-    http://www.cdiscount.com/favicon.ico
-    http://asp.usatoday.com/
-    http://vachercher.lycos.fr/
-    http://www.yam.com/favicon.ico
-    http://search.sify.com/
-    http://search.ebay.com/favicon.ico
-    http://www.paginasamarillas.es/
-    http://nl.wikipedia.org/
-    http://search.alice.it/favicon.ico
-    http://www.ask.com/
-    http://www.so-net.ne.jp/share/favicon.ico
-    http://espanol.search.yahoo.com/
-    http://www.alarabiya.net/favicon.ico
-    http://ocnsearch.goo.ne.jp/
-    http://list.taobao.com/
-    http://buscador.terra.com.br/
-    http://search.msn.co.uk/results.aspx?q=
-    http://www.google.de/
-    http://busca.igbusca.com.br//app/static/images/favicon.ico
-    http://www.rambler.ru/
-    http://purl.org/dc/elements/1.1/
-    http://www.cdiscount.com/
-    http://www.mercadolivre.com.br/
-    http://www.facebook.com/favicon.ico
-    http://search.ebay.es/
-    http://sads.myspace.com/
-    http://suche.web.de/
-    http://recherche.tf1.fr/favicon.ico
-    http://cs.wikipedia.org/w/api.php?action=opensearch
-    http://search.dreamwiz.com/
-    http://xml-us.amznxslt.com/onca/xml?Service=AWSECommerceService
-    http://www.yandex.ru/
-    http://www.baidu.com/favicon.ico
-    http://ariadna.elmundo.es/
-    http://www.rtl.de/
-    http://es.search.yahoo.com/
-    http://p.zhongsou.com/
-    http://es.wikipedia.org/favicon.ico
-    http://www.timesonline.co.uk/img/favicon.ico
-    http://buscar.ozu.es/
-    http://so-net.search.goo.ne.jp/
-    http://cgi.search.biglobe.ne.jp/favicon.ico
-    http://list.taobao.com/browse/search_visual.htm?n=15
-    http://www.soso.com/
-    http://www.afisha.ru/App_Themes/Default/images/favicon.ico
-    http://img.shopzilla.com/shopzilla/shopzilla.ico
-    http://wellformedweb.org/CommentAPI/
-    http://search.orange.co.uk/
-    http://ariadna.elmundo.es/favicon.ico
-    http://it.wikipedia.org/
-    http://www3.fnac.com/favicon.ico
-    http://en.wikipedia.org/w/api.php?action=opensearch
-    http://support.microsoft.com
-    http://in.search.yahoo.com/
-    http://www.etmall.com.tw/favicon.ico
-    http://www.ceneo.pl/favicon.ico
-    http://service2.bfast.com/
-    http://tw.search.yahoo.com/
-    http://es.ask.com/
-    http://www.ozu.es/favicon.ico
-    http://ru.wikipedia.org/
-    http://google.pchome.com.tw/
-    http://p.zhongsou.com/favicon.ico
-    http://search.ebay.com/
-    http://search1.taobao.com/
-    http://br.search.yahoo.com/
-    http://suche.lycos.de/
-    http://www.asharqalawsat.com/favicon.ico
-    http://mail.live.com/
-    http://ru.search.yahoo.com
-    http://de.wikipedia.org/
-    http://find.joins.com/
-    http://ns.adobe.com/xap/1.0/mm/
-    http://www.google.ru/
-    http://busca.uol.com.br/favicon.ico
-    http://search.seznam.cz/
-    http://de.wikipedia.org/w/api.php?action=opensearch
-    http://www.expedia.com/
-    http://www.clarin.com/favicon.ico
-    http://busca.uol.com.br/
-    http://mail.live.com/?rru=compose%3Fsubject%3D
-    http://buscador.terra.com/favicon.ico
-    http://search.nate.com/
-    http://purl.org/rss/1.0/modules/slash/
-    http://ie8.ebay.com/open-search/output-xml.php?q=
-    http://www.kkbox.com.tw/favicon.ico
-    http://www.ocn.ne.jp/favicon.ico
-    http://corp.naukri.com/
-    http://www.amazon.com/exec/obidos/external-search/104-2981279-3455918?index=blended
-    http://www.microsofttranslator.com/BV.aspx?ref=IE8Activity
-    http://www.recherche.aol.fr/
-    http://pl.wikipedia.org/w/api.php?action=opensearch
-    http://www.weather.com/favicon.ico
-    http://search.centrum.cz/favicon.ico
-    http://search.yam.com/
-    http://search.live.com/results.aspx?q=
-    http://search.empas.com/favicon.ico
-    http://images.joins.com/ui_c/fvc_joins.ico
-    http://cgi.search.biglobe.ne.jp/
-    http://msk.afisha.ru/
-    http://es.wikipedia.org/w/api.php?action=opensearch
-    http://www.google.pl/
-    http://www.arrakis.com/favicon.ico
-    http://search.microsoft.com/
-    http://search.goo.ne.jp/favicon.ico
-    http://image.excite.co.jp/jp/favicon/lep.ico
-    http://www.merlin.com.pl/
-    http://www.amazon.de/
-    http://www.sogou.com/
-    http://cerca.lycos.it/
-    http://www.orange.fr/
-    http://spaces.live.com/BlogIt.aspx
-    http://www.microsofttranslator.com/?ref=IE8Activity
-    http://www.rakuten.co.jp/favicon.ico
-    http://www.nate.com/favicon.ico
-    http://de.wikipedia.org/favicon.ico
-    http://ru.wikipedia.org/w/api.php?action=opensearch
-    http://www.microsofttranslator.com/DefaultPrev.aspx?ref=IE8Activity
-    http://search.daum.net/favicon.ico
-    http://nl.wikipedia.org/favicon.ico
-    http://it.search.yahoo.com/
-    http://www.google.it/
-    http://suche.web.de/favicon.ico
-    http://www.paginasamarillas.es/favicon.ico
-    http://search.seznam.cz/favicon.ico
-    http://search.livedoor.com/favicon.ico
-    http://search.lycos.com/
-    http://fr.wikipedia.org/w/api.php?action=opensearch
-    http://search.dreamwiz.com/favicon.ico
-    http://www.kkbox.com.tw/
-    http://suche.aol.de/
-    http://it.search.dada.net/
-    http://search.empas.com/
-    http://yellowpages.superpages.com/favicon.ico
-    http://arianna.libero.it/
-    http://www.dailymail.co.uk/
-    http://ru.wikipedia.org/favicon.ico
-    http://search.auction.co.kr/
-    http://search.lycos.com/favicon.ico
-    http://www3.fnac.com/
-    http://search.yahoo.co.jp
-    http://asp.usatoday.com/favicon.ico
-    http://search.msn.com.cn/results.aspx?q=
-    http://cn.bing.com/favicon.ico
-    http://search2.estadao.com.br/
-    http://search.cn.yahoo.com/
-    http://ie.search.yahoo.com/os?command=
-    http://www.tesco.com/
-    http://search-dyn.tiscali.it/
-    http://search.ipop.co.kr/favicon.ico
-    http://arianna.libero.it/favicon.ico
-    http://www.myspace.com/favicon.ico
-    http://search.gismeteo.ru/
-    http://www.dailymail.co.uk/favicon.ico
-    http://www.microsoft.com/schemas/rss/core/2005/internal
-    http://home.altervista.org/
-    http://it.search.dada.net/favicon.ico
-    http://www.gmarket.co.kr/
-    http://price.ru/favicon.ico
-    http://www.google.com.br/
-    http://buscar.ya.com/
-    http://images.monster.com/favicon.ico
-    http://search.ebay.it/
-    http://www.alarabiya.net/
-    http://www.najdi.si/
-    http://www.maktoob.com/favicon.ico
-    http://purl.org/rss/1.0/modules/content/
-    http://ns.adobe.com/pdf/1.3/
-    http://price.ru/
-    http://www.najdi.si/favicon.ico
-    http://kr.search.yahoo.com/
-    http://www.aol.com/favicon.ico
-    http://www.ozon.ru/favicon.ico
-    http://pl.wikipedia.org/
-    http://www.target.com/favicon.ico
-    http://fr.search.yahoo.com/
-    http://search.daum.net/
-    http://de.search.yahoo.com/
-    http://suche.freenet.de/favicon.ico
-    http://busca.buscape.com.br/favicon.ico
-    http://www.microsoft.com/favicon.ico
-    http://auone.jp/favicon.ico
-    http://buscador.lycos.es/
-    http://search.yahoo.com/
-    http://www.sogou.com/favicon.ico
-    http://search.rediff.com/favicon.ico
-    http://search.auone.jp/
-    http://web.ask.com/
-    http://search.books.com.tw/
-    http://search.ebay.in/
-    http://search.about.com/
-    http://www.neckermann.de/
-    http://browse.guardian.co.uk/favicon.ico
-    http://www.tesco.com/favicon.ico
-    http://ns.adobe.com/iX/1.0/
-    https://www.example.com.
-    http://www.target.com/
-    http://www.amazon.com/favicon.ico
-    http://recherche.linternaute.com/
-    http://pt.wikipedia.org/favicon.ico
-    http://openimage.interpark.com/interpark.ico
-    http://www.google.si/
-    http://www.yandex.ru/favicon.ico
-    http://www.google.com/favicon.ico
-    http://www.walmart.com/favicon.ico
-    http://udn.com/
-    http://esearch.rakuten.co.jp/
-    http://www.google.es/
-    http://www.cnet.co.uk/
-    http://www.mtv.com/
-    http://search.live.com/results.aspx?FORM=IEFM1
-    http://www.abril.com.br/
-    http://www.baidu.com/
-    http://www.amazon.co.uk/
-    http://it.wikipedia.org/w/api.php?action=opensearch
-    http://www.tchibo.de/favicon.ico
-    http://www.pchome.com.tw/favicon.ico
-    http://pt.wikipedia.org/
-    http://fr.wikipedia.org/
-    http://ja.wikipedia.org/w/api.php?action=opensearch
-    http://www.chennaionline.com/ncommon/images/collogo.ico
-    http://www.cjmall.com/
-    http://uk.search.yahoo.com/
-    http://search.yahoo.com/favicon.ico
-    http://busca.igbusca.com.br/
-    https://localhost
-    http://www.nifty.com/favicon.ico
-    http://search.naver.com/
-    http://home.altervista.org/favicon.ico
-    http://search.gamer.com.tw/favicon.ico
-    http://busca.buscape.com.br/
-    http://search.atlas.cz/
-    http://www.ceneo.pl/
-    http://search.aol.co.uk/
-    http://pl.wikipedia.org/favicon.ico
-    http://search.ipop.co.kr/
-    http://search.books.com.tw/favicon.ico
-    http://search.aol.in/
-    https://example.com
-    http://cs.wikipedia.org/favicon.ico
-    http://spaces.live.com/
-    http://www.microsofttranslator.com/Default.aspx?ref=IE8Activity
-    http://z.about.com/m/a08.ico
-    http://www.univision.com/favicon.ico
-    http://nl.wikipedia.org/w/api.php?action=opensearch
+,expedia.comfavicon.ico
+,uk.ask.comfavicon.ico
+,priceminister.com
+,iask.comfavicon.ico
+,merlin.com.pl/favicon.ico
+,cnet.comfavicon.ico
+,search.nifty.com
+,ns.adobe.comexif/1.0/
+,etmall.com.tw/
+,search.goo.ne.jp/
+,fr.wikipedia.org/favicon.ico
+,busca.estadao.com.br/favicon.ico
+,search.hanafos.comfavicon.ico
+,search.chol.comfavicon.ico
+,amazon.fr/
+,amazon.co.jp/
+,mtv.comfavicon.ico
+,busqueda.aol.com.mx/
+,search.live.comresults.aspx?FORM=SOLTDF
+,msdn.microsoft.com
+,msdn.microsoft.comworkshop/security/privacy/overview/privacyimportxml.asp)
+,sify.comfavicon.ico
+,yellowpages.superpages.com
+,suche.freenet.de/
+,search.aol.com
+,browse.guardian.co.uk/
+,mercadolibre.com.mx/
+,asharqalawsat.com
+,facebook.com
+,si.wikipedia.org/favicon.ico
+,rtl.de/favicon.ico
+,search.msn.comresults.aspx?q=
+,microsoft.com.
+,search.naver.comfavicon.ico
+,en.wikipedia.org/favicon.ico
+,si.wikipedia.org/w/api.php?action=opensearch
+,udn.comfavicon.ico
+,rover.ebay.com
+,search.ebay.fr/
+,univision.com
+,pt.wikipedia.org/w/api.php?action=opensearch
+,it.wikipedia.org/favicon.ico
+,uk.ask.com
+,google.co.uk/
+,cnweb.search.live.comresults.aspx?q=
+,google.cz/
+,google.co.jp/
+,search.ebay.co.uk/
+,weather.com
+,taobao.comfavicon.ico
+,news.com.au/favicon.ico
+,search.orange.co.uk/favicon.ico
+,video.globo.com
+,search.ebay.de/
+,taobao.com
+,corp.naukri.comfavicon.ico
+,servicios.clarin.com
+,localhost
+,rambler.ru/favicon.ico
+,linternaute.comfavicon.ico
+,ns.adobe.comphotoshop/1.0/
+,shopzilla.com
+,amazon.comgp/search?ie=UTF8
+,search.live.comresults.aspx?FORM=SO2TDF
+,busca.orange.es/
+,excite.co.jp/
+,cs.wikipedia.org/
+,gismeteo.ru/favicon.ico
+,cjmall.comfavicon.ico
+,suche.t-online.de/
+,ya.comfavicon.ico
+,priceminister.comfavicon.ico
+,mercadolibre.com.mx/favicon.ico
+,ns.adobe.comtiff/1.0/
+,otto.de/favicon.ico
+,iask.com
+,arrakis.com
+,microsofttranslator.comBVPrev.aspx?ref=IE8Activity
+,search.hanafos.com
+,search.gamer.com.tw/
+,tiscali.it/favicon.ico
+,ns.adobe.comxap/1.0/
+,soso.comfavicon.ico
+,recherche.tf1.fr/
+,si.wikipedia.org/
+,search.livedoor.com
+,search.centrum.cz/
+,auction.co.kr/auction.ico
+,t-online.de/favicon.ico
+,ja.wikipedia.org/favicon.ico
+,abril.com.br/favicon.ico
+,clients5.google.comcomplete/search?hl=
+,ozon.ru/
+,search.alice.it/
+,microsoft.comwindowsxp/expertzone/
+,search.yahoo.co.jp/favicon.ico
+,cnet.search.com
+,walmart.com
+,espn.go.comfavicon.ico
+,msdn.microsoft.comworkshop/security/szone/overview/templates.asp)
+,search.interpark.com
+,gmarket.co.kr/favicon.ico
+,neckermann.de/favicon.ico
+,sitesearch.timesonline.co.uk/
+,cn.bing.comsearch?q=
+,video.globo.comfavicon.ico
+,es.wikipedia.org/
+,img.atlas.cz/favicon.ico
+,searchresults.news.com.au/
+,search.rediff.com
+,search.lycos.co.uk/
+,en.wikipedia.org/
+,google.com.tw/
+,tchibo.de/
+,google.com
+,buscador.terra.es/
+,search.msn.co.jp/results.aspx?q=
+,mercadolivre.com.br/favicon.ico
+,ja.wikipedia.org/
+,search.chol.com
+,search.espn.go.com
+,google.com.sa/
+,jobsearch.monster.com
+,buscador.terra.com
+,google.co.in/
+,google.fr/
+,cdiscount.comfavicon.ico
+,asp.usatoday.com
+,vachercher.lycos.fr/
+,yam.comfavicon.ico
+,search.sify.com
+,search.ebay.comfavicon.ico
+,paginasamarillas.es/
+,nl.wikipedia.org/
+,search.alice.it/favicon.ico
+,ask.com
+,so-net.ne.jp/share/favicon.ico
+,espanol.search.yahoo.com
+,alarabiya.net/favicon.ico
+,ocnsearch.goo.ne.jp/
+,list.taobao.com
+,buscador.terra.com.br/
+,search.msn.co.uk/results.aspx?q=
+,google.de/
+,busca.igbusca.com.br//app/static/images/favicon.ico
+,rambler.ru/
+,purl.org/dc/elements/1.1/
+,cdiscount.com
+,mercadolivre.com.br/
+,facebook.comfavicon.ico
+,search.ebay.es/
+,sads.myspace.com
+,suche.web.de/
+,recherche.tf1.fr/favicon.ico
+,cs.wikipedia.org/w/api.php?action=opensearch
+,search.dreamwiz.com
+,xml-us.amznxslt.comonca/xml?Service=AWSECommerceService
+,yandex.ru/
+,baidu.comfavicon.ico
+,ariadna.elmundo.es/
+,rtl.de/
+,es.search.yahoo.com
+,p.zhongsou.com
+,es.wikipedia.org/favicon.ico
+,timesonline.co.uk/img/favicon.ico
+,buscar.ozu.es/
+,so-net.search.goo.ne.jp/
+,cgi.search.biglobe.ne.jp/favicon.ico
+,list.taobao.combrowse/search_visual.htm?n=15
+,soso.com
+,afisha.ru/App_Themes/Default/images/favicon.ico
+,img.shopzilla.comshopzilla/shopzilla.ico
+,wellformedweb.org/CommentAPI/
+,search.orange.co.uk/
+,ariadna.elmundo.es/favicon.ico
+,it.wikipedia.org/
+,www3.fnac.comfavicon.ico
+,en.wikipedia.org/w/api.php?action=opensearch
+,support.microsoft.com
+,in.search.yahoo.com
+,etmall.com.tw/favicon.ico
+,ceneo.pl/favicon.ico
+,service2.bfast.com
+,tw.search.yahoo.com
+,es.ask.com
+,ozu.es/favicon.ico
+,ru.wikipedia.org/
+,google.pchome.com.tw/
+,p.zhongsou.comfavicon.ico
+,search.ebay.com
+,search1.taobao.com
+,br.search.yahoo.com
+,suche.lycos.de/
+,asharqalawsat.comfavicon.ico
+,mail.live.com
+,ru.search.yahoo.com
+,de.wikipedia.org/
+,find.joins.com
+,ns.adobe.comxap/1.0/mm/
+,google.ru/
+,busca.uol.com.br/favicon.ico
+,search.seznam.cz/
+,de.wikipedia.org/w/api.php?action=opensearch
+,expedia.com
+,clarin.comfavicon.ico
+,busca.uol.com.br/
+,mail.live.com?rru=compose%3Fsubject%3D
+,buscador.terra.comfavicon.ico
+,search.nate.com
+,purl.org/rss/1.0/modules/slash/
+,ie8.ebay.comopen-search/output-xml.php?q=
+,kkbox.com.tw/favicon.ico
+,ocn.ne.jp/favicon.ico
+,corp.naukri.com
+,amazon.comexec/obidos/external-search/104-2981279-3455918?index=blended
+,microsofttranslator.comBV.aspx?ref=IE8Activity
+,recherche.aol.fr/
+,pl.wikipedia.org/w/api.php?action=opensearch
+,weather.comfavicon.ico
+,search.centrum.cz/favicon.ico
+,search.yam.com
+,search.live.comresults.aspx?q=
+,search.empas.comfavicon.ico
+,images.joins.comui_c/fvc_joins.ico
+,cgi.search.biglobe.ne.jp/
+,msk.afisha.ru/
+,es.wikipedia.org/w/api.php?action=opensearch
+,google.pl/
+,arrakis.comfavicon.ico
+,search.microsoft.com
+,search.goo.ne.jp/favicon.ico
+,image.excite.co.jp/jp/favicon/lep.ico
+,merlin.com.pl/
+,amazon.de/
+,sogou.com
+,cerca.lycos.it/
+,orange.fr/
+,spaces.live.comBlogIt.aspx
+,microsofttranslator.com?ref=IE8Activity
+,rakuten.co.jp/favicon.ico
+,nate.comfavicon.ico
+,de.wikipedia.org/favicon.ico
+,ru.wikipedia.org/w/api.php?action=opensearch
+,microsofttranslator.comDefaultPrev.aspx?ref=IE8Activity
+,search.daum.net/favicon.ico
+,nl.wikipedia.org/favicon.ico
+,it.search.yahoo.com
+,google.it/
+,suche.web.de/favicon.ico
+,paginasamarillas.es/favicon.ico
+,search.seznam.cz/favicon.ico
+,search.livedoor.comfavicon.ico
+,search.lycos.com
+,fr.wikipedia.org/w/api.php?action=opensearch
+,search.dreamwiz.comfavicon.ico
+,kkbox.com.tw/
+,suche.aol.de/
+,it.search.dada.net/
+,search.empas.com
+,yellowpages.superpages.comfavicon.ico
+,arianna.libero.it/
+,dailymail.co.uk/
+,ru.wikipedia.org/favicon.ico
+,search.auction.co.kr/
+,search.lycos.comfavicon.ico
+,www3.fnac.com
+,search.yahoo.co.jp
+,asp.usatoday.comfavicon.ico
+,search.msn.com.cn/results.aspx?q=
+,cn.bing.comfavicon.ico
+,search2.estadao.com.br/
+,search.cn.yahoo.com
+,ie.search.yahoo.comos?command=
+,tesco.com
+,search-dyn.tiscali.it/
+,search.ipop.co.kr/favicon.ico
+,arianna.libero.it/favicon.ico
+,myspace.comfavicon.ico
+,search.gismeteo.ru/
+,dailymail.co.uk/favicon.ico
+,microsoft.comschemas/rss/core/2005/internal
+,home.altervista.org/
+,it.search.dada.net/favicon.ico
+,gmarket.co.kr/
+,price.ru/favicon.ico
+,google.com.br/
+,buscar.ya.com
+,images.monster.comfavicon.ico
+,search.ebay.it/
+,alarabiya.net/
+,najdi.si/
+,maktoob.comfavicon.ico
+,purl.org/rss/1.0/modules/content/
+,ns.adobe.compdf/1.3/
+,price.ru/
+,najdi.si/favicon.ico
+,kr.search.yahoo.com
+,aol.comfavicon.ico
+,ozon.ru/favicon.ico
+,pl.wikipedia.org/
+,target.comfavicon.ico
+,fr.search.yahoo.com
+,search.daum.net/
+,de.search.yahoo.com
+,suche.freenet.de/favicon.ico
+,busca.buscape.com.br/favicon.ico
+,microsoft.comfavicon.ico
+,auone.jp/favicon.ico
+,buscador.lycos.es/
+,search.yahoo.com
+,sogou.comfavicon.ico
+,search.rediff.comfavicon.ico
+,search.auone.jp/
+,web.ask.com
+,search.books.com.tw/
+,search.ebay.in/
+,search.about.com
+,neckermann.de/
+,browse.guardian.co.uk/favicon.ico
+,tesco.comfavicon.ico
+,ns.adobe.comiX/1.0/
+,https://www.example.com.
+,target.com
+,amazon.comfavicon.ico
+,recherche.linternaute.com
+,pt.wikipedia.org/favicon.ico
+,openimage.interpark.cominterpark.ico
+,google.si/
+,yandex.ru/favicon.ico
+,google.comfavicon.ico
+,walmart.comfavicon.ico
+,udn.com
+,esearch.rakuten.co.jp/
+,google.es/
+,cnet.co.uk/
+,mtv.com
+,search.live.comresults.aspx?FORM=IEFM1
+,abril.com.br/
+,baidu.com
+,amazon.co.uk/
+,it.wikipedia.org/w/api.php?action=opensearch
+,tchibo.de/favicon.ico
+,pchome.com.tw/favicon.ico
+,pt.wikipedia.org/
+,fr.wikipedia.org/
+,ja.wikipedia.org/w/api.php?action=opensearch
+,chennaionline.comncommon/images/collogo.ico
+,cjmall.com
+,uk.search.yahoo.com
+,search.yahoo.comfavicon.ico
+,busca.igbusca.com.br/
+,https://localhost
+,nifty.comfavicon.ico
+,search.naver.com
+,home.altervista.org/favicon.ico
+,search.gamer.com.tw/favicon.ico
+,busca.buscape.com.br/
+,search.atlas.cz/
+,ceneo.pl/
+,search.aol.co.uk/
+,pl.wikipedia.org/favicon.ico
+,search.ipop.co.kr/
+,search.books.com.tw/favicon.ico
+,search.aol.in/
+,https://example.com
+,cs.wikipedia.org/favicon.ico
+,spaces.live.com
+,microsofttranslator.comDefault.aspx?ref=IE8Activity
+,z.about.comm/a08.ico
+,univision.comfavicon.ico
+,nl.wikipedia.org/w/api.php?action=opensearch
+,www.msftncsi.com
+,ipv6.msftncsi.com
+,tools.google.com
