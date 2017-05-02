@@ -5,7 +5,7 @@ cuckoo community
 cd ~/.cuckoo/yara/
 git clone https://github.com/yara-rules/rules.git 
 cp rules/**/*.yar ~/.cuckoo/yara/binaries/
-cp ~/.mitmproxy/mitmproxy-ca-cert.p12 ~/.cuckoo/analyzer/windows/bin/cert.p12
+#cp ~/.mitmproxy/mitmproxy-ca-cert.p12 ~/.cuckoo/analyzer/windows/bin/cert.p12
 cp ~/conf/* ~/.cuckoo/conf
 ##Remove Android and none working rules for now
 rm ~/.cuckoo/yara/binaries/Android* 
