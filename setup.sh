@@ -155,7 +155,7 @@ apt-get install -y linux-headers-$(uname -r) &>> $logfile
 apt-get install -y apparmor-utils tcpdump dh-autoreconf libjansson-dev libpcre++-dev uthash-dev libarchive-dev tesseract-ocr libelf-dev libssl-dev libgeoip-dev -y &>> $logfile
 apt-get install python python-pip python-dev libffi-dev libssl-dev libpq-dev libmagic-dev python-sqlalchemy elasticsearch suricata  -y &>> $logfile
 apt-get install python-virtualenv python-setuptools unattended-upgrades apt-listchanges fail2ban libfuzzy-dev bison byacc -y &>> $logfile
-apt-get install libjpeg-dev zlib1g-dev swig virtualbox clamav clamav-daemon clamav-freshclam libconfig-dev flex mongodb-org -y &>> $logfile
+apt-get install libjpeg-dev zlib1g-dev swig virtualbox-5.1 clamav clamav-daemon clamav-freshclam libconfig-dev flex mongodb -y &>> $logfile
 apt-get install automake libtool make gcc libdumbnet-dev libcap2-bin liblzma-dev libcrypt-ssleay-perl liblwp-useragent-determined-perl libpcap-dev -y  &>> $logfile
 apt-get install wkhtmltopdf xvfb xfonts-100dpi -y &>> $logfile
 apt-get install libstdc++6:i386 libgcc1:i386 zlib1g:i386 libncurses5:i386 -y &>> $logfile
