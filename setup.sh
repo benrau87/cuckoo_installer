@@ -229,15 +229,15 @@ sudo -H pip install git+https://github.com/kbandla/pydeep.git &>> $logfile
 error_check 'Pydeep installed'
 
 ##Malheur
-cd /home/$name/tools/
-print_status "${YELLOW}Setting up Malheur${NC}"
-git clone https://github.com/rieck/malheur.git &>> $logfile
-error_check 'Malheur downloaded'
-cd malheur
-./bootstrap &>> $logfile
-./configure --prefix=/usr &>> $logfile
-make install &>> $logfile
-error_check 'Malheur installed'
+#cd /home/$name/tools/
+#print_status "${YELLOW}Setting up Malheur${NC}"
+#git clone https://github.com/rieck/malheur.git &>> $logfile
+#error_check 'Malheur downloaded'
+#cd malheur
+#./bootstrap &>> $logfile
+#./configure --prefix=/usr &>> $logfile
+#make install &>> $logfile
+#error_check 'Malheur installed'
 
 ##Volatility
 cd /home/$name/tools/
