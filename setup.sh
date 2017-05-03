@@ -164,6 +164,7 @@ error_check 'Depos installed'
 print_status "${YELLOW}Downloading and installing Cuckoo and Python dependencies${NC}"
 pip install -U pip setuptools &>> $logfile
 pip install -U pip cuckoo &>> $logfile
+pip install -U pip flex &>> $logfile
 pip install -U pip distorm3 &>> $logfile
 pip install -U pip pycrypto &>> $logfile
 pip install -U pip weasyprint &>> $logfile
