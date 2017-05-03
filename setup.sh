@@ -244,8 +244,8 @@ cd /home/$name/tools/
 print_status "${YELLOW}Setting up Volatility${NC}"
 wget https://github.com/volatilityfoundation/volatility/archive/2.6.zip &>> $logfile
 error_check 'Volatility downloaded'
-unzip 2.6.zip
-cd volatility-2.6
+unzip 2.6.zip &>> $logfile
+cd volatility-2.6 &>> $logfile
 python setup.py build &>> $logfile
 python setup.py install &>> $logfile
 error_check 'Volatility installed'
