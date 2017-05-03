@@ -114,7 +114,6 @@ chmod +x $gitdir/supporting_scripts/start_cuckoo.sh
 chown $name:$name $gitdir/supporting_scripts/start_cuckoo.sh
 mv $gitdir/supporting_scripts/start_cuckoo.sh /home/$name/
 cd tools/
-mv $gitdir/lib/DSDT-Intel-BOXDP55KG.aml $PWD/DSDT-Intel-BOXDP55KG.bin
 
 ###Add Repos
 ##Mongodb
