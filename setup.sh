@@ -261,6 +261,7 @@ cd /home/$name/tools/
 print_status "${YELLOW}Setting up Suricata${NC}"
 touch /etc/suricata/rules/cuckoo.rules &>> $logfile
 echo "alert http any any -> any any (msg:\"FILE store all\"; filestore; noalert; sid:15; rev:1;)"  | sudo tee /etc/suricata/rules/cuckoo.rules &>> $logfile
+chown $name:$name /etc/suricata/suricata.yaml
 
 ##etupdate
 git clone https://github.com/seanthegeek/etupdate &>> $logfile
