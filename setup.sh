@@ -110,10 +110,10 @@ cp $gitdir/supporting_scripts/rooter.sh ~/
 chown $name:$name -R /home/$name/conf
 chown $name:$name -R /home/$name/firstrun.sh
 chmod +x /home/$name/firstrun.sh
-rm -rf /home/$name/tools/*
+#rm -rf /home/$name/tools/*
 chmod +x $gitdir/supporting_scripts/start_cuckoo.sh
 chown $name:$name $gitdir/supporting_scripts/start_cuckoo.sh
-mv $gitdir/supporting_scripts/start_cuckoo.sh /home/$name/
+cp $gitdir/supporting_scripts/start_cuckoo.sh /home/$name/
 cd tools/
 
 ###Add Repos
