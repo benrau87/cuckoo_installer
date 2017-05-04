@@ -9,7 +9,6 @@ if [[ $ON == 1 ]]
 then
   echo "Host only interface is up"
 else 
-VBoxManage hostonlyif create
 VBoxManage hostonlyif ipconfig vboxnet0 --ip 10.1.1.254
 fi
 cuckoo -d &
