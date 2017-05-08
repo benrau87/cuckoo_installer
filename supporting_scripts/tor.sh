@@ -83,24 +83,3 @@ apt-get update &>> $logfile
 apt-get install tor deb.torproject.org-keyring -y &>> $logfile
 error_check 'Tor installed'
 
-print_status "${YELLOW}Downloading Tor Route..${NC}"
-git clone https://github.com/seanthegeek/routetor.git &>> $logfile
-error_check 'TorRoute downloaded'
-print_status "${YELLOW}Configuring Tor...${NC}"
-echo "TransListenAddress 192.168.56.1" | sudo tee -a /etc/tor/torrc &>> $logfile
-echo "TransPort 9040" | sudo tee -a /etc/tor/torrc &>> $logfile
-echo "DNSListenAddress 192.168.56.1" | sudo tee -a /etc/tor/torrc &>> $logfile
-echo "DNSPort 5353" | sudo tee -a /etc/tor/torrc &>> $logfile
-error_check 'TorRoute downloaded'
-service tor restart
-cd routetor
-sudo cp *tor* /usr/sbin &>> $logfile
-error_check 'TorRoute scripts installed'
-
-
-print_status "${YELLOW}Adding cron job for starting Tor at boot..${NC}"
-crontab -l | { cat; echo "@reboot /usr/sbin/routetor"; } | crontab -
-error_check 'Cron job added'
-
-print_status "${YELLOW}Starting Routetor${NC}"
-/usr/sbin/routetor &
