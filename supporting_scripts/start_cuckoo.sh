@@ -8,9 +8,13 @@ ON=$(ifconfig -a | grep -cs 'vboxnet0')
 if [[ $ON == 1 ]]
 then
   echo "Host only interface is up"
-else 
-VBoxManage hostonlyif ipconfig vboxnet0 --ip 10.1.1.254
+  VBoxManage hostonlyif ipconfig vboxnet0 --ip 10.1.1.254
+else
+  VBoxManage hostonlyif create vboxnet0
+  VBoxManage hostonlyif ipconfig vboxnet0 --ip 10.1.1.254
 fi
+
 cuckoo community
 cuckoo -d &
+sleep 15
 cuckoo web runserver 0.0.0.0:8000
