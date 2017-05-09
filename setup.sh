@@ -1,11 +1,7 @@
 #!/bin/bash
 ####################################################################################################################
 
-#run https://github.com/nsmfoo/antivmdetection/ on vms
-#open/create some files on the vms
-#check against PAfish
-#create a robust and complete virtual domain (connect vms to smb shares, connect to domain...)
-#inetsim and honeyd
+#incorporate brad's signatures in to signatures/cross, remove andromedia/dridex_apis/chimera_api/deletes_self/cryptowall_apis
 
 
 if [ "$EUID" -ne 0 ]
