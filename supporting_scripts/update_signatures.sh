@@ -91,3 +91,4 @@ service suricata restart
 print_status "${YELLOW}Updating Snort...Please Wait${NC}"
 pulledpork.pl -c /etc/snort/pulledpork.conf
 service snort restart
+print_status "${RED}You are now too legit 2 quit!${NC}"
