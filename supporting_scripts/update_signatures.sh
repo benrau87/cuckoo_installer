@@ -8,6 +8,7 @@ fi
 RED='\033[0;31m'
 YELLOW='\033[1;33m'
 NC='\033[0m'
+GREEN='\033[1;32m'
 gitdir=$PWD
 
 ##Logging setup
@@ -91,4 +92,4 @@ service suricata restart
 print_status "${YELLOW}Updating Snort...Please Wait${NC}"
 pulledpork.pl -c /etc/snort/pulledpork.conf
 service snort restart
-print_status "${RED}You are now too legit 2 quit!${NC}"
+print_status "${GREEN}You are now too legit 2 quit!${NC}"
