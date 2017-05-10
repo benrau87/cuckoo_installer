@@ -14,7 +14,7 @@ else
   VBoxManage hostonlyif ipconfig vboxnet0 --ip 10.1.1.254
 fi
 
-cuckoo community
-cuckoo -d &
-sleep 15
-cuckoo web runserver 0.0.0.0:8000
+xterm -hold -e cuckoo &
+xterm -hold -e cuckoo process auto &
+xterm -hold -e cuckoo web 0.0.0.0:8000 &
+
