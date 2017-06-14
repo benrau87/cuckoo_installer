@@ -16,5 +16,5 @@ fi
 
 xterm -hold -e cuckoo &
 xterm -hold -e cuckoo process auto &
-xterm -hold -e cuckoo web 0.0.0.0:8000 &
+xterm -hold -e cuckoo web runserver 0.0.0.0:8000 &
 
