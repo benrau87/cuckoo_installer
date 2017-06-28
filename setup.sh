@@ -129,9 +129,9 @@ add-apt-repository ppa:webupd8team/java -y &>> $logfile
 error_check 'Java repo added'
 
 ##Elasticsearch
-wget -qO - https://packages.elastic.co/GPG-KEY-elasticsearch | sudo apt-key add - &>> $logfile
-echo "deb http://packages.elastic.co/elasticsearch/2.x/debian stable main" | tee /etc/apt/sources.list.d/elasticsearch-2.x.list &>> $logfile
-error_check 'Elasticsearch repo added'
+#wget -qO - https://packages.elastic.co/GPG-KEY-elasticsearch | sudo apt-key add - &>> $logfile
+#echo "deb http://packages.elastic.co/elasticsearch/2.x/debian stable main" | tee /etc/apt/sources.list.d/elasticsearch-2.x.list &>> $logfile
+#error_check 'Elasticsearch repo added'
 
 ##Suricata
 add-apt-repository ppa:oisf/suricata-beta -y &>> $logfile
@@ -176,11 +176,11 @@ pip install -U pip cuckoo &>> $logfile
 error_check 'Cuckoo downloaded and installed'
 
 ##Java install for elasticsearch
-print_status "${YELLOW}Installing Java${NC}"
-echo debconf shared/accepted-oracle-license-v1-1 select true | \
-  sudo debconf-set-selections &>> $logfile
-apt-get install oracle-java7-installer -y &>> $logfile
-error_check 'Java Installed'
+#print_status "${YELLOW}Installing Java${NC}"
+#echo debconf shared/accepted-oracle-license-v1-1 select true | \
+#  sudo debconf-set-selections &>> $logfile
+#apt-get install oracle-java7-installer -y &>> $logfile
+#error_check 'Java Installed'
 
 ##Start mongodb 
 print_status "${YELLOW}Setting up MongoDB${NC}"
@@ -191,11 +191,11 @@ systemctl enable mongodb &>> $logfile
 error_check 'MongoDB Setup'
 
 ##Setup Elasticsearch
-print_status "${YELLOW}Setting up Elasticsearch${NC}"
-systemctl daemon-reload &>> $logfile
-systemctl enable elasticsearch.service &>> $logfile
-systemctl start elasticsearch.service &>> $logfile
-error_check 'Elasticsearch Setup'
+#print_status "${YELLOW}Setting up Elasticsearch${NC}"
+#systemctl daemon-reload &>> $logfile
+#systemctl enable elasticsearch.service &>> $logfile
+#systemctl start elasticsearch.service &>> $logfile
+#error_check 'Elasticsearch Setup'
 
 ##Yara
 cd /home/$name/tools/
