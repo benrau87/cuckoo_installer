@@ -105,6 +105,7 @@ dir=$PWD
 dir_check /home/$name/tools
 dir_check /home/$name/conf
 sed -i 's/interface = ens33/interface = "$interface"/g' $gitdir/conf/routing.conf &>> $logfile
+sed -i 's/cuckoo/"$name"/g' $gitdir/supporting_scripts/start_cuckoo.sh &>> $logfile
 cp $gitdir/conf/* /home/$name/conf
 cp $gitdir/supporting_scripts/firstrun.sh /home/$name/
 chmod +x  $gitdir/supporting_scripts/rooter.sh
