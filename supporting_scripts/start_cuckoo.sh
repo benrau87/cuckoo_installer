@@ -3,6 +3,18 @@ RED='\033[0;31m'
 YELLOW='\033[1;33m'
 NC='\033[0m'
 
+if [ "$EUID" -ne 0 ]
+  then echo "Please run as root"
+  exit 1
+fi
+
+echo 1 | tee -a /proc/sys/net/ipv4/ip_forward 
+sysctl -w net.ipv4.ip_forward=1 
+
+sleep 5
+
+cuckoo rooter &
+
 ON=$(ifconfig -a | grep -cs 'vboxnet0')
 
 if [[ $ON == 1 ]]
@@ -14,7 +26,7 @@ else
   VBoxManage hostonlyif ipconfig vboxnet0 --ip 10.1.1.254
 fi
 
-xterm -hold -e cuckoo &
-xterm -hold -e cuckoo process auto &
-xterm -hold -e cuckoo web runserver 0.0.0.0:8000 &
+sudo -u cuckoo xterm -hold -e cuckoo &
+sudo -u cuckoo xterm -hold -e cuckoo process auto &
+sudo -u cuckoo xterm -hold -e cuckoo web runserver 0.0.0.0:8000 &
 
