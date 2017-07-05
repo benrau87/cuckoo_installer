@@ -11,7 +11,7 @@ fi
 echo 1 | tee -a /proc/sys/net/ipv4/ip_forward 
 sysctl -w net.ipv4.ip_forward=1 
 sleep 5
-xterm -hold -e cuckoo rooter &
+xterm -hold -e cuckoo -d rooter &
 #start cuckoo
 if [[ $ON == 1 ]]
 then
