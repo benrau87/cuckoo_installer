@@ -27,7 +27,7 @@ else
 fi
 
 su - steve -c 'cuckoo xterm -hold -e' &
-su - steve -c 'cuckoo xterm -hold -e cuckoo process auto' &
+su - steve -c 'cuckoo xterm -hold -e cuckoo -d process auto' &
 su - steve -c 'cuckoo xterm -hold -e cuckoo web runserver 0.0.0.0:8000' &
 
 
