@@ -185,7 +185,7 @@ error_check 'Cuckoo downloaded and installed'
 print_status "${YELLOW}Installing Java${NC}"
 echo debconf shared/accepted-oracle-license-v1-1 select true | \
   sudo debconf-set-selections &>> $logfile
-apt-get install oracle-java7-installer -y &>> $logfile
+apt-get install oracle-java8-installer -y &>> $logfile
 error_check 'Java Installed'
 
 ##Start mongodb 
