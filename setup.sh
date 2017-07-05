@@ -100,6 +100,7 @@ echo -e "${YELLOW}If you want to use Snort, please type in your Oinkcode, if you
 read oinkcode
 
 ##Create directories and scripts for later
+print_status "${YELLOW}Configuring local files and scripts${NC}"
 cd /home/$name/
 dir=$PWD
 dir_check /home/$name/tools
@@ -115,26 +116,35 @@ cp $gitdir/supporting_scripts/rooter.sh ~/
 chown $name:$name -R /home/$name/conf
 chown $name:$name -R /home/$name/firstrun.sh
 chmod +x /home/$name/firstrun.sh
-#rm -rf /home/$name/tools/*
 chmod +x $gitdir/supporting_scripts/start_cuckoo.sh
 chown $name:$name $gitdir/supporting_scripts/start_cuckoo.sh
 cp $gitdir/supporting_scripts/start_cuckoo.sh /home/$name/
 cd tools/
 
 ###Add Repos
+print_status "${YELLOW}Adding Repositories${NC}"
 ##Mongodb
 apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 0C49F3730359A14518585931BC711F9BA15703C6 &>> $logfile
 echo "deb [ arch=amd64,arm64 ] http://repo.mongodb.org/apt/ubuntu xenial/mongodb-org/3.4 multiverse" | tee /etc/apt/sources.list.d/mongodb-org-3.4.list &>> $logfile
 error_check 'Mongodb repo added'
 
 ##Java
+echo -e "${YELLOW}Removing any old Java sources, apt-get packages.${NC}"
+rm /var/lib/dpkg/info/oracle-java7-installer*  &>> $logfile
+rm /var/lib/dpkg/info/oracle-java8-installer*  &>> $logfile
+apt-get purge oracle-java7-installer -y &>> $logfile
+apt-get purge oracle-java8-installer -y &>> $logfile
+rm /etc/apt/sources.list.d/*java*  &>> $logfile
+dpkg -P oracle-java7-installer  &>> $logfile
+dpkg -P oracle-java8-installer  &>> $logfile
+apt-get -f install  &>> $logfile
 add-apt-repository ppa:webupd8team/java -y &>> $logfile
 error_check 'Java repo added'
 
 ##Elasticsearch
-#wget -qO - https://packages.elastic.co/GPG-KEY-elasticsearch | sudo apt-key add - &>> $logfile
-#echo "deb http://packages.elastic.co/elasticsearch/2.x/debian stable main" | tee /etc/apt/sources.list.d/elasticsearch-2.x.list &>> $logfile
-#error_check 'Elasticsearch repo added'
+wget -qO - https://packages.elastic.co/GPG-KEY-elasticsearch | sudo apt-key add - &>> $logfile
+echo "deb http://packages.elastic.co/elasticsearch/2.x/debian stable main" | tee /etc/apt/sources.list.d/elasticsearch-2.x.list &>> $logfile
+error_check 'Elasticsearch repo added'
 
 ##Suricata
 add-apt-repository ppa:oisf/suricata-beta -y &>> $logfile
@@ -159,13 +169,6 @@ apt-get install -y build-essential checkinstall &>> $logfile
 chmod u+rwx /usr/local/src &>> $logfile
 apt-get install -y linux-headers-$(uname -r) &>> $logfile
 install_packages python python-dev python-pip python-setuptools python-sqlalchemy python-virtualenv make automake libdumbnet-dev libarchive-dev libcap2-bin libconfig-dev libcrypt-ssleay-perl libelf-dev libffi-dev libfuzzy-dev libgeoip-dev libjansson-dev libjpeg-dev liblwp-useragent-determined-perl liblzma-dev libmagic-dev libpcap-dev libpcre++-dev libpq-dev libssl-dev libtool apparmor-utils apt-listchanges bison byacc clamav clamav-daemon clamav-freshclam dh-autoreconf elasticsearch fail2ban flex gcc mongodb-org suricata swig tcpdump tesseract-ocr unattended-upgrades uthash-dev virtualbox zlib1g-dev wkhtmltopdf xvfb xfonts-100dpi libstdc++6:i386 libgcc1:i386 zlib1g:i386 libncurses5:i386 
-#apt-get install -y apparmor-utils tcpdump dh-autoreconf libjansson-dev libpcre++-dev uthash-dev libarchive-dev tesseract-ocr libelf-dev libssl-dev libgeoip-dev -y &>> $logfile
-#apt-get install python python-pip python-dev libffi-dev libssl-dev libpq-dev libmagic-dev python-sqlalchemy elasticsearch suricata  -y &>> $logfile
-#apt-get install python-virtualenv python-setuptools unattended-upgrades apt-listchanges fail2ban libfuzzy-dev bison byacc -y &>> $logfile
-#apt-get install libjpeg-dev zlib1g-dev swig virtualbox clamav clamav-daemon clamav-freshclam libconfig-dev flex mongodb-org -y &>> $logfile
-#apt-get install automake libtool make gcc libdumbnet-dev libcap2-bin liblzma-dev libcrypt-ssleay-perl liblwp-useragent-determined-perl libpcap-dev -y  &>> $logfile
-#apt-get install wkhtmltopdf xvfb xfonts-100dpi -y &>> $logfile
-#apt-get install libstdc++6:i386 libgcc1:i386 zlib1g:i386 libncurses5:i386 -y &>> $logfile
 error_check 'Depos installed'
 
 print_status "${YELLOW}Downloading and installing Cuckoo and Python dependencies${NC}"
@@ -179,11 +182,11 @@ pip install -U pip cuckoo &>> $logfile
 error_check 'Cuckoo downloaded and installed'
 
 ##Java install for elasticsearch
-#print_status "${YELLOW}Installing Java${NC}"
-#echo debconf shared/accepted-oracle-license-v1-1 select true | \
-#  sudo debconf-set-selections &>> $logfile
-#apt-get install oracle-java7-installer -y &>> $logfile
-#error_check 'Java Installed'
+print_status "${YELLOW}Installing Java${NC}"
+echo debconf shared/accepted-oracle-license-v1-1 select true | \
+  sudo debconf-set-selections &>> $logfile
+apt-get install oracle-java7-installer -y &>> $logfile
+error_check 'Java Installed'
 
 ##Start mongodb 
 print_status "${YELLOW}Setting up MongoDB${NC}"
@@ -194,21 +197,18 @@ systemctl enable mongodb &>> $logfile
 error_check 'MongoDB Setup'
 
 ##Setup Elasticsearch
-#print_status "${YELLOW}Setting up Elasticsearch${NC}"
-#systemctl daemon-reload &>> $logfile
-#systemctl enable elasticsearch.service &>> $logfile
-#systemctl start elasticsearch.service &>> $logfile
-#error_check 'Elasticsearch Setup'
+print_status "${YELLOW}Setting up Elasticsearch${NC}"
+systemctl daemon-reload &>> $logfile
+systemctl enable elasticsearch.service &>> $logfile
+systemctl start elasticsearch.service &>> $logfile
+error_check 'Elasticsearch Setup'
 
 ##Yara
 cd /home/$name/tools/
 print_status "${YELLOW}Downloading Yara${NC}"
-#wget https://github.com/VirusTotal/yara/archive/v3.5.0.tar.gz &>> $logfile
 git clone https://github.com/VirusTotal/yara.git &>> $logfile
 error_check 'Yara downloaded'
-#tar -zxf v3.5.0.tar.gz &>> $logfile
 print_status "${YELLOW}Building and compiling Yara${NC}"
-#cd yara-3.5.0
 cd yara/
 ./bootstrap.sh &>> $logfile
 ./configure --with-crypto --enable-cuckoo --enable-magic &>> $logfile
@@ -391,6 +391,7 @@ usermod -a -G vboxusers $name &>> $logfile
 error_check 'Permissions set'
 
 ###Setup of VirtualBox forwarding rules and host only adapter
+##uncomment this area if you wish to use the old routing
 #print_status "${YELLOW}Creating virtual adapter${NC}"
 #iptables -t nat -A POSTROUTING -o $interface -s 10.1.1.0/24 -j MASQUERADE &>> $logfile
 #iptables -P FORWARD DROP &>> $logfile
