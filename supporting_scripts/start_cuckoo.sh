@@ -26,7 +26,10 @@ else
   VBoxManage hostonlyif ipconfig vboxnet0 --ip 10.1.1.254
 fi
 
-sudo -u cuckoo xterm -hold -e cuckoo &
-sudo -u cuckoo xterm -hold -e cuckoo process auto &
-sudo -u cuckoo xterm -hold -e cuckoo web runserver 0.0.0.0:8000 &
+su -c 'cuckoo xterm -hold -e' - cuckoo &
+su -c 'cuckoo xterm -hold -e cuckoo process auto' - cuckoo &
+su -c 'cuckoo xterm -hold -e cuckoo web runserver 0.0.0.0:8000' - cuckoo &
+#sudo -u cuckoo xterm -hold -e cuckoo &
+#sudo -u cuckoo xterm -hold -e cuckoo process auto &
+#sudo -u cuckoo xterm -hold -e cuckoo web runserver 0.0.0.0:8000 &
 
