@@ -74,18 +74,18 @@ fi
 ##BEGIN MAIN SCRIPT##
 #Pre checks: These are a couple of basic sanity checks the script does before proceeding.
 
-print_status "${YELLOW}Updating Yara...Please Wait${NC}"
-cd /home/cuckoo/.cuckoo/yara/rules/ &>> $logfile
-git pull 
-chown -R cuckoo:cuckoo /home/cuckoo/.cuckoo/yara/
-cp **/*.yar ~/.cuckoo/yara/binaries/ &>> $logfile
+#print_status "${YELLOW}Updating Yara...Please Wait${NC}"
+#cd /home/cuckoo/.cuckoo/yara/rules/ &>> $logfile
+#git pull 
+#chown -R cuckoo:cuckoo /home/cuckoo/.cuckoo/yara/
+#cp **/*.yar ~/.cuckoo/yara/binaries/ &>> $logfile
 ##Remove Android and none working rules for now
-rm ~/.cuckoo/yara/binaries/Android* &>> $logfile
-rm ~/.cuckoo/yara/binaries/vmdetect.yar  &>> $logfile
-rm ~/.cuckoo/yara/binaries/antidebug_antivm.yar  &>> $logfile
-rm ~/.cuckoo/yara/binaries/MALW_AdGholas.yar  &>> $logfile
-rm ~/.cuckoo/yara/binaries/APT_Shamoon*.yar  &>> $logfile
-rm ~/.cuckoo/yara/binaries/peid.yar  &>> $logfile
+#rm ~/.cuckoo/yara/binaries/Android* &>> $logfile
+#rm ~/.cuckoo/yara/binaries/vmdetect.yar  &>> $logfile
+#rm ~/.cuckoo/yara/binaries/antidebug_antivm.yar  &>> $logfile
+#rm ~/.cuckoo/yara/binaries/MALW_AdGholas.yar  &>> $logfile
+#rm ~/.cuckoo/yara/binaries/APT_Shamoon*.yar  &>> $logfile
+#rm ~/.cuckoo/yara/binaries/peid.yar  &>> $logfile
 print_status "${YELLOW}Updating Suricata...Please Wait${NC}"
 etupdate -V
 service suricata restart
