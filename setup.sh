@@ -129,7 +129,7 @@ echo "deb [ arch=amd64,arm64 ] http://repo.mongodb.org/apt/ubuntu xenial/mongodb
 error_check 'Mongodb repo added'
 
 ##Java
-echo -e "${YELLOW}Removing any old Java sources, apt-get packages.${NC}"
+print_status "${YELLOW}Removing any old Java sources, apt-get packages.${NC}"
 rm /var/lib/dpkg/info/oracle-java7-installer*  &>> $logfile
 rm /var/lib/dpkg/info/oracle-java8-installer*  &>> $logfile
 apt-get purge oracle-java7-installer -y &>> $logfile
