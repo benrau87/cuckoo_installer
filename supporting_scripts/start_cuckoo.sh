@@ -50,6 +50,7 @@ fi
 
 function up_check()
 {
+
 if [$(ps aux | grep -cs) -lt 1]; then 
 	systemctl start ${@}
 else 
