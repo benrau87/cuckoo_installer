@@ -84,6 +84,8 @@ export DEBIAN_FRONTEND=noninteractive
 echo -e "${YELLOW}We need to create a local account to run your Cuckoo sandbox from; What would you like your Cuckoo account username to be?${NC}"
 read name
 adduser $name --gecos ""
+echo -e "${YELLOW}Please type in a Moloch admin password${NC}"
+read cuckoo_moloch_pass
 echo -e "${YELLOW}Please type in a MySQL root password${NC}"
 read root_mysql_pass
 echo -e "${YELLOW}Please type in a MySQL cuckoo password${NC}"
@@ -202,6 +204,10 @@ systemctl daemon-reload &>> $logfile
 systemctl enable elasticsearch.service &>> $logfile
 systemctl start elasticsearch.service &>> $logfile
 error_check 'Elasticsearch Setup'
+
+##Setup Moloch
+print_status "${YELLOW}Setting up Moloch${NC}"
+
 
 ##Yara
 cd /home/$name/tools/
