@@ -73,23 +73,36 @@ fi
 ########################################
 ##BEGIN MAIN SCRIPT##
 #Pre checks: These are a couple of basic sanity checks the script does before proceeding.
+###Cuckoo Modules
+print_status "${YELLOW}Updating Cuckoo...Please Wait${NC}"
+su - cuckoo -c 'cuckoo community' &>> $logfile
+###YARA
+print_status "${YELLOW}Updating Yara...Please Wait${NC}"
+cd /home/cuckoo/.cuckoo/yara/
+rm -rf rules/
+git clone https://github.com/yara-rules/rules.git &>> $logfile
+##Binary based rules
+cp rules/CVE_Rules/*.yar ~/.cuckoo/yara/binaries/
+cp rules/malware/*.yar ~/.cuckoo/yara/binaries/
+cp rules/Crypto/*.yar ~/.cuckoo/yara/binaries/
+cp rules/utils/*.yar ~/.cuckoo/yara/binaries/
+cp rules/Malicious_Documents/*.yar ~/.cuckoo/yara/binaries/
+cp rules/Packers/*.yar ~/.cuckoo/yara/binaries/
+cp rules/emal/*.yar ~/.cuckoo/yara/binaries/
+##URL based rules
+cp rules/Webshells/*.yar ~/.cuckoo/yara/urls/
+##Remove shitty rules
+rm /home/cuckoo/.cuckoo/yara/binaries/Android* 
+rm /home/cuckoo/.cuckoo/yara/binaries/vmdetect.yar  
+rm /home/cuckoo/.cuckoo/yara/binaries/antidebug_antivm.yar  
+rm /home/cuckoo/.cuckoo/yara/binaries/MALW_AdGholas.yar  
+rm /home/cuckoo/.cuckoo/yara/binaries/APT_Shamoon*.yar  
+rm /home/cuckoo/.cuckoo/yara/binaries/peid.yar  
 
-#print_status "${YELLOW}Updating Yara...Please Wait${NC}"
-#cd /home/cuckoo/.cuckoo/yara/rules/ &>> $logfile
-#git pull 
-#chown -R cuckoo:cuckoo /home/cuckoo/.cuckoo/yara/
-#cp **/*.yar ~/.cuckoo/yara/binaries/ &>> $logfile
-##Remove Android and none working rules for now
-#rm ~/.cuckoo/yara/binaries/Android* &>> $logfile
-#rm ~/.cuckoo/yara/binaries/vmdetect.yar  &>> $logfile
-#rm ~/.cuckoo/yara/binaries/antidebug_antivm.yar  &>> $logfile
-#rm ~/.cuckoo/yara/binaries/MALW_AdGholas.yar  &>> $logfile
-#rm ~/.cuckoo/yara/binaries/APT_Shamoon*.yar  &>> $logfile
-#rm ~/.cuckoo/yara/binaries/peid.yar  &>> $logfile
 print_status "${YELLOW}Updating Suricata...Please Wait${NC}"
-etupdate -V
+etupdate -V &>> $logfile
 service suricata restart
 print_status "${YELLOW}Updating Snort...Please Wait${NC}"
-pulledpork.pl -c /etc/snort/pulledpork.conf
-service snort restart
+pulledpork.pl -c /etc/snort/pulledpork.conf &>> $logfile
+service snort restart &>> $logfile
 print_status "${GREEN}You are now too legit 2 quit!${NC}"
