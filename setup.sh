@@ -211,8 +211,8 @@ error_check 'Elasticsearch Setup'
 ##Moloch
 print_status "${YELLOW}Setting up Moloch${NC}"
 cd $gitdir
-wget https://github.com/aol/moloch/archive/v0.18.2.zip &>> $logfile
-unzip v0.18.2.zip
+wgetwget https://files.molo.ch/builds/ubuntu-16.04/moloch_0.18.2-1_amd64.deb &>> $logfile
+dpkg -i moloch_0.18.2-1_amd64.deb
 cd moloch*
 bash easybutton-build.sh
 make install && make config
