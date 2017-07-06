@@ -91,9 +91,17 @@ cp rules/Malicious_Documents/*.yar $cuckoo_yara/binaries/
 cp rules/Packers/*.yar $cuckoo_yara/binaries/
 cp rules/email/*.yar $cuckoo_yara/binaries/
 echo '"include $cuckoo_yara/binaries/$(ls $cuckoo_yara/binaries/)"' > index_binaries.yar
+for rule in $(ls $cuckoo_yara/binaries/)
+do 
+echo '"include' $cuckoo_yara/binaries/$rule'"'
+done
 ##URL based rules
 cp rules/Webshells/*.yar $cuckoo_yara/urls/
 echo '"include $cuckoo_yara/urls/$(ls $cuckoo_yara/urls/)"' > index_urls.yar
+for rule in $(ls $cuckoo_yara/urls/)
+do 
+echo '"include' $cuckoo_yara/urls/$rule'"'
+done
 ##Remove shitty rules
 rm $cuckoo_yara/binaries/Android*  
 rm $cuckoo_yara/binaries/antidebug_antivm.yar  
