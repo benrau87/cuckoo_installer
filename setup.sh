@@ -167,14 +167,14 @@ print_status "${YELLOW}Performing apt-get update and upgrade (May take a while i
 apt-get update &>> $logfile && apt-get -y dist-upgrade &>> $logfile
 error_check 'Updated system'
 
-##Main Packages
+##APT Packages
 print_status "${YELLOW}Downloading and installing depos${NC}"
 apt-get install -y build-essential checkinstall &>> $logfile
 chmod u+rwx /usr/local/src &>> $logfile
 apt-get install -y linux-headers-$(uname -r) &>> $logfile
 install_packages python python-dev python-pip python-setuptools python-sqlalchemy python-virtualenv make automake libdumbnet-dev libarchive-dev libcap2-bin libconfig-dev libcrypt-ssleay-perl libelf-dev libffi-dev libfuzzy-dev libgeoip-dev libjansson-dev libjpeg-dev liblwp-useragent-determined-perl liblzma-dev libmagic-dev libpcap-dev libpcre++-dev libpq-dev libssl-dev libtool apparmor-utils apt-listchanges bison byacc clamav clamav-daemon clamav-freshclam dh-autoreconf elasticsearch fail2ban flex gcc mongodb-org suricata swig tcpdump tesseract-ocr unattended-upgrades uthash-dev virtualbox zlib1g-dev wkhtmltopdf xvfb xfonts-100dpi libstdc++6:i386 libgcc1:i386 zlib1g:i386 libncurses5:i386 apt-transport-https software-properties-common python-software-properties libwww-perl libjson-perl ethtool
 error_check 'Depos installed'
-
+##Python Modules
 print_status "${YELLOW}Downloading and installing Cuckoo and Python dependencies${NC}"
 pip install -U pip setuptools &>> $logfile
 pip install -U pip flex &>> $logfile
@@ -185,14 +185,7 @@ pip install -U pip yara-python &>> $logfile
 pip install -U pip cuckoo &>> $logfile
 error_check 'Cuckoo downloaded and installed'
 
-##Java install for elasticsearch
-print_status "${YELLOW}Installing Java${NC}"
-echo debconf shared/accepted-oracle-license-v1-1 select true | \
-  sudo debconf-set-selections &>> $logfile
-apt-get install oracle-java8-installer -y &>> $logfile
-error_check 'Java Installed'
-
-##Start mongodb 
+##Start MongoDB 
 print_status "${YELLOW}Setting up MongoDB${NC}"
 chmod 755 $gitdir/lib/mongodb.service &>> $logfile
 cp $gitdir/lib/mongodb.service /etc/systemd/system/ &>> $logfile
@@ -200,14 +193,22 @@ systemctl start mongodb &>> $logfile
 systemctl enable mongodb &>> $logfile
 error_check 'MongoDB Setup'
 
-##Setup Elasticsearch
+##Cuckoo Add-ons
+##Java 
+print_status "${YELLOW}Installing Java${NC}"
+echo debconf shared/accepted-oracle-license-v1-1 select true | \
+  sudo debconf-set-selections &>> $logfile
+apt-get install oracle-java8-installer -y &>> $logfile
+error_check 'Java Installed'
+
+##Elasticsearch
 print_status "${YELLOW}Setting up Elasticsearch${NC}"
 systemctl daemon-reload &>> $logfile
 systemctl enable elasticsearch.service &>> $logfile
 systemctl start elasticsearch.service &>> $logfile
 error_check 'Elasticsearch Setup'
 
-##Setup Moloch
+##Moloch
 print_status "${YELLOW}Setting up Moloch${NC}"
 cd $gitdir
 git clone https://github.com/aol/moloch.git &>> $logfile
