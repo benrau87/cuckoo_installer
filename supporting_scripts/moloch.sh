@@ -209,7 +209,7 @@ echo "MOLOCH: Building capture"
 cd ..
 echo "./configure --prefix=$TDIR $PCAPBUILD --with-yara=thirdparty/yara/yara-$YARA --with-GeoIP=thirdparty/GeoIP-$GEOIP $WITHGLIB --with-curl=thirdparty/curl-$CURL --with-lua=thirdparty/lua-$LUA"
 #./configure --prefix=$TDIR $PCAPBUILD --with-yara=thirdparty/yara/yara-$YARA --with-GeoIP=thirdparty/GeoIP-$GEOIP $WITHGLIB --with-curl=thirdparty/curl-$CURL --with-lua=thirdparty/lua-$LUA
-./configure --prefix=$TDIR $PCAPBUILD --with-yara --with-GeoIP=thirdparty/GeoIP-$GEOIP $WITHGLIB --with-curl=thirdparty/curl-$CURL --with-lua=thirdparty/lua-$LUA
+./configure --prefix=$TDIR --with-libpcap=$PCAPDIR --with-GeoIP=thirdparty/GeoIP-$GEOIP $WITHGLIB --with-curl=thirdparty/curl-$CURL --with-lua=thirdparty/lua-$LUA
 if [ $DOCLEAN -eq 1 ]; then
     $MAKE clean
 fi
