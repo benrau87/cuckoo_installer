@@ -93,13 +93,13 @@ else
 fi
 print_good 'Interface is up'
 #start routing
-print_status '${YELLOW}Configuring routing${NC}'
+print_status "${YELLOW}Configuring routing${NC}"
 sleep 1
 echo 1 | tee -a /proc/sys/net/ipv4/ip_forward &>> $logfile
 sysctl -w net.ipv4.ip_forward=1 &>> $logfile
 error_check 'Could not add forwarding table'
 print_good 'Routing configured'
-print_status '${YELLOW}Launching Cuckoo...${NC}'
+print_status "${YELLOW}Launching Cuckoo...${NC}"
 sleep 1
 xterm -hold -e cuckoo -d rooter &
 #start cuckoo
