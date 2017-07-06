@@ -211,7 +211,8 @@ error_check 'Elasticsearch Setup'
 ##Moloch
 print_status "${YELLOW}Setting up Moloch${NC}"
 cd $gitdir
-git clone https://github.com/aol/moloch.git &>> $logfile
+wget https://github.com/aol/moloch/archive/v0.18.2.zip &>> $logfile
+unzip v0.18.2.zip
 cd moloch*
 bash easybutton-build.sh
 make install && make config
