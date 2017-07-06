@@ -92,8 +92,7 @@ cp rules/email/*.yar ~/.cuckoo/yara/binaries/
 ##URL based rules
 cp rules/Webshells/*.yar ~/.cuckoo/yara/urls/
 ##Remove shitty rules
-rm /home/cuckoo/.cuckoo/yara/binaries/Android* 
-rm /home/cuckoo/.cuckoo/yara/binaries/vmdetect.yar  
+rm /home/cuckoo/.cuckoo/yara/binaries/Android*  
 rm /home/cuckoo/.cuckoo/yara/binaries/antidebug_antivm.yar  
 rm /home/cuckoo/.cuckoo/yara/binaries/MALW_AdGholas.yar  
 rm /home/cuckoo/.cuckoo/yara/binaries/APT_Shamoon*.yar  
