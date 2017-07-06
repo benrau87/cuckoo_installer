@@ -86,7 +86,6 @@ print_status "${YELLOW}Checking for virtual interface${NC}"
 sleep 1
 if [[ $ON == 1 ]]
 then
-  echo "Host only interface is up"
   VBoxManage hostonlyif ipconfig vboxnet0 --ip 10.1.1.254 &>> $logfile
 else
   VBoxManage hostonlyif create vboxnet0 &>> $logfile
@@ -94,13 +93,13 @@ else
 fi
 print_good 'Interface is up'
 #start routing
-print_status 'Configuring routing'
+print_status '${YELLOW}Configuring routing${NC}'
 sleep 1
 echo 1 | tee -a /proc/sys/net/ipv4/ip_forward &>> $logfile
 sysctl -w net.ipv4.ip_forward=1 &>> $logfile
 error_check 'Could not add forwarding table'
 print_good 'Routing configured'
-print_status 'Launching Cuckoo...'
+print_status '${YELLOW}Launching Cuckoo...${NC}'
 sleep 1
 xterm -hold -e cuckoo -d rooter &
 #start cuckoo
