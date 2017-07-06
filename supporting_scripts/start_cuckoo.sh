@@ -80,6 +80,7 @@ fi
 #sevice check
 print_status "${YELLOW}Starting essential services${NC}"
 up_check mongodb mysql molochcapture molochviewer suricata elasticsearch
+print_good 'All services running'
 sleep 1
 #start virtual network interface
 print_status "${YELLOW}Checking for virtual interface${NC}"
