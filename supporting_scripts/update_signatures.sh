@@ -88,7 +88,7 @@ cp rules/Crypto/*.yar ~/.cuckoo/yara/binaries/
 cp rules/utils/*.yar ~/.cuckoo/yara/binaries/
 cp rules/Malicious_Documents/*.yar ~/.cuckoo/yara/binaries/
 cp rules/Packers/*.yar ~/.cuckoo/yara/binaries/
-cp rules/emal/*.yar ~/.cuckoo/yara/binaries/
+cp rules/email/*.yar ~/.cuckoo/yara/binaries/
 ##URL based rules
 cp rules/Webshells/*.yar ~/.cuckoo/yara/urls/
 ##Remove shitty rules
