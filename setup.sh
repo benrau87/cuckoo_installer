@@ -144,9 +144,11 @@ add-apt-repository ppa:webupd8team/java -y &>> $logfile
 error_check 'Java repo added'
 
 ##Elasticsearch
-wget -qO - https://packages.elastic.co/GPG-KEY-elasticsearch | sudo apt-key add - &>> $logfile
-echo "deb http://packages.elastic.co/elasticsearch/2.x/debian stable main" | tee /etc/apt/sources.list.d/elasticsearch-2.x.list &>> $logfile
+#wget -qO - https://packages.elastic.co/GPG-KEY-elasticsearch | sudo apt-key add - &>> $logfile
+#echo "deb http://packages.elastic.co/elasticsearch/2.x/debian stable main" | tee /etc/apt/sources.list.d/elasticsearch-2.x.list &>> $logfile
 error_check 'Elasticsearch repo added'
+wget -qO - https://packages.elastic.co/GPG-KEY-elasticsearch | sudo apt-key add - &>> $logfile
+echo "deb https://artifacts.elastic.co/packages/5.x/apt stable main" | sudo tee -a /etc/apt/sources.list.d/elastic-5.x.list &>> $logfile
 
 ##Suricata
 add-apt-repository ppa:oisf/suricata-beta -y &>> $logfile
@@ -207,11 +209,22 @@ error_check 'Elasticsearch Setup'
 
 ##Setup Moloch
 print_status "${YELLOW}Setting up Moloch${NC}"
-
+cd $gitdir
+wget https://files.molo.ch/builds/ubuntu-16.04/moloch_0.18.2-1_amd64.deb &>> $logfile
+dpkg -i moloch* &>> $logfile
+bash /data/moloch/bin/Configure 
+bash/ data/moloch/bin/moloch_add_user.sh admin "Admin User" $cuckoo_moloch_pass --admin &>> $logfile
+bash/ data/moloch/bin/moloch_add_user.sh cuckoo "Cuckoo User" toor &>> $logfile
+perl /data/moloch/db/db.pl http://localhost:9200 init &>> $logfile
+systemctl start molochcapture.service &>> $logfile
+service molochcapture start &>> $logfile
+systemctl start molochviewer.service &>> $logfile
+service molochviewer start &>> $logfile
+error_check 'Moloch Installed'
 
 ##Yara
-cd /home/$name/tools/
 print_status "${YELLOW}Downloading Yara${NC}"
+cd $gitdir
 git clone https://github.com/VirusTotal/yara.git &>> $logfile
 error_check 'Yara downloaded'
 print_status "${YELLOW}Building and compiling Yara${NC}"
@@ -237,7 +250,7 @@ make load &>> $logfile
 error_check 'DTrace installed'
 
 ##Pydeep
-cd /home/$name/tools/
+cd $gitdir
 print_status "${YELLOW}Setting up Pydeep${NC}"
 sudo -H pip install git+https://github.com/kbandla/pydeep.git &>> $logfile
 error_check 'Pydeep installed'
@@ -254,7 +267,7 @@ error_check 'Pydeep installed'
 #error_check 'Malheur installed'
 
 ##Volatility
-cd /home/$name/tools/
+cd $gitdir
 print_status "${YELLOW}Setting up Volatility${NC}"
 wget https://github.com/volatilityfoundation/volatility/archive/2.5.zip &>> $logfile
 error_check 'Volatility downloaded'
@@ -271,13 +284,14 @@ pip3 install mitmproxy &>> $logfile
 error_check 'MITM installed'
 
 ##Suricata
-cd /home/$name/tools/
+cd $gitdir
 print_status "${YELLOW}Setting up Suricata${NC}"
 touch /etc/suricata/rules/cuckoo.rules &>> $logfile
 echo "alert http any any -> any any (msg:\"FILE store all\"; filestore; noalert; sid:15; rev:1;)"  | sudo tee /etc/suricata/rules/cuckoo.rules &>> $logfile
 chown $name:$name /etc/suricata/suricata.yaml
 
 ##etupdate
+cd $gitdir
 git clone https://github.com/seanthegeek/etupdate &>> $logfile
 cd etupdate
 mv etupdate /usr/sbin/
@@ -373,6 +387,7 @@ while fuser /var/lib/dpkg/lock >/dev/null 2>&1; do
    sleep 1
 done
 print_status "${YELLOW}Grabbing other tools${NC}"
+cd $gitdir
 install_packages libboost-all-dev
 sudo -H pip install git+https://github.com/buffer/pyv8 &>> $logfile
 print_status "${YELLOW}Installing antivmdetect and tools${NC}"
