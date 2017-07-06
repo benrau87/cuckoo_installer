@@ -82,15 +82,15 @@ cd /home/cuckoo/.cuckoo/yara/
 rm -rf rules/
 git clone https://github.com/yara-rules/rules.git &>> $logfile
 ##Binary based rules
-cp rules/CVE_Rules/*.yar ~/.cuckoo/yara/binaries/
-cp rules/malware/*.yar ~/.cuckoo/yara/binaries/
-cp rules/Crypto/*.yar ~/.cuckoo/yara/binaries/
-cp rules/utils/*.yar ~/.cuckoo/yara/binaries/
-cp rules/Malicious_Documents/*.yar ~/.cuckoo/yara/binaries/
-cp rules/Packers/*.yar ~/.cuckoo/yara/binaries/
-cp rules/email/*.yar ~/.cuckoo/yara/binaries/
+cp rules/CVE_Rules/*.yar /home/cuckoo/.cuckoo/yara/binaries/
+cp rules/malware/*.yar /home/cuckoo/.cuckoo/yara/binaries/
+cp rules/Crypto/*.yar /home/cuckoo/.cuckoo/yara/binaries/
+cp rules/utils/*.yar /home/cuckoo/.cuckoo/yara/binaries/
+cp rules/Malicious_Documents/*.yar /home/cuckoo/.cuckoo/yara/binaries/
+cp rules/Packers/*.yar /home/cuckoo/.cuckoo/yara/binaries/
+cp rules/email/*.yar /home/cuckoo/.cuckoo/yara/binaries/
 ##URL based rules
-cp rules/Webshells/*.yar ~/.cuckoo/yara/urls/
+cp rules/Webshells/*.yar /home/cuckoo/.cuckoo/yara/urls/
 ##Remove shitty rules
 rm /home/cuckoo/.cuckoo/yara/binaries/Android*  
 rm /home/cuckoo/.cuckoo/yara/binaries/antidebug_antivm.yar  
