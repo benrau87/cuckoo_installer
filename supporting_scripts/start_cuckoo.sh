@@ -48,10 +48,10 @@ fi
 
 }
 
-function up_check()
+function up_check
 {
 
-if $(ps aux | grep -cs) == 0; then 
+if [$(ps aux | grep -cs) == 0]; then 
 	systemctl start ${@}
 else 
 	print_good "All services on."
@@ -80,8 +80,10 @@ fi
 #sevice check
 print_status "${YELLOW}Starting essential services${NC}"
 up_check mongodb mysql molochcapture molochviewer suricata elasticsearch
+sleep 1
 #start virtual network interface
 print_status "${YELLOW}Checking for virtual interface${NC}"
+sleep 1
 if [[ $ON == 1 ]]
 then
   echo "Host only interface is up"
@@ -90,16 +92,16 @@ else
   VBoxManage hostonlyif create vboxnet0 &>> $logfile
   VBoxManage hostonlyif ipconfig vboxnet0 --ip 10.1.1.254 &>> $logfile
 fi
-error_check 'Could start interfaces'
 print_good 'Interface is up'
 #start routing
 print_status 'Configuring routing'
+sleep 1
 echo 1 | tee -a /proc/sys/net/ipv4/ip_forward &>> $logfile
 sysctl -w net.ipv4.ip_forward=1 &>> $logfile
 error_check 'Could not add forwarding table'
 print_good 'Routing configured'
 print_status 'Launching Cuckoo...'
-sleep 2
+sleep 1
 xterm -hold -e cuckoo -d rooter &
 #start cuckoo
 su - steve -c 'xterm -hold -e cuckoo' &
