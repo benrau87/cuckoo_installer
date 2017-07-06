@@ -111,6 +111,19 @@ else
   fi
 fi
 
+# yara
+if [ ! -f "yara/yara-$YARA.tar.gz" ]; then
+  mkdir -p yara
+  wget https://github.com/VirusTotal/yara/archive/v$YARA.tar.gz -O yara/yara-$YARA.tar.gz
+fi
+
+if [ ! -f "yara/yara-$YARA/libyara/.libs/libyara.a" ]; then
+  (cd yara ; tar zxf yara-$YARA.tar.gz)
+  (cd yara/yara-$YARA; ./bootstrap.sh ; ./configure --enable-static; $MAKE)
+  if [ $? -ne 0 ]; then
+    echo "MOLOCH: $MAKE failed"
+    exit 1
+  fi
 
 # GeoIP
 if [ ! -f "GeoIP-$GEOIP.tar.gz" ]; then
@@ -209,7 +222,7 @@ echo "MOLOCH: Building capture"
 cd ..
 echo "./configure --prefix=$TDIR $PCAPBUILD --with-yara=thirdparty/yara/yara-$YARA --with-GeoIP=thirdparty/GeoIP-$GEOIP $WITHGLIB --with-curl=thirdparty/curl-$CURL --with-lua=thirdparty/lua-$LUA"
 #./configure --prefix=$TDIR $PCAPBUILD --with-yara=thirdparty/yara/yara-$YARA --with-GeoIP=thirdparty/GeoIP-$GEOIP $WITHGLIB --with-curl=thirdparty/curl-$CURL --with-lua=thirdparty/lua-$LUA
-./configure --prefix=$TDIR --with-libpcap=$PCAPDIR --with-GeoIP=thirdparty/GeoIP-$GEOIP $WITHGLIB --with-curl=thirdparty/curl-$CURL --with-lua=thirdparty/lua-$LUA
+./configure --prefix=$TDIR --with-libpcap=$PCAPDIR  --with-yara=thirdparty/yara/yara-$YARA --with-GeoIP=thirdparty/GeoIP-$GEOIP $WITHGLIB --with-curl=thirdparty/curl-$CURL --with-lua=thirdparty/lua-$LUA
 if [ $DOCLEAN -eq 1 ]; then
     $MAKE clean
 fi
