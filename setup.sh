@@ -210,11 +210,9 @@ error_check 'Elasticsearch Setup'
 ##Setup Moloch
 print_status "${YELLOW}Setting up Moloch${NC}"
 cd $gitdir
-wget https://github.com/aol/moloch/archive/v0.18.3.zip &>> $logfile
-unzip v0.18.3.zip
+git clone https://github.com/aol/moloch.git &>> $logfile
 cd moloch*
-cp $gitdir/supporting_scripts/moloch.sh $PWD
-bash moloch.sh
+bash easybutton-build.sh
 make install && make config
 bash/ data/moloch/bin/moloch_add_user.sh admin "Admin User" $cuckoo_moloch_pass --admin &>> $logfile
 bash/ data/moloch/bin/moloch_add_user.sh cuckoo "Cuckoo User" toor &>> $logfile
