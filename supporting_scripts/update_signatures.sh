@@ -75,7 +75,7 @@ fi
 #Pre checks: These are a couple of basic sanity checks the script does before proceeding.
 ###Cuckoo Modules
 print_status "${YELLOW}Updating Cuckoo...Please Wait${NC}"
-su - cuckoo -c 'cuckoo community' &>> $logfile
+su - cuckoo -c 'cuckoo community' 
 ###YARA
 print_status "${YELLOW}Updating Yara...Please Wait${NC}"
 cd /home/cuckoo/.cuckoo/yara/
@@ -99,9 +99,9 @@ rm /home/cuckoo/.cuckoo/yara/binaries/APT_Shamoon*.yar
 rm /home/cuckoo/.cuckoo/yara/binaries/peid.yar  
 
 print_status "${YELLOW}Updating Suricata...Please Wait${NC}"
-etupdate -V &>> $logfile
+etupdate -V 
 service suricata restart
 print_status "${YELLOW}Updating Snort...Please Wait${NC}"
-pulledpork.pl -c /etc/snort/pulledpork.conf &>> $logfile
+pulledpork.pl -c /etc/snort/pulledpork.conf 
 service snort restart &>> $logfile
 print_status "${GREEN}You are now too legit 2 quit!${NC}"
