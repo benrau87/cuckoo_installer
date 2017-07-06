@@ -211,13 +211,12 @@ error_check 'Elasticsearch Setup'
 ##Moloch
 print_status "${YELLOW}Setting up Moloch${NC}"
 cd $gitdir
-wgetwget https://files.molo.ch/builds/ubuntu-16.04/moloch_0.18.2-1_amd64.deb &>> $logfile
+wget https://files.molo.ch/builds/ubuntu-16.04/moloch_0.18.2-1_amd64.deb &>> $logfile
 dpkg -i moloch_0.18.2-1_amd64.deb
-cd moloch*
-bash easybutton-build.sh
-make install && make config
-bash/ data/moloch/bin/moloch_add_user.sh admin "Admin User" $cuckoo_moloch_pass --admin &>> $logfile
-bash/ data/moloch/bin/moloch_add_user.sh cuckoo "Cuckoo User" toor &>> $logfile
+print_status "${YELLOW}Use ${RED}vboxnet0${YELLOW} as the interface to sniff and keep the rest as default.${NC}"
+/data/moloch/bin/Configure
+/data/moloch/bin/moloch_add_user.sh admin "Admin User" $cuckoo_moloch_pass --admin &>> $logfile
+/data/moloch/bin/moloch_add_user.sh cuckoo "Cuckoo User" toor &>> $logfile
 perl /data/moloch/db/db.pl http://localhost:9200 init &>> $logfile
 systemctl start molochcapture.service &>> $logfile
 service molochcapture start &>> $logfile
