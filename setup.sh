@@ -212,7 +212,7 @@ print_status "${YELLOW}Setting up Moloch${NC}"
 cd $gitdir
 wget https://github.com/aol/moloch/archive/v0.18.3.zip &>> $logfile
 unzip v0.18.3.zip
-cd v0.18.3
+cd moloch*
 cp $gitdir/supporting_scripts/moloch.sh $PWD
 bash moloch.sh
 make install && make config
