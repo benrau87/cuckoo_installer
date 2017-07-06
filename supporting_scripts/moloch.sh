@@ -1,4 +1,4 @@
-!/bin/sh
+#!/bin/sh
 # Use this script to install OS dependencies, downloading and compile moloch dependencies, and compile moloch capture.
 
 # This script will
