@@ -163,6 +163,7 @@ while fuser /var/lib/dpkg/lock >/dev/null 2>&1; do
 done
 
 ### System updates
+print_status "${YELLOW}You will need to enter some stuff in for Moloch after the system update, dont go too far...${NC}"
 print_status "${YELLOW}Performing apt-get update and upgrade (May take a while if this is a fresh install)..${NC}"
 apt-get update &>> $logfile && apt-get -y dist-upgrade &>> $logfile
 error_check 'Updated system'
