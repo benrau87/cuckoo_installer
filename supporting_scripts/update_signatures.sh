@@ -74,29 +74,32 @@ fi
 ##BEGIN MAIN SCRIPT##
 #Pre checks: These are a couple of basic sanity checks the script does before proceeding.
 ###Cuckoo Modules
+cuckoo_yara=/home/cuckoo/.cuckoo/yara
 print_status "${YELLOW}Updating Cuckoo...Please Wait${NC}"
 su - cuckoo -c 'cuckoo community' 
 ###YARA
 print_status "${YELLOW}Updating Yara...Please Wait${NC}"
-cd /home/cuckoo/.cuckoo/yara/
+cd $cuckoo_yara
 rm -rf rules/
 git clone https://github.com/yara-rules/rules.git &>> $logfile
 ##Binary based rules
-cp rules/CVE_Rules/*.yar /home/cuckoo/.cuckoo/yara/binaries/
-cp rules/malware/*.yar /home/cuckoo/.cuckoo/yara/binaries/
-cp rules/Crypto/*.yar /home/cuckoo/.cuckoo/yara/binaries/
-cp rules/utils/*.yar /home/cuckoo/.cuckoo/yara/binaries/
-cp rules/Malicious_Documents/*.yar /home/cuckoo/.cuckoo/yara/binaries/
-cp rules/Packers/*.yar /home/cuckoo/.cuckoo/yara/binaries/
-cp rules/email/*.yar /home/cuckoo/.cuckoo/yara/binaries/
+cp rules/CVE_Rules/*.yar $cuckoo_yara/binaries/
+cp rules/malware/*.yar $cuckoo_yara/binaries/
+cp rules/Crypto/*.yar $cuckoo_yara/binaries/
+cp rules/utils/*.yar $cuckoo_yara/binaries/
+cp rules/Malicious_Documents/*.yar $cuckoo_yara/binaries/
+cp rules/Packers/*.yar $cuckoo_yara/binaries/
+cp rules/email/*.yar $cuckoo_yara/binaries/
+echo '"include $cuckoo_yara/binaries/$(ls $cuckoo_yara/binaries/)"' > index_binaries.yar
 ##URL based rules
-cp rules/Webshells/*.yar /home/cuckoo/.cuckoo/yara/urls/
+cp rules/Webshells/*.yar $cuckoo_yara/urls/
+echo '"include $cuckoo_yara/urls/$(ls $cuckoo_yara/urls/)"' > index_urls.yar
 ##Remove shitty rules
-rm /home/cuckoo/.cuckoo/yara/binaries/Android*  
-rm /home/cuckoo/.cuckoo/yara/binaries/antidebug_antivm.yar  
-rm /home/cuckoo/.cuckoo/yara/binaries/MALW_AdGholas.yar  
-rm /home/cuckoo/.cuckoo/yara/binaries/APT_Shamoon*.yar  
-rm /home/cuckoo/.cuckoo/yara/binaries/peid.yar  
+rm $cuckoo_yara/binaries/Android*  
+rm $cuckoo_yara/binaries/antidebug_antivm.yar  
+rm $cuckoo_yara/binaries/MALW_AdGholas.yar  
+rm $cuckoo_yara/binaries/APT_Shamoon*.yar  
+rm $cuckoo_yara/binaries/peid.yar  
 
 print_status "${YELLOW}Updating Suricata...Please Wait${NC}"
 etupdate -V 
