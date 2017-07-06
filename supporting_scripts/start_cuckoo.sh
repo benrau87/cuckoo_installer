@@ -51,7 +51,7 @@ fi
 function up_check()
 {
 
-if [[ $(ps aux | grep -cs) -lt 1 ]]; then 
+if [ "$(ps aux | grep -cs)" -lt "1" ]; then 
 	systemctl start ${@}
 else 
 	print_good "All services on"
