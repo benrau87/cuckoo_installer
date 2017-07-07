@@ -111,11 +111,11 @@ cp $cuckoo_yara/binaries/urls.yar $cuckoo_yara/memory/
 
 ##Create Index
 #Binaries
-ls -d $cuckoo_yara/binaries/*.yar | awk '{print "include \"" $0 "\""}' | tee $cuckoo_yara/index_binaries.yar &>> $logfile
+#ls -d $cuckoo_yara/binaries/*.yar | awk '{print "include \"" $0 "\""}' | tee $cuckoo_yara/index_binaries.yar &>> $logfile
 ##URLs
-ls -d $cuckoo_yara/urls/*.yar | awk '{print "include \"" $1 "\""}' |  tee $cuckoo_yara/index_urls.yar &>> $logfile
+#ls -d $cuckoo_yara/urls/*.yar | awk '{print "include \"" $1 "\""}' |  tee $cuckoo_yara/index_urls.yar &>> $logfile
 ##Memory
-ls -d $cuckoo_yara/memory/*.yar | awk '{print "include \"" $1 "\""}' |  tee $cuckoo_yara/index_memory.yar &>> $logfile
+#ls -d $cuckoo_yara/memory/*.yar | awk '{print "include \"" $1 "\""}' |  tee $cuckoo_yara/index_memory.yar &>> $logfile
 
 ##Update IDS signatures
 print_status "${YELLOW}Updating Suricata...Please Wait${NC}"
