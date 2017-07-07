@@ -41,36 +41,29 @@ out_dir=/home/cuckoo/Desktop/yararesults/
 #counter=0
 
 
-for x in $(cat $rules_path/rules.txt)
-do
-     while [`jobs | wc -l` -ge 20]
-     do
-     sleep 1
-     done
-     touch $out_dir/$x.log
-     xterm -hold -e vol.py -f /home/cuckoo/.cuckoo/storage/analyses/12/memory.dmp --profile=Win7SP1x64 yarascan --yara-file=$rules_path/allrules/$x  &
-done
-
-
-
-
-
-
-
-
-
-
-
-#for x in $(cat $rules_path/index.txt)
+#for x in $(cat $rules_path/rules.txt)
 #do
-#  if [ $counter -lt 5 ]; then # we are under the limit
-#    vol.py -f /home/cuckoo/.cuckoo/storage/analyses/12/memory.dmp --profile=Win7SP1x64 yarascan --yara-file=$x | tee -a $out_dir/$x.log > $pipe &
-#    let $[counter++];
-#  else
-#    read x < $out_file # waiting for a process to finish
-#    vol.py -f /home/cuckoo/.cuckoo/storage/analyses/12/memory.dmp --profile=Win7SP1x64 yarascan --yara-file=$x | tee -a $out_dir/$x.log > $pipe &
-#   fi
+#     while [`jobs | wc -l` -ge 20]
+#     do
+#     sleep 1
+#     done
+#     touch $out_dir/$x.log
+#     xterm -hold -e vol.py -f /home/cuckoo/.cuckoo/storage/analyses/12/memory.dmp --profile=Win7SP1x64 yarascan --yara-file=$rules_path/allrules/$x  &
 #done
+
+
+
+for x in $(cat $rules_path/index.txt)
+do
+  if [ $counter -lt 2 ]; then # we are under the limit
+    touch $out_dir/$x.log
+    xterm -hold -e vol.py -f /home/cuckoo/.cuckoo/storage/analyses/12/memory.dmp --profile=Win7SP1x64 yarascan --yara-file=$rules_path/allrules/$x  &
+    let $[counter++];
+  else
+    touch $out_dir/$x.log
+    xterm -hold -e vol.py -f /home/cuckoo/.cuckoo/storage/analyses/12/memory.dmp --profile=Win7SP1x64 yarascan --yara-file=$rules_path/allrules/$x  &
+   fi
+done
 #cat $pipe > /dev/null # let all the background processes end
 
 #rm $pipe # remove fifo
