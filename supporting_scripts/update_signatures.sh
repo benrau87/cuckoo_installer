@@ -103,7 +103,7 @@ rm $cuckoo_yara/binaries/peid.yar   &>> $logfile
 #Binaries
 ls -d $cuckoo_yara/binaries/*.yar | awk '{print "include \"" $0 "\""}' | tee $cuckoo_yara/index_binaries.yar &>> $logfile
 ##URLs
-ls -d $cuckoo_yara/urls/*.yar | awk '{print "include \"" $0 "\""}' | grep urls | tee $cuckoo_yara/index_urls.yar | &>> $logfile
+ls -d $cuckoo_yara/urls/*.yar | awk '{print "include \"" $0 "\""}' |  tee $cuckoo_yara/index_urls.yar | &>> $logfile
 
 ##Update IDS signatures
 print_status "${YELLOW}Updating Suricata...Please Wait${NC}"
