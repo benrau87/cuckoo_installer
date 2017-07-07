@@ -84,6 +84,7 @@ rm -rf rules/
 git clone https://github.com/yara-rules/rules.git &>> $logfile
 
 ##Copy rules
+#Bins
 cp rules/CVE_Rules/*.yar $cuckoo_yara/binaries/
 cp rules/malware/*.yar $cuckoo_yara/binaries/
 cp rules/Crypto/*.yar $cuckoo_yara/binaries/
@@ -91,13 +92,20 @@ cp rules/utils/*.yar $cuckoo_yara/binaries/
 cp rules/Malicious_Documents/*.yar $cuckoo_yara/binaries/
 cp rules/Packers/*.yar $cuckoo_yara/binaries/
 cp rules/email/*.yar $cuckoo_yara/binaries/
-cp rules/Webshells/*.yar $cuckoo_yara/urls/
 ##Remove shitty rules
 rm $cuckoo_yara/binaries/Android*   &>> $logfile
 rm $cuckoo_yara/binaries/antidebug_antivm.yar   &>> $logfile
 rm $cuckoo_yara/binaries/MALW_AdGholas.yar   &>> $logfile
 rm $cuckoo_yara/binaries/APT_Shamoon*.yar   &>> $logfile
 rm $cuckoo_yara/binaries/peid.yar   &>> $logfile
+#Urls
+cp $cuckoo_yara/binaries/url.yar $cuckoo_yara/urls/
+cp $cuckoo_yara/binaries/ip.yar $cuckoo_yara/urls/
+cp $cuckoo_yara/binaries/urls.yar $cuckoo_yara/urls/
+cp rules/Webshells/*.yar $cuckoo_yara/urls/
+#Mem
+cp -r $cuckoo_yara/binaries/ $cuckoo_yara/memory/
+cp -r $cuckoo_yara/urls/ $cuckoo_yara/memory/
 
 ##Create Index
 #Binaries
