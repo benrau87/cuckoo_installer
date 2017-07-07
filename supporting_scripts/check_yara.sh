@@ -34,11 +34,11 @@ counter=0
 for x in $(cat $rules_path/index.txt)
 do
   if [ $counter -lt 5 ]; then # we are under the limit
-    vol.py -f /home/cuckoo/.cuckoo/storage/analyses/12/memory.dmp --profile=Win7SP1x64 yarascan --yara-file=$x >> $out_file &
+    vol.py -f /home/cuckoo/.cuckoo/storage/analyses/12/memory.dmp --profile=Win7SP1x64 yarascan --yara-file=$x | tee -a $out_file &
     let $[counter++];
   else
     read x < $out_file # waiting for a process to finish
-    vol.py -f /home/cuckoo/.cuckoo/storage/analyses/12/memory.dmp --profile=Win7SP1x64 yarascan --yara-file=$x >> $out_file &
+    vol.py -f /home/cuckoo/.cuckoo/storage/analyses/12/memory.dmp --profile=Win7SP1x64 yarascan --yara-file=$x | tee -a $out_file &
    fi
 done
 cat $out_file > /dev/null # let all the background processes end
