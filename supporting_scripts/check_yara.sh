@@ -19,7 +19,7 @@ git clone https://github.com/yara-rules/rules.git
 
 for y in $(ls -d $rules_path/rules/*/)
 do
-  ls -d $y/*.yar | tee -a $rules_path/index.txt
+  ls -d $y/*.yar | tee $rules_path/index.txt
 done
 
 for x in $(cat $rules_path/index.txt)
@@ -29,4 +29,19 @@ done
 
 
 
+mkfifo /home/cuckoo/Desktop/results.txt # creating named pipe
+out_file=/home/cuckoo/Desktop/results.txt
+counter=0
 
+for x in $(cat $rules_path/index.txt)
+do
+  if [ $counter -lt 10 ]; then # we are under the limit
+    vol.py -f /home/cuckoo/.cuckoo/storage/analyses/12/memory.dmp --profile=Win7SP1x64 yarascan --yara-file=$x >> $out_file &
+    let $[counter++];
+  else
+    sleep 1
+  fi
+done
+cat $out_file > /dev/null # let all the background processes end
+
+rm $out_file # remove fifo
