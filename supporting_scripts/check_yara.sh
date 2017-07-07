@@ -20,6 +20,7 @@ git clone https://github.com/yara-rules/rules.git
 for y in $(ls -d $rules_path/rules/*/)
 do
   ls -d $y/*.yar | tee -a $rules_path/index.txt
+done
 
 for x in $rules_path/index.txt
 do
