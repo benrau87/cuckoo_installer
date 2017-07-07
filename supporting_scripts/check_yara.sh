@@ -14,8 +14,11 @@ fi
 dir_check /home/cuckoo/.cuckoo/yara/test/
 dir_check /home/cuckoo/.cuckoo/yara/test/allrules
 dir_check /home/cuckoo/Desktop/yararesults
+dir_check /home/cuckoo/Desktop/yararesults/
 
 rules_path=/home/cuckoo/.cuckoo/yara/test/
+out_dir=/home/cuckoo/Desktop/yararesults/
+
 cd $rules_path
 #git clone https://github.com/yara-rules/rules.git 
 
@@ -25,27 +28,31 @@ do
 done
 
 cp $rules_path/rules/**/*.yar $rules_path/allrules/
-cat $rules_path/index.txt | cut -d"/" -f11,12 > $rules_path/rules.txt
-
+ls $rules_path/allrules/ > $rules_path/rules.txt
 
 mkfifo /tmp/pipe
-out_dir=/home/cuckoo/Desktop/yararesults/
 counter=0
 
 for x in $(cat $rules_path/rules.txt)
 do
   if [ $counter -lt 2 ]; then # we are under the limit
-    touch $out_dir/$x.log
-    { vol.py -f /home/cuckoo/.cuckoo/storage/analyses/12/memory.dmp --profile=Win7SP1x64 yarascan --yara-file=$rules_path/allrules/$x | tee $out_dir/$x.log tmp } &
+    { vol.py -f /home/cuckoo/.cuckoo/storage/analyses/12/memory.dmp --profile=Win7SP1x64 yarascan --yara-file=$rules_path/allrules/$x --output=text --output-file=$out_dir/$x.log > /tmp/pipe; } &
     let $[counter++];
   else
     read x < tmp
-    touch $out_dir/$x.log
-    { vol.py -f /home/cuckoo/.cuckoo/storage/analyses/12/memory.dmp --profile=Win7SP1x64 yarascan --yara-file=$rules_path/allrules/$x | tee $out_dir/$x.log tmp } &
+    { vol.py -f /home/cuckoo/.cuckoo/storage/analyses/12/memory.dmp --profile=Win7SP1x64 yarascan --yara-file=$rules_path/allrules/$x --output=text --output-file=$out_dir/$x.log > /tmp/pipe; } &
    fi
 done
 cat $pipe > /dev/null # let all the background processes end
 rm /tmp/pipe # remove fifo
+
+
+
+
+
+
+
+
 
 
 #for x in $(cat $rules_path/index.txt)
