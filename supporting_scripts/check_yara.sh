@@ -13,6 +13,7 @@ fi
 
 dir_check /home/cuckoo/.cuckoo/yara/test/
 dir_check /home/cuckoo/.cuckoo/yara/test/allrules
+dir_check /home/cuckoo/Desktop/yararesults
 rules_path=/home/cuckoo/.cuckoo/yara/test/
 cd $rules_path
 git clone https://github.com/yara-rules/rules.git 
@@ -27,20 +28,21 @@ done
 #  vol.py -f /home/cuckoo/.cuckoo/storage/analyses/12/memory.dmp --profile=Win7SP1x64 yarascan --yara-file=$x
 #done
 
-#mkfifo /home/cuckoo/Desktop/results.txt # creating named pipe
-out_file=/home/cuckoo/Desktop/results.txt
+mkfifo /home/cuckoo/Desktop/results.txt # creating named pipe
+pipe=/home/cuckoo/Desktop/results.txt
+out_dir=/home/cuckoo/Desktop/yararesults/
 counter=0
 
 for x in $(cat $rules_path/index.txt)
 do
   if [ $counter -lt 5 ]; then # we are under the limit
-    vol.py -f /home/cuckoo/.cuckoo/storage/analyses/12/memory.dmp --profile=Win7SP1x64 yarascan --yara-file=$x | tee -a $out_file &
+    vol.py -f /home/cuckoo/.cuckoo/storage/analyses/12/memory.dmp --profile=Win7SP1x64 yarascan --yara-file=$x | tee -a $out_dir/$x.log > $pipe &
     let $[counter++];
   else
     read x < $out_file # waiting for a process to finish
-    vol.py -f /home/cuckoo/.cuckoo/storage/analyses/12/memory.dmp --profile=Win7SP1x64 yarascan --yara-file=$x | tee -a $out_file &
+    vol.py -f /home/cuckoo/.cuckoo/storage/analyses/12/memory.dmp --profile=Win7SP1x64 yarascan --yara-file=$x | tee -a $out_dir/$x.log > $pipe &
    fi
 done
-cat $out_file > /dev/null # let all the background processes end
+cat $pipe > /dev/null # let all the background processes end
 
-#rm $out_file # remove fifo
+rm $pipe # remove fifo
