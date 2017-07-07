@@ -43,7 +43,7 @@ do
     { vol.py -f /home/cuckoo/.cuckoo/storage/analyses/12/memory.dmp --profile=Win7SP1x64 yarascan --yara-file=$rules_path/allrules/$x --output=text --output-file=$out_dir/$x.log > /tmp/pipe; } &
    fi
 done
-cat $pipe > /dev/null # let all the background processes end
+cat /tmp/pipe > /dev/null # let all the background processes end
 rm /tmp/pipe # remove fifo
 
 
