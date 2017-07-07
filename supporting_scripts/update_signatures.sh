@@ -82,7 +82,8 @@ print_status "${YELLOW}Updating Yara...Please Wait${NC}"
 cd $cuckoo_yara
 rm -rf rules/
 git clone https://github.com/yara-rules/rules.git &>> $logfile
-##Binary based rules
+
+##Copy rules
 cp rules/CVE_Rules/*.yar $cuckoo_yara/binaries/
 cp rules/malware/*.yar $cuckoo_yara/binaries/
 cp rules/Crypto/*.yar $cuckoo_yara/binaries/
@@ -90,9 +91,6 @@ cp rules/utils/*.yar $cuckoo_yara/binaries/
 cp rules/Malicious_Documents/*.yar $cuckoo_yara/binaries/
 cp rules/Packers/*.yar $cuckoo_yara/binaries/
 cp rules/email/*.yar $cuckoo_yara/binaries/
-find * $cuckoo_yara/binaries | awk '{print "include \"" $0 "\""}' | tee $cuckoo_yara/index_binaries.yar
-
-##URL based rules
 cp rules/Webshells/*.yar $cuckoo_yara/urls/
 ##Remove shitty rules
 rm $cuckoo_yara/binaries/Android*  
@@ -101,6 +99,13 @@ rm $cuckoo_yara/binaries/MALW_AdGholas.yar
 rm $cuckoo_yara/binaries/APT_Shamoon*.yar  
 rm $cuckoo_yara/binaries/peid.yar  
 
+##Create Index
+#Binaries
+find * $cuckoo_yara/binaries | awk '{print "include \"" $0 "\""}' | tee $cuckoo_yara/index_binaries.yar &>> $logfile
+##URLs
+find * $cuckoo_yara/urls | awk '{print "include \"" $0 "\""}' | tee $cuckoo_yara/index_urls.yar &>> $logfile
+
+##Update IDS signatures
 print_status "${YELLOW}Updating Suricata...Please Wait${NC}"
 etupdate -V 
 service suricata restart
