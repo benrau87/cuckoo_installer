@@ -33,7 +33,7 @@ counter=0
 
 for x in $(cat $rules_path/index.txt)
 do
-  if [ $counter -lt 10 ]; then # we are under the limit
+  if [ $counter -lt 5 ]; then # we are under the limit
     vol.py -f /home/cuckoo/.cuckoo/storage/analyses/12/memory.dmp --profile=Win7SP1x64 yarascan --yara-file=$x >> $out_file &
     let $[counter++];
   else
