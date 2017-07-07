@@ -93,7 +93,7 @@ cp rules/email/*.yar $cuckoo_yara/binaries/
 A=("include)
 C=(")
 for B in $(ls $cuckoo_yara/binaries/)
-echo ${A[@]}$B${C[@]}
+echo "${A[@]}$B${C[@]}"
 done
 
 ##URL based rules
