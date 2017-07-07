@@ -37,12 +37,12 @@ out_dir=/home/cuckoo/Desktop/yararesults/
 
 for x in $(cat $rules_path/index.txt)
 do
-     while [`jobs | wc -l` -ge 10]
+     while [`jobs | wc -l` -ge 20]
      do
      sleep 1
      done
      touch $out_dir/$x.log
-     vol.py -f /home/cuckoo/.cuckoo/storage/analyses/12/memory.dmp --profile=Win7SP1x64 yarascan --yara-file=$x | tee -a $out_dir/$x.log &
+     vol.py -f /home/cuckoo/.cuckoo/storage/analyses/12/memory.dmp --profile=Win7SP1x64 yarascan --yara-file=$rules_path/allrules/$x | tee -a $out_dir/$x.log &
 done
 
 
