@@ -102,6 +102,7 @@ print_good 'Routing configured'
 print_status "${YELLOW}Launching Cuckoo...${NC}"
 sleep 1
 xterm -hold -e cuckoo -d rooter &
+sleep 5
 #start cuckoo
 su - steve -c 'xterm -hold -e cuckoo' &
 su - steve -c 'xterm -hold -e cuckoo -d process auto' &
