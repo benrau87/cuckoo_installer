@@ -14,6 +14,7 @@ fi
 dir_check /home/cuckoo/.cuckoo/yara/test/
 dir_check /home/cuckoo/.cuckoo/yara/test/allrules
 dir_check /home/cuckoo/Desktop/yararesults
+
 rules_path=/home/cuckoo/.cuckoo/yara/test/
 cd $rules_path
 #git clone https://github.com/yara-rules/rules.git 
@@ -47,7 +48,7 @@ do
      sleep 1
      done
      touch $out_dir/$x.log
-     vol.py -f /home/cuckoo/.cuckoo/storage/analyses/12/memory.dmp --profile=Win7SP1x64 yarascan --yara-file=$rules_path/allrules/$x | tee -a $out_dir/$x.log &
+     vol.py -f /home/cuckoo/.cuckoo/storage/analyses/12/memory.dmp --profile=Win7SP1x64 yarascan --yara-file=$rules_path/allrules/$x  &
 done
 
 
