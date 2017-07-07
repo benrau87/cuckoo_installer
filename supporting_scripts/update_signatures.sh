@@ -93,7 +93,7 @@ cp rules/email/*.yar $cuckoo_yara/binaries/
 A=("include)
 B=ls $cuckoo_yara/binaries/
 C=(")
-echo A B C
+echo $A$B$C
 
 ##URL based rules
 cp rules/Webshells/*.yar $cuckoo_yara/urls/
