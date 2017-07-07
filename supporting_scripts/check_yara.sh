@@ -24,7 +24,7 @@ done
 
 for x in $rules_path/index.txt
 do
-  vol.py -f /home/cuckoo/.cuckoo/storeage/analyses/12/memory.dmp --profile=Win7SP1x64 yarascan --yara-file=$x
+  vol.py -f /home/cuckoo/.cuckoo/storage/analyses/12/memory.dmp --profile=Win7SP1x64 yarascan --yara-file=$x
 done
 
 
