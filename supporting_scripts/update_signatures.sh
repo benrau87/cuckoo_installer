@@ -104,7 +104,10 @@ cp $cuckoo_yara/binaries/ip.yar $cuckoo_yara/urls/
 cp $cuckoo_yara/binaries/urls.yar $cuckoo_yara/urls/
 cp rules/Webshells/*.yar $cuckoo_yara/urls/
 #Mem
-cp -r $cuckoo_yara/urls/*.yar $cuckoo_yara/memory/
+cp $cuckoo_yara/binaries/url.yar $cuckoo_yara/memory/
+cp $cuckoo_yara/binaries/ip.yar $cuckoo_yara/memory/
+cp $cuckoo_yara/binaries/urls.yar $cuckoo_yara/memory/
+cp rules/malware/*.yar $cuckoo_yara/memory/
 
 ##Create Index
 #Binaries
