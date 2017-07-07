@@ -23,10 +23,7 @@ do
   ls -d $y/*.yar > $rules_path/index.txt
 done
 
-for z in $(cat $rules_path/index.txt)
-do
-	cp $x $rules_path/allrules/
-done
+cp $rules_path/rules/**/*.yar $rules_path/allrules/
 
 cat $rules_path/index.txt | cut -d"/" -f11,12 > $rules_path/rules.txt
 
