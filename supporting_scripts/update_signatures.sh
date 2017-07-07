@@ -91,9 +91,10 @@ cp rules/Malicious_Documents/*.yar $cuckoo_yara/binaries/
 cp rules/Packers/*.yar $cuckoo_yara/binaries/
 cp rules/email/*.yar $cuckoo_yara/binaries/
 A=("include)
-B="$(ls $cuckoo_yara/binaries/)"
 C=(")
+for B in $(ls $cuckoo_yara/binaries/)
 echo ${A[@]}$B${C[@]}
+done
 
 ##URL based rules
 cp rules/Webshells/*.yar $cuckoo_yara/urls/
