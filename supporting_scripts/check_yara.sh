@@ -30,6 +30,7 @@ done
 cp $rules_path/rules/**/*.yar $rules_path/allrules/
 ls $rules_path/allrules/ > $rules_path/rules.txt
 
+rm  /tmp/pipe
 mkfifo /tmp/pipe
 counter=0
 
