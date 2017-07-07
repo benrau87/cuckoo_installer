@@ -1,6 +1,18 @@
 #!/bin/bash
-mkdir /home/cuckoo/.cuckoo/yara/test/
-mkdir /home/cuckoo/.cuckoo/yara/test/allrules
+function dir_check()
+{
+
+if [ ! -d $1 ]; then
+	print_notification "$1 does not exist. Creating.."
+	mkdir -p $1
+else
+	print_notification "$1 already exists. (No problem, We'll use it anyhow)"
+fi
+
+}
+
+dir_check /home/cuckoo/.cuckoo/yara/test/
+dir_check /home/cuckoo/.cuckoo/yara/test/allrules
 rules_path=/home/cuckoo/.cuckoo/yara/test/
 cd $rules_path
 git clone https://github.com/yara-rules/rules.git 
