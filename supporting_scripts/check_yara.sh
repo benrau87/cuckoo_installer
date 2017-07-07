@@ -35,7 +35,7 @@ cat $rules_path/index.txt | cut -d"/" -f11,12 > $rules_path/rules.txt
 #done
 
 
-#mkfifo /home/cuckoo/Desktop/results.txt # creating named pipe
+mkfifo /tmp
 #pipe=/home/cuckoo/Desktop/results.txt
 out_dir=/home/cuckoo/Desktop/yararesults/
 #counter=0
@@ -57,13 +57,13 @@ for x in $(cat $rules_path/index.txt)
 do
   if [ $counter -lt 2 ]; then # we are under the limit
     touch $out_dir/$x.log
-    xterm -hold -e vol.py -f /home/cuckoo/.cuckoo/storage/analyses/12/memory.dmp --profile=Win7SP1x64 yarascan --yara-file=$rules_path/allrules/$x  &
+    { vol.py -f /home/cuckoo/.cuckoo/storage/analyses/12/memory.dmp --profile=Win7SP1x64 yarascan --yara-file=$rules_path/allrules/$x | tee $out_dir/$x.log tmp } &
     let $[counter++];
   else
+    read x < tmp
     touch $out_dir/$x.log
-    xterm -hold -e vol.py -f /home/cuckoo/.cuckoo/storage/analyses/12/memory.dmp --profile=Win7SP1x64 yarascan --yara-file=$rules_path/allrules/$x  &
+    { vol.py -f /home/cuckoo/.cuckoo/storage/analyses/12/memory.dmp --profile=Win7SP1x64 yarascan --yara-file=$rules_path/allrules/$x | tee $out_dir/$x.log tmp } &
    fi
 done
-#cat $pipe > /dev/null # let all the background processes end
-
-#rm $pipe # remove fifo
+cat $pipe > /dev/null # let all the background processes end
+rm /tmp # remove fifo
