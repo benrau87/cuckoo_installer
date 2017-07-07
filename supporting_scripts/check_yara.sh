@@ -20,7 +20,7 @@ cd $rules_path
 
 for y in $(ls -d $rules_path/rules/*/)
 do
-  ls -d $y/*.yar | tee $rules_path/index.txt
+  ls -d $y/*.yar > $rules_path/index.txt
 done
 
 for z in $(cat $rules_path/index.txt)
