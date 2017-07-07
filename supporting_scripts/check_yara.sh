@@ -27,7 +27,7 @@ done
 #  vol.py -f /home/cuckoo/.cuckoo/storage/analyses/12/memory.dmp --profile=Win7SP1x64 yarascan --yara-file=$x
 #done
 
-mkfifo /home/cuckoo/Desktop/results.txt # creating named pipe
+#mkfifo /home/cuckoo/Desktop/results.txt # creating named pipe
 out_file=/home/cuckoo/Desktop/results.txt
 counter=0
 
@@ -43,4 +43,4 @@ do
 done
 cat $out_file > /dev/null # let all the background processes end
 
-rm $out_file # remove fifo
+#rm $out_file # remove fifo
