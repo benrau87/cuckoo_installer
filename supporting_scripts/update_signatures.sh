@@ -90,19 +90,10 @@ cp rules/utils/*.yar $cuckoo_yara/binaries/
 cp rules/Malicious_Documents/*.yar $cuckoo_yara/binaries/
 cp rules/Packers/*.yar $cuckoo_yara/binaries/
 cp rules/email/*.yar $cuckoo_yara/binaries/
-A=("include)
-C=(")
-for B in $(ls $cuckoo_yara/binaries/)
-echo "${A[@]}$B${C[@]}"
-done
+ls $cuckoo_yara/binaries/ | awk '{print "include \"" $cukoo_yara\binaries\$0 "\""}' >> $IDX_NAME
 
 ##URL based rules
 cp rules/Webshells/*.yar $cuckoo_yara/urls/
-echo '"include $cuckoo_yara/urls/$(ls $cuckoo_yara/urls/)"' > index_urls.yar
-for rule in $(ls $cuckoo_yara/urls/)
-do 
-echo '"include' $cuckoo_yara/urls/$rule'"'
-done
 ##Remove shitty rules
 rm $cuckoo_yara/binaries/Android*  
 rm $cuckoo_yara/binaries/antidebug_antivm.yar  
