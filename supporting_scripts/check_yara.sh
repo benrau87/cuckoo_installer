@@ -22,7 +22,15 @@ for y in $(ls -d $rules_path/rules/*/)
 do
   ls -d $y/*.yar | tee $rules_path/index.txt
 done
-cat $rules_path/index.txt | cut -d"/" -f11,12 > rules.txt
+
+for z in $(cat $rules_path/index.txt)
+do
+	cp $x $rules_path/allrules/
+done
+
+cat $rules_path/index.txt | cut -d"/" -f11,12 > $rules_path/rules.txt
+
+
 #for x in $(cat $rules_path/index.txt)
 #do
 #  vol.py -f /home/cuckoo/.cuckoo/storage/analyses/12/memory.dmp --profile=Win7SP1x64 yarascan --yara-file=$x
@@ -35,15 +43,15 @@ out_dir=/home/cuckoo/Desktop/yararesults/
 #counter=0
 
 
-for x in $(cat $rules_path/rules.txt)
-do
-     while [`jobs | wc -l` -ge 20]
-     do
-     sleep 1
-     done
-     touch $out_dir/$x.log
-     vol.py -f /home/cuckoo/.cuckoo/storage/analyses/12/memory.dmp --profile=Win7SP1x64 yarascan --yara-file=$rules_path/allrules/$x | tee -a $out_dir/$x.log &
-done
+#for x in $(cat $rules_path/rules.txt)
+#do
+#     while [`jobs | wc -l` -ge 20]
+#     do
+#     sleep 1
+#     done
+#     touch $out_dir/$x.log
+#     vol.py -f /home/cuckoo/.cuckoo/storage/analyses/12/memory.dmp --profile=Win7SP1x64 yarascan --yara-file=$rules_path/allrules/$x | tee -a $out_dir/$x.log &
+#done
 
 
 
