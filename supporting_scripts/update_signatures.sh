@@ -90,7 +90,7 @@ cp rules/utils/*.yar $cuckoo_yara/binaries/
 cp rules/Malicious_Documents/*.yar $cuckoo_yara/binaries/
 cp rules/Packers/*.yar $cuckoo_yara/binaries/
 cp rules/email/*.yar $cuckoo_yara/binaries/
-ls $cuckoo_yara/binaries/ | awk '{print "include \"" $cukoo_yara\binaries\$0 "\""}' >> $IDX_NAME
+find * $cuckoo_yara/binaries | awk '{print "include \"" $0 "\""}' | tee $cuckoo_yara/index_binaries.yar
 
 ##URL based rules
 cp rules/Webshells/*.yar $cuckoo_yara/urls/
