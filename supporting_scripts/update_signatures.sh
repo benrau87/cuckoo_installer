@@ -93,11 +93,11 @@ cp rules/Packers/*.yar $cuckoo_yara/binaries/
 cp rules/email/*.yar $cuckoo_yara/binaries/
 cp rules/Webshells/*.yar $cuckoo_yara/urls/
 ##Remove shitty rules
-rm $cuckoo_yara/binaries/Android*  
-rm $cuckoo_yara/binaries/antidebug_antivm.yar  
-rm $cuckoo_yara/binaries/MALW_AdGholas.yar  
-rm $cuckoo_yara/binaries/APT_Shamoon*.yar  
-rm $cuckoo_yara/binaries/peid.yar  
+rm $cuckoo_yara/binaries/Android*   &>> $logfile
+rm $cuckoo_yara/binaries/antidebug_antivm.yar   &>> $logfile
+rm $cuckoo_yara/binaries/MALW_AdGholas.yar   &>> $logfile
+rm $cuckoo_yara/binaries/APT_Shamoon*.yar   &>> $logfile
+rm $cuckoo_yara/binaries/peid.yar   &>> $logfile
 
 ##Create Index
 #Binaries
