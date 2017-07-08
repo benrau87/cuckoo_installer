@@ -131,4 +131,12 @@ pip install -U pip pycrypto &>> $logfile
 pip install -U pip weasyprint &>> $logfile
 pip install -U pip yara-python &>> $logfile
 pip install -I ansible==2.1.1.0 &>> $logfile
+
+##Java 
+print_status "${YELLOW}Installing Java${NC}"
+echo debconf shared/accepted-oracle-license-v1-1 select true | \
+  sudo debconf-set-selections &>> $logfile
+apt-get install oracle-java8-installer -y &>> $logfile
+error_check 'Java Installed'
+
 error_check 'Depos installed'
