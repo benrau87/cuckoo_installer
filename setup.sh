@@ -183,6 +183,7 @@ pip install -U pip distorm3 &>> $logfile
 pip install -U pip pycrypto &>> $logfile
 pip install -U pip weasyprint &>> $logfile
 pip install -U pip yara-python &>> $logfile
+pip install -I ansible==2.1.1.0
 pip install -U pip cuckoo &>> $logfile
 error_check 'Cuckoo downloaded and installed'
 
@@ -228,9 +229,11 @@ error_check 'Moloch Installed'
 ##IRMA
 print_status "${YELLOW}Setting up IRMA${NC}"
 cd $gitdir
+ansible-galaxy install -r ansible-requirements.yml
 wget https://releases.hashicorp.com/vagrant/1.9.7/vagrant_1.9.7_x86_64.deb?_ga=2.3815416.933420289.1499534277-1169717771.1499534277
 dpkg -i vagrant*
 git clone https://github.com/quarkslab/irma &>> $logfile
+mv $gitdir/irma/ansible/environments/allinone_dev.yml $gitdir/irma/ansible/environments/irma.yml 
 cd irma/ansible &>> $logfile
 VM_ENV=irma vagrant up
 echo "172.16.1.30    www.frontend.irma" | tee -a /etc/hosts &>> $logfile
