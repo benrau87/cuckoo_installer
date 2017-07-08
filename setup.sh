@@ -183,9 +183,9 @@ pip install -U pip distorm3 &>> $logfile
 pip install -U pip pycrypto &>> $logfile
 pip install -U pip weasyprint &>> $logfile
 pip install -U pip yara-python &>> $logfile
-pip install -I ansible==2.1.1.0
+pip install -I ansible==2.1.1.0 &>> $logfile
 pip install -U pip cuckoo &>> $logfile
-error_check 'Cuckoo downloaded and installed'
+error_check 'Cuckoo and depos downloaded and installed'
 
 ##Start MongoDB 
 print_status "${YELLOW}Setting up MongoDB${NC}"
