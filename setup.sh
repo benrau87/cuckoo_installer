@@ -244,12 +244,11 @@ error_check 'Moloch Installed'
 if [ "$vtx" == "true" ]; then
 	print_status "${YELLOW}Setting up IRMA${NC}"
 	cd $gitdir
-	ansible-galaxy install -r ansible-requirements.yml &>> $logfile
-	ansible-galaxy install gdamjan.uwsgi
 	wget https://releases.hashicorp.com/vagrant/1.9.7/vagrant_1.9.7_x86_64.deb?_ga=2.3815416.933420289.1499534277-1169717771.1499534277 &>> $logfile
 	dpkg -i vagrant* &>> $logfile
 	git clone https://github.com/quarkslab/irma &>> $logfile
 	cd irma/ansible &>> $logfile
+	ansible-galaxy install -r ansible-requirements.yml --force &>> $logfile
 	print_status "${YELLOW}Setting up IRMA VM, this can take up to 30 mins.${NC}"
 	vagrant up &>> $logfile
 	error_check 'IRMA Installed'
