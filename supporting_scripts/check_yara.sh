@@ -10,14 +10,15 @@ else
 fi
 
 }
+echo "What is your Cuckoo user account?"
+read name
+dir_check /home/$name/.cuckoo/yara/test/
+dir_check /home/$name/.cuckoo/yara/test/allrules
+dir_check /home/$name/Desktop/yararesults
+dir_check /home/$name/Desktop/yararesults/
 
-dir_check /home/cuckoo/.cuckoo/yara/test/
-dir_check /home/cuckoo/.cuckoo/yara/test/allrules
-dir_check /home/cuckoo/Desktop/yararesults
-dir_check /home/cuckoo/Desktop/yararesults/
-
-rules_path=/home/cuckoo/.cuckoo/yara/test/
-out_dir=/home/cuckoo/Desktop/yararesults/
+rules_path=/home/$name/.cuckoo/yara/test/
+out_dir=/home/$name/Desktop/yararesults/
 
 cd $rules_path
 git clone https://github.com/yara-rules/rules.git 
@@ -32,13 +33,13 @@ for x in $(cat $rules_path/rules.txt)
 do
   if [ $count -lt $cores ]; then # we are under the limit
      echo $x
-     vol.py -f /home/cuckoo/.cuckoo/storage/analyses/12/memory.dmp --profile=Win7SP1x64 yarascan --yara-file=$rules_path/allrules/$x --output=text --output-file=$out_dir/$x.log &>/home/cuckoo/Desktop/error.txt & 
+     vol.py -f /home/cuckoo/.cuckoo/storage/analyses/12/memory.dmp --profile=Win7SP1x64 yarascan --yara-file=$rules_path/allrules/$x --output=text --output-file=$out_dir/$x.log &>/home/$name/Desktop/error.txt & 
   else
     wait
    fi
 done
 
-cat /home/cuckoo/Desktop/error.txt | grep Cannot | cut -d"/" -f9 | cut -d"("  -f1 > badrules.txt
+#cat /home/$name/Desktop/error.txt | grep Cannot | cut -d"/" -f9 | cut -d"("  -f1 > /home/$name/Desktop/badrules.txt
 
 
 
