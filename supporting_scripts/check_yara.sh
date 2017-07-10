@@ -22,35 +22,27 @@ out_dir=/home/cuckoo/Desktop/yararesults/
 cd $rules_path
 #git clone https://github.com/yara-rules/rules.git 
 
-for y in $(ls -d $rules_path/rules/*/)
-do
-  ls -d $y/*.yar > $rules_path/index.txt
-done
-
 cp $rules_path/rules/**/*.yar $rules_path/allrules/
 ls $rules_path/allrules/ > $rules_path/rules.txt
 
-rm  /tmp/pipe
-mkfifo /tmp/pipe
-counter=0
+count=(ps aux | grep vol.py | wc -l)
 
 for x in $(cat $rules_path/rules.txt)
 do
-  if [ $counter -lt 2 ]; then # we are under the limit
-    { vol.py -f /home/cuckoo/.cuckoo/storage/analyses/12/memory.dmp --profile=Win7SP1x64 yarascan --yara-file=$rules_path/allrules/$x --output=text --output-file=$out_dir/$x.log > /tmp/pipe; } &
-    let $[counter++];
+  if [ $count -lt 5 ]; then # we are under the limit
+    { vol.py -f /home/cuckoo/.cuckoo/storage/analyses/12/memory.dmp --profile=Win7SP1x64 yarascan --yara-file=$rules_path/allrules/$x --output=text --output-file=$out_dir/$x.log > out 2>error /home/cuckoo/Desktop/error.txt } &
   else
-    read x < /tmp/pipe
-    { vol.py -f /home/cuckoo/.cuckoo/storage/analyses/12/memory.dmp --profile=Win7SP1x64 yarascan --yara-file=$rules_path/allrules/$x --output=text --output-file=$out_dir/$x.log > /tmp/pipe; } &
+    wait
    fi
 done
+
 cat /tmp/pipe > /dev/null # let all the background processes end
 rm /tmp/pipe # remove fifo
 
 
 
 
-cat error.txt | grep Cannot | cut -d"/" -f9 | cut -d"("  -f1 > badrules.txt
+cat /home/cuckoo/Desktop/error.txt | grep Cannot | cut -d"/" -f9 | cut -d"("  -f1 > badrules.txt
 
 
 
