@@ -30,16 +30,19 @@ rm $rules_path/allrules/base64*
 ls $rules_path/allrules/ > $rules_path/rules.txt
 cores=$(cat /proc/cpuinfo | grep processor | wc -l)
 
-cat $rules_path/rules.txt | xargs --max-procs="$cores" -n1 $gitdir/call_volatility.sh
-#for x in $(cat $rules_path/rules.txt)
-#do
-#  if [ $(ps aux | grep vol.py | wc -l) -lt $(cat /proc/cpuinfo | grep processor | wc -l) ]; then # we are under the limit
-#     echo $x
-#     vol.py -f /home/cuckoo/.cuckoo/storage/analyses/12/memory.dmp --profile=Win7SP1x64 yarascan --yara-file=$rules_path/allrules/$x --output=text --output-file=$out_dir/$x.log & 
-#  else
-#     wait -n
-#  fi
-#done
+#cat $rules_path/rules.txt | xargs --max-procs="$cores" -n1 $gitdir/call_volatility.sh
+cd $gitdir
+mkfifo pipe
+
+for x in $(cat $rules_path/rules.txt)
+do
+  if [ $(ps aux | grep vol.py | wc -l) -lt $(cat /proc/cpuinfo | grep processor | wc -l) ]; then # we are under the limit
+     echo $x
+     vol.py -f /home/cuckoo/.cuckoo/storage/analyses/12/memory.dmp --profile=Win7SP1x64 yarascan --yara-file=$rules_path/allrules/$x --output=text --output-file=$out_dir/$x.log &>pipe 
+  else
+     wait -n
+  fi
+done
 
 #cat /home/$name/Desktop/error.txt | grep Cannot | cut -d"/" -f9 | cut -d"("  -f1 > /home/$name/Desktop/badrules.txt
 
