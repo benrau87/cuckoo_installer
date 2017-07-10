@@ -233,10 +233,7 @@ error_check 'Moloch Installed'
 
 ##Vbox Ext
 print_status "${YELLOW}Installing Vbox Extension Pack${NC}"
-cd $gitdir
-vboxversion=$(wget -qO - http://download.virtualbox.org/virtualbox/LATEST.TXT) &>> $logfile
-wget "http://download.virtualbox.org/virtualbox/${vboxversion}/Oracle_VM_VirtualBox_Extension_Pack-${vboxversion}.vbox-extpack" &>> $logfile
-VBoxManage extpack install --replace Oracle_VM_VirtualBox_Extension_Pack-${vboxversion}.vbox-extpack &>> $logfile
+apt-get install virtualbox-ext-pack -y
 error_check 'VBox Ext Pack installed'
 
 ##IRMA
