@@ -96,7 +96,7 @@ then
   echo "Host only interface is up"
 else 
 VBoxManage hostonlyif create
-VBoxManage hostonlyif ipconfig vboxnet0 --ip 192.168.56.1
+VBoxManage hostonlyif ipconfig vboxnet0 --ip 10.1.1.254
 fi
 
 print_status "${YELLOW}Mounting ISO if needed${NC}"
@@ -105,7 +105,7 @@ error_check 'Mounted ISO'
 
 #echo -e "${YELLOW}What is the Windows disto?"
 #read distro
-echo -e "${YELLOW}What is the IP  address you would like to assign this machine? (192.168.56.x)${NC}"
+echo -e "${YELLOW}What is the IP  address you would like to assign this machine? (10.1.1.x)${NC}"
 read ipaddress
 echo -e "${YELLOW}What is the name for this machine?${NC}"
 read name
@@ -124,7 +124,7 @@ echo -e "${YELLOW}This process will take some time, you should get a sandwich, o
 echo
 sleep 5
 #--hwvirt
-vmcloak init --$distro --vm-visible --ramsize $ram --cpus $cpu --ip $ipaddress --serial-key $key --iso-mount /mnt/windows_ISOs/ $name &>> $logfile
+vmcloak init --$distro --vm-visible --ramsize $ram --cpus $cpu --ip $ipaddress --serial-key $key --iso-mount /mnt/windows_ISOs/$name &>> $logfile
 error_check 'Created VMs'
 echo
 read -p "Would you like to install Office 2007? This WILL require an ISO and key. Y/N" -n 1 -r
