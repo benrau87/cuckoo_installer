@@ -239,7 +239,7 @@ service molochviewer start &>> $logfile
 error_check 'Moloch Installed'
 
 ##IRMA
-if [ "$vtx" -eq "true" ]; then
+if [ "$vtx" == "true" ]; then
 	print_status "${YELLOW}Setting up IRMA${NC}"
 	cd $gitdir
 	ansible-galaxy install -r ansible-requirements.yml &>> $logfile
