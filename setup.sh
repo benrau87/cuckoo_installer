@@ -80,6 +80,12 @@ fi
 export DEBIAN_FRONTEND=noninteractive
 #/etc/apt/apt.conf.d/10periodic
 #APT::Periodic::Update-Package-Lists "0";
+#Checks
+if "$(lscpu | grep VT-x | wc -l)" != "1" then
+	echo -e "${YELLOW}You cannot install 64-bit VMs or IRMA on this machine due to VT-x instruction set missing${NC}"
+else
+	vtx=true
+fi
 ##Cuckoo user accounts
 echo -e "${YELLOW}We need to create a local account to run your Cuckoo sandbox from; What would you like your Cuckoo account username to be?${NC}"
 read name
@@ -238,18 +244,22 @@ apt-get install virtualbox-ext-pack -y &>> $logfile
 error_check 'VBox Ext Pack installed'
 
 ##IRMA
-print_status "${YELLOW}Setting up IRMA${NC}"
-cd $gitdir
-ansible-galaxy install -r ansible-requirements.yml &>> $logfile
-wget https://releases.hashicorp.com/vagrant/1.9.7/vagrant_1.9.7_x86_64.deb?_ga=2.3815416.933420289.1499534277-1169717771.1499534277 &>> $logfile
-dpkg -i vagrant* &>> $logfile
-git clone https://github.com/quarkslab/irma &>> $logfile
-#mv $gitdir/irma/ansible/environments/allinone_dev.yml $gitdir/irma/ansible/environments/irma.yml 
-cd irma/ansible &>> $logfile
-print_status "${YELLOW}Setting up IRMA VM, this can take up to 30 mins.${NC}"
-vagrant up &>> $logfile
-error_check 'IRMA Installed'
-echo "172.16.1.30    www.frontend.irma" | tee -a /etc/hosts &>> $logfile
+if "$vtx" == "true" then
+	print_status "${YELLOW}Setting up IRMA${NC}"
+	cd $gitdir
+	ansible-galaxy install -r ansible-requirements.yml &>> $logfile
+	wget https://releases.hashicorp.com/vagrant/1.9.7/vagrant_1.9.7_x86_64.deb?_ga=2.3815416.933420289.1499534277-1169717771.1499534277 &>> $logfile
+	dpkg -i vagrant* &>> $logfile
+	git clone https://github.com/quarkslab/irma &>> $logfile
+	cd irma/ansible &>> $logfile
+	print_status "${YELLOW}Setting up IRMA VM, this can take up to 30 mins.${NC}"
+	vagrant up &>> $logfile
+	error_check 'IRMA Installed'
+	echo "172.16.1.30    www.frontend.irma" | tee -a /etc/hosts &>> $logfile
+	error_check 'IRMA installed'
+else
+	print_status "${YELLOW}Skipping setup of IRMA due to hardware constraints${NC}"
+fi
 
 ##Yara
 print_status "${YELLOW}Downloading Yara${NC}"
