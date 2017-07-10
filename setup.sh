@@ -222,9 +222,9 @@ wget https://files.molo.ch/builds/ubuntu-16.04/moloch_0.18.2-1_amd64.deb &>> $lo
 dpkg -i moloch_0.18.2-1_amd64.deb
 print_status "${YELLOW}Use ${RED}vboxnet0${YELLOW} as the interface to sniff and keep the rest as default.${NC}"
 /data/moloch/bin/Configure
+perl /data/moloch/db/db.pl http://localhost:9200 init &>> $logfile
 /data/moloch/bin/moloch_add_user.sh admin "Admin User" $cuckoo_moloch_pass --admin &>> $logfile
 /data/moloch/bin/moloch_add_user.sh cuckoo "Cuckoo User" toor &>> $logfile
-perl /data/moloch/db/db.pl http://localhost:9200 init &>> $logfile
 systemctl start molochcapture.service &>> $logfile
 service molochcapture start &>> $logfile
 systemctl start molochviewer.service &>> $logfile
