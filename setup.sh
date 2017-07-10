@@ -184,7 +184,7 @@ print_status "${YELLOW}Downloading and installing depos${NC}"
 apt-get install -y build-essential checkinstall &>> $logfile
 chmod u+rwx /usr/local/src &>> $logfile
 apt-get install -y linux-headers-$(uname -r) &>> $logfile
-install_packages python python-dev python-pip python-setuptools python-sqlalchemy python-virtualenv make automake libdumbnet-dev libarchive-dev libcap2-bin libconfig-dev libcrypt-ssleay-perl libelf-dev libffi-dev libfuzzy-dev libgeoip-dev libjansson-dev libjpeg-dev liblwp-useragent-determined-perl liblzma-dev libmagic-dev libpcap-dev libpcre++-dev libpq-dev libssl-dev libtool apparmor-utils apt-listchanges bison byacc clamav clamav-daemon clamav-freshclam dh-autoreconf elasticsearch fail2ban flex gcc mongodb-org suricata swig tcpdump tesseract-ocr unattended-upgrades uthash-dev virtualbox zlib1g-dev wkhtmltopdf xvfb xfonts-100dpi libstdc++6:i386 libgcc1:i386 zlib1g:i386 libncurses5:i386 apt-transport-https software-properties-common python-software-properties libwww-perl libjson-perl ethtool ansible parallel virtualbox-ext-pack
+install_packages python python-dev python-pip python-setuptools python-sqlalchemy python-virtualenv make automake libdumbnet-dev libarchive-dev libcap2-bin libconfig-dev libcrypt-ssleay-perl libelf-dev libffi-dev libfuzzy-dev libgeoip-dev libjansson-dev libjpeg-dev liblwp-useragent-determined-perl liblzma-dev libmagic-dev libpcap-dev libpcre++-dev libpq-dev libssl-dev libtool apparmor-utils apt-listchanges bison byacc clamav clamav-daemon clamav-freshclam dh-autoreconf elasticsearch fail2ban flex gcc mongodb-org suricata swig tcpdump tesseract-ocr unattended-upgrades uthash-dev virtualbox zlib1g-dev wkhtmltopdf xvfb xfonts-100dpi libstdc++6:i386 libgcc1:i386 zlib1g:i386 libncurses5:i386 apt-transport-https software-properties-common python-software-properties libwww-perl libjson-perl ethtool parallel 
 error_check 'Depos installed'
 ##Python Modules
 print_status "${YELLOW}Downloading and installing Cuckoo and Python dependencies${NC}"
@@ -195,7 +195,6 @@ pip install -U pip pycrypto &>> $logfile
 pip install -U pip weasyprint &>> $logfile
 pip install -U pip yara-python &>> $logfile
 pip install -I ansible==2.1.1.0 &>> $logfile
-pip install -U uwsgi &>> $logfile
 pip install -U pip cuckoo &>> $logfile
 error_check 'Cuckoo and depos downloaded and installed'
 
@@ -221,6 +220,9 @@ systemctl daemon-reload &>> $logfile
 systemctl enable elasticsearch.service &>> $logfile
 systemctl start elasticsearch.service &>> $logfile
 error_check 'Elasticsearch Setup'
+
+##Vbox
+apt-get install virtualbox-ext-pack -y 
 
 ##Moloch
 print_status "${YELLOW}Setting up Moloch${NC}"
