@@ -244,7 +244,7 @@ apt-get install virtualbox-ext-pack -y &>> $logfile
 error_check 'VBox Ext Pack installed'
 
 ##IRMA
-if "$vtx" == "true" then
+if [ "$vtx" -eq "true" ]; then
 	print_status "${YELLOW}Setting up IRMA${NC}"
 	cd $gitdir
 	ansible-galaxy install -r ansible-requirements.yml &>> $logfile
