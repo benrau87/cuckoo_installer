@@ -26,13 +26,13 @@ cp $rules_path/rules/**/*.yar $rules_path/allrules/
 rm $rules_path/allrules/Android*
 ls $rules_path/allrules/ > $rules_path/rules.txt
 
-count=(ps aux | grep vol.py | wc -l)
-
+count=$(ps aux | grep vol.py | wc -l)
+cores=$(cat /proc/cpuinfo | grep processor | wc -l)
 for x in $(cat $rules_path/rules.txt)
 do
-  if [ $count -lt 4 ]; then # we are under the limit
+  if [ $count -lt $cores ]; then # we are under the limit
      echo $x
-     vol.py -f /home/cuckoo/.cuckoo/storage/analyses/12/memory.dmp --profile=Win7SP1x64 yarascan --yara-file=$rules_path/allrules/$x --output=text --output-file=$out_dir/$x.log &>/home/cuckoo/Desktop/error.txt  
+     vol.py -f /home/cuckoo/.cuckoo/storage/analyses/12/memory.dmp --profile=Win7SP1x64 yarascan --yara-file=$rules_path/allrules/$x --output=text --output-file=$out_dir/$x.log &>/home/cuckoo/Desktop/error.txt & 
   else
     wait
    fi
