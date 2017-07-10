@@ -81,7 +81,7 @@ export DEBIAN_FRONTEND=noninteractive
 #/etc/apt/apt.conf.d/10periodic
 #APT::Periodic::Update-Package-Lists "0";
 #Checks
-if "$(lscpu | grep VT-x | wc -l)" != "1" then
+if [ "$(lscpu | grep VT-x | wc -l)" != "1" ]; then
 	echo -e "${YELLOW}You cannot install 64-bit VMs or IRMA on this machine due to VT-x instruction set missing${NC}"
 else
 	vtx=true
