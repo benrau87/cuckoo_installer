@@ -50,6 +50,7 @@ rm /tmp/pipe # remove fifo
 
 
 
+cat error.txt | grep Cannot | cut -d"/" -f9 | cut -d"("  -f1 > badrules.txt
 
 
 
