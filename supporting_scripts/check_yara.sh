@@ -25,6 +25,7 @@ git clone https://github.com/yara-rules/rules.git
 
 cp $rules_path/rules/**/*.yar $rules_path/allrules/
 rm $rules_path/allrules/Android*
+rm $rules_path/allrules/base64*
 ls $rules_path/allrules/ > $rules_path/rules.txt
 
 count=$(ps aux | grep vol.py | wc -l)
