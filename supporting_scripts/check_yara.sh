@@ -30,7 +30,7 @@ count=(ps aux | grep vol.py | wc -l)
 
 for x in $(cat $rules_path/rules.txt)
 do
-  if [ $count -lt 5 ]; then # we are under the limit
+  if [ $count -lt 4 ]; then # we are under the limit
      echo $x
      vol.py -f /home/cuckoo/.cuckoo/storage/analyses/12/memory.dmp --profile=Win7SP1x64 yarascan --yara-file=$rules_path/allrules/$x --output=text --output-file=$out_dir/$x.log &>/home/cuckoo/Desktop/error.txt  
   else
