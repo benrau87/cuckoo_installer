@@ -189,6 +189,7 @@ pip install -U pip pycrypto &>> $logfile
 pip install -U pip weasyprint &>> $logfile
 pip install -U pip yara-python &>> $logfile
 pip install -I ansible==2.1.1.0 &>> $logfile
+pip install -U uwsgi &>> $logfile
 pip install -U pip cuckoo &>> $logfile
 error_check 'Cuckoo and depos downloaded and installed'
 
