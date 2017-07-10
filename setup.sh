@@ -233,7 +233,7 @@ error_check 'Moloch Installed'
 
 ##Vbox Ext
 print_status "${YELLOW}Installing Vbox Extension Pack${NC}"
-apt-get install virtualbox-ext-pack -y
+apt-get install virtualbox-ext-pack -y &>> $logfile
 error_check 'VBox Ext Pack installed'
 
 ##IRMA
