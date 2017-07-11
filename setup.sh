@@ -130,16 +130,66 @@ chown $name:$name $gitdir/supporting_scripts/start_cuckoo.sh
 cp $gitdir/supporting_scripts/start_cuckoo.sh /home/$name/
 cd tools/
 
+##Checks
+print_status "${YELLOW}Running system checks${NC}"
+apt-get install locate -y  &>> $logfile
+updatedb  &>> $logfile
+if [ "$(cat /etc/apt/sources.list | grep xenial multiverse | wc -l)" -ge "1" ]; then
+ multi_check=true
+fi
+if [ "$(ls /etc/apt/sources.list.d/mongodb-org-3.4.list | wc -l)" -ge "1" ]; then
+ mongo_check=true
+fi
+if [ "$(locate mongodb.service | wc -l)" -ge "1" ]; then
+ mongoservice_check=true
+fi
+if [ "$(ls /etc/apt/sources.list.d/elastic-5.x.list | wc -l)" -ge "1" ]; then
+ elastic_check=true
+fi
+if [ "$(which suricata | wc -l)" -ge "1" ]; then
+ suricata_check=true
+fi
+if [ "$(which snort | wc -l)" -ge "1" ]; then
+ snort_check=true
+fi
+if [ "$(which snort | wc -l)" -ge "1" ]; then
+ snort_check=true
+fi
+if [ "$(locate elasticsearch.service | wc -l)" -ge "1" ]; then
+ elasticservice_check=true
+fi
+if [ "$(locate molochviewer.service | wc -l)" -ge "1" ]; then
+ moloch_check=true
+fi
+if [ "$(which yara | wc -l)" -ge "1" ]; then
+ yara_check=true
+fi
+if [ "$(which dtrace | wc -l)" -ge "1" ]; then
+ dtrace_check=true
+fi
+if [ "$(locate dist-package/pydeep | wc -l)" -ge "1" ]; then
+ pydeep_check=true
+fi
+
+
 ###Add Repos
 print_status "${YELLOW}Adding Repositories${NC}"
 ##Ubuntu
+if [ "$multi_check" == "true" ]; then
+print_status "${YELLOW}Skipping Ubuntu Repos${NC}"
+else
 echo "deb http://us.archive.ubuntu.com/ubuntu/ xenial multiverse" tee -a /etc/apt/sources.list  &>> $logfile
 echo "deb-src http://us.archive.ubuntu.com/ubuntu/ xenial multiverse" tee -a /etc/apt/sources.list  &>> $logfile
+fi
 
 ##Mongodb
+if [ "$mongo_check" == "true" ]; then
+print_status "${YELLOW}Skipping Mongo Repos${NC}"
+else
 apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 0C49F3730359A14518585931BC711F9BA15703C6 &>> $logfile
 echo "deb [ arch=amd64,arm64 ] http://repo.mongodb.org/apt/ubuntu xenial/mongodb-org/3.4 multiverse" | tee /etc/apt/sources.list.d/mongodb-org-3.4.list &>> $logfile
 error_check 'Mongodb repo added'
+fi
 
 ##Java
 print_status "${YELLOW}Removing any old Java sources, apt-get packages.${NC}"
@@ -155,15 +205,21 @@ add-apt-repository ppa:webupd8team/java -y &>> $logfile
 error_check 'Java repo added'
 
 ##Elasticsearch
-#wget -qO - https://packages.elastic.co/GPG-KEY-elasticsearch | sudo apt-key add - &>> $logfile
-#echo "deb http://packages.elastic.co/elasticsearch/2.x/debian stable main" | tee /etc/apt/sources.list.d/elasticsearch-2.x.list &>> $logfile
-error_check 'Elasticsearch repo added'
+if [ "$elastic_check" == "true" ]; then
+print_status "${YELLOW}Skipping Elastic Repos${NC}"
+else
 wget -qO - https://packages.elastic.co/GPG-KEY-elasticsearch | sudo apt-key add - &>> $logfile
 echo "deb https://artifacts.elastic.co/packages/5.x/apt stable main" | sudo tee -a /etc/apt/sources.list.d/elastic-5.x.list &>> $logfile
+error_check 'Elasticsearch repo added'
+fi
 
 ##Suricata
+if [ "$suricata_check" == "true" ]; then
+print_status "${YELLOW}Skipping Suricata Repos${NC}"
+else
 add-apt-repository ppa:oisf/suricata-beta -y &>> $logfile
 error_check 'Suricata repo added'
+fi
 
 ####End of repos
 ##Holding pattern for dpkg...
@@ -197,13 +253,17 @@ pip install -U pip yara-python &>> $logfile
 pip install -U pip cuckoo &>> $logfile
 error_check 'Cuckoo and depos downloaded and installed'
 
-##Start MongoDB 
+##Start MongoDB
+if [ "$mongoservice_check" == "true" ]; then
+print_status "${YELLOW}Mongo Service enabled, skipping config${NC}"
+else
 print_status "${YELLOW}Setting up MongoDB${NC}"
 chmod 755 $gitdir/lib/mongodb.service &>> $logfile
 cp $gitdir/lib/mongodb.service /etc/systemd/system/ &>> $logfile
 systemctl start mongodb &>> $logfile
 systemctl enable mongodb &>> $logfile
 error_check 'MongoDB Setup'
+fi
 
 ##Cuckoo Add-ons
 ##Java 
@@ -214,13 +274,20 @@ apt-get install oracle-java8-installer -y &>> $logfile
 error_check 'Java Installed'
 
 ##Elasticsearch
+if [ "$elasticservice_check" == "true" ]; then
+print_status "${YELLOW}Elastic Service enabled, skipping config${NC}"
+else
 print_status "${YELLOW}Setting up Elasticsearch${NC}"
 systemctl daemon-reload &>> $logfile
 systemctl enable elasticsearch.service &>> $logfile
 systemctl start elasticsearch.service &>> $logfile
 error_check 'Elasticsearch Setup'
+fi
 
 ##Moloch
+if [ "$molochservice_check" == "true" ]; then
+print_status "${YELLOW}Moloch Service enabled, skipping config${NC}"
+else
 print_status "${YELLOW}Setting up Moloch${NC}"
 cd $gitdir
 wget https://files.molo.ch/builds/ubuntu-16.04/moloch_0.18.2-1_amd64.deb &>> $logfile
@@ -235,6 +302,7 @@ service molochcapture start &>> $logfile
 systemctl start molochviewer.service &>> $logfile
 service molochviewer start &>> $logfile
 error_check 'Moloch Installed'
+fi
 
 ##Vbox
 print_status "${YELLOW}Setting up Virtualbox${NC}"
@@ -242,6 +310,9 @@ apt-get install virtualbox-ext-pack -y  &>> $logfile
 error_check 'VBox Setup'
 
 ##Yara
+if [ "$yara_check" == "true" ]; then
+print_status "${YELLOW}Yara installed, skipping config${NC}"
+else
 print_status "${YELLOW}Downloading Yara${NC}"
 cd $gitdir
 git clone https://github.com/VirusTotal/yara.git &>> $logfile
@@ -256,8 +327,12 @@ make &>> $logfile
 make install &>> $logfile
 make check &>> $logfile
 error_check 'Yara installed'
+fi
 
 ##DTrace
+if [ "$dtrace_check" == "true" ]; then
+print_status "${YELLOW}Dtrace installed, skipping config${NC}"
+else
 print_status "${YELLOW}Downloading and installing DTrace${NC}"
 cd /etc
 git clone https://github.com/dtrace4linux/linux.git dtrace &>> $logfile
@@ -267,12 +342,17 @@ make all &>> $logfile
 make install &>> $logfile
 make load &>> $logfile
 error_check 'DTrace installed'
+fi
 
 ##Pydeep
+if [ "$pydeep_check" == "true" ]; then
+print_status "${YELLOW}Pydeep installed, skipping config${NC}"
+else
 cd $gitdir
 print_status "${YELLOW}Setting up Pydeep${NC}"
 sudo -H pip install git+https://github.com/kbandla/pydeep.git &>> $logfile
 error_check 'Pydeep installed'
+fi
 
 ##Malheur
 #cd /home/$name/tools/
@@ -303,13 +383,16 @@ pip3 install mitmproxy &>> $logfile
 error_check 'MITM installed'
 
 ##Suricata
+if [ ! -f /etc/suricata/rules/cuckoo.rules ]; then
 cd $gitdir
 print_status "${YELLOW}Setting up Suricata${NC}"
 touch /etc/suricata/rules/cuckoo.rules &>> $logfile
 echo "alert http any any -> any any (msg:\"FILE store all\"; filestore; noalert; sid:15; rev:1;)"  | sudo tee /etc/suricata/rules/cuckoo.rules &>> $logfile
 chown $name:$name /etc/suricata/suricata.yaml
+fi
 
 ##etupdate
+if [ ! -f /usr/sbin/etupdate ]; then
 cd $gitdir
 git clone https://github.com/seanthegeek/etupdate &>> $logfile
 cd etupdate
@@ -321,6 +404,7 @@ chown -R $name:$name /etc/suricata/rules &>> $logfile
 crontab -u $name $gitdir/lib/cron  
 cp $gitdir/lib/suricata-cuckoo.yaml /etc/suricata/suricata.yaml
 error_check 'Suricata configured for auto-update'
+fi
 
 ##Snort
 print_status "${YELLOW}Setting up Snort${NC}"
@@ -369,6 +453,7 @@ cp * /usr/local/lib/snort_dynamicpreprocessor/ &>> $logfile
 cp $gitdir/lib/snort.conf /etc/snort/ &>> $logfile
 
 ##Pulledpork
+if [ ! -f /usr/local/bin/pulledpork.pl ]; then
 cd $gitdir
 git clone https://github.com/shirkdog/pulledpork.git &>> $logfile
 cd pulledpork &>> $logfile
@@ -382,6 +467,7 @@ cp  $gitdir/lib/snort.service /lib/systemd/system/ &>> $logfile
 systemctl enable snort &>> $logfile
 systemctl start snort &>> $logfile
 error_check 'Pulledpork installed'
+fi
 
 ##MySQL install
 print_status "${YELLOW}Installing MySQL${NC}"
