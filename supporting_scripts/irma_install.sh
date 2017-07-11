@@ -1,9 +1,6 @@
 #!/bin/bash
 ####################################################################################################################
 
-#incorporate brad's signatures in to signatures/cross, remove andromedia/dridex_apis/chimera_api/deletes_self/cryptowall_apis
-
-
 if [ "$EUID" -ne 0 ]
   then echo "Please run as root"
   exit 1
@@ -14,7 +11,7 @@ NC='\033[0m'
 gitdir=$PWD
 
 ##Logging setup
-logfile=/var/log/cuckoo_install.log
+logfile=/var/log/irma_install.log
 mkfifo ${logfile}.pipe
 tee < ${logfile}.pipe $logfile &
 exec &> ${logfile}.pipe
@@ -78,3 +75,29 @@ fi
 ##Depos add
 #this is a nice little hack I found in stack exchange to suppress messages during package installation.
 export DEBIAN_FRONTEND=noninteractive
+
+#Checks
+if [ "$(lscpu | grep VT-x | wc -l)" != "1" ]; then
+	echo -e "${YELLOW}You cannot install 64-bit VMs or IRMA on this machine due to VT-x instruction set missing${NC}"
+	exit
+else
+	vtx=true
+fi	
+##IRMA
+if [ "$vtx" == "true" ]; then
+	print_status "${YELLOW}Setting up IRMA${NC}"
+	cd $gitdir
+	#wget https://releases.hashicorp.com/vagrant/1.9.7/vagrant_1.9.7_x86_64.deb?_ga=2.3815416.933420289.1499534277-1169717771.1499534277 &>> $logfile
+	#dpkg -i vagrant* &>> $logfile
+	git clone https://github.com/quarkslab/irma &>> $logfile
+	cd irma/ansible/ &>> $logfile
+	pip install -r requirements.txt
+	ansible-galaxy install -r ansible-requirements.yml --force &>> $logfile
+	print_status "${YELLOW}Setting up IRMA VM, this can take up to 30 mins.${NC}"
+	vagrant up &>> $logfile
+	error_check 'IRMA Installed'
+	echo "172.16.1.30    www.frontend.irma" | tee -a /etc/hosts &>> $logfile
+	error_check 'IRMA installed'
+else
+	print_status "${YELLOW}Skipping setup of IRMA due to hardware constraints${NC}"
+fi
