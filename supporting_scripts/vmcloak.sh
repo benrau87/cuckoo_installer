@@ -124,6 +124,7 @@ echo -e "${YELLOW}###################################${NC}"
 echo -e "${YELLOW}This process will take some time, you should get a sandwich, or watch the install if you'd really like...${NC}"
 echo
 print_status "${YELLOW}Mounting ISO if needed${NC}"
+mkdir  /mnt/windows_ISOs/$name
 mount -o loop,ro  --source /mnt/windows_ISOs/* --target /mnt/windows_ISOs/$name &>> $logfile
 error_check 'Mounted ISO'
 
