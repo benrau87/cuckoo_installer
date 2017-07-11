@@ -70,6 +70,13 @@ fi
 }
 ########################################
 ##BEGIN MAIN SCRIPT##
+if [ "$EUID" -ne 0 ]
+  then echo "Please run as root"
+  exit 1
+fi
+echo -e "${YELLOW}What VM would you like to create antivm scripts for?${NC}"
+read name
+
 #rand mac
 RANGE=255
 number=$RANDOM
@@ -83,13 +90,6 @@ octeta=`echo "obase=16;$number" | bc`
 octetb=`echo "obase=16;$numbera" | bc`
 octetc=`echo "obase=16;$numberb" | bc`
 macadd="${octets}${octeta}${octetb}${octetc}"
-
-if [ "$EUID" -ne 0 ]
-  then echo "Please run as root"
-  exit 1
-fi
-echo -e "${YELLOW}What VM would you like to create antivm scripts for?${NC}"
-read name
 
 echo -e "${YELLOW}Modifying vm hardware IDs${NC}"
 VBoxManage modifyvm $name --macaddress $macadd
