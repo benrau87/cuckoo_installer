@@ -117,6 +117,14 @@ echo -e "${YELLOW}What is the key?${NC}"
 read key
 echo -e "${YELLOW}What is the distro? (winxp, win7x86, win7x64, win81x86, win81x64, win10x86, win10x64)${NC}"
 read distro
+echo -e "${RED}Active interfaces${NC}"
+for iface in $(ifconfig | cut -d ' ' -f1| tr '\n' ' ')
+do 
+  addr=$(ip -o -4 addr list $iface | awk '{print $4}' | cut -d/ -f1)
+  printf "$iface\t$addr\n"
+done
+echo -e "${YELLOW}What is the IP being used for host internet access?(ex: 10.190.1.4)${NC}"
+read interface
 
 
 echo -e "${YELLOW}###################################${NC}"
@@ -129,31 +137,25 @@ mkdir  /mnt/$name
 mount -o loop,ro /mnt/windows_ISOs/* /mnt/$name &>> $logfile
 error_check 'Mounted ISO'
 
+RANGE=255
+number=$RANDOM
+numbera=$RANDOM
+numberb=$RANDOM
+let "number %= $RANGE"
+let "numbera %= $RANGE"
+let "numberb %= $RANGE"
+octets='0019eC'
+octeta=`echo "obase=16;$number" | bc`
+octetb=`echo "obase=16;$numbera" | bc`
+octetc=`echo "obase=16;$numberb" | bc`
+macadd="${octets}${octeta}${octetb}${octetc}"
+
 sleep 5
 #--hwvirt
-vmcloak init --name $name --$distro --vm-visible --ramsize $ram --cpus $cpu --ip $ipaddress --serial-key $key --iso-mount /mnt/$name &>> $logfile
+vmcloak init --$distro --vm-visible --host-ip $interface --ramsize $ram --cpus $cpu --hostonly-ip $ipaddress --hostonly-gateway 10.1.1.254 --serial-key $key --hostonly-macaddr $macadd --hostonly-mask 255.255.255.0 --hdsize 256 --no-register-cuckoo --iso-mount /mnt/$name $name &>> $logfile
 error_check 'Created VMs'
 echo
-read -p "Would you like to install Office 2007? This WILL require an ISO and key. Y/N" -n 1 -r
-if [[ $REPLY =~ ^[Yy]$ ]]
-then
-dir_check /mnt/office2007 &>> $logfile
-umount /mnt/office2007 &>> $logfile
 
-echo
-read -n 1 -s -p "Please place your Office 2007 ISO in the folder under /mnt/office2007/ and press any key to continue"
-echo
-
-mount -o loop,ro  --source /mnt/office2007/* --target /mnt/office2007/ &>> $logfile
-error_check 'ISO mounted'
-
-echo -e "${YELLOW}What is the license key?${NC}"
-read key
-echo -e "${YELLOW}Installing Office 2007${NC}"
-vmcloak install $name --vm-visible office2007 office2007.isopath=/mnt/office2007.iso office2007.serialkey=$key &>> $logfile
-error_check 'Office 2007 installed'
-fi
-echo
 echo -e "${YELLOW}Installing adobe9 wic pillow dotnet40 java7 removetooltips windows_cleanup chrome firefox_41 on the VM${NC}"
 vmcloak install $name --vm-visible adobe9 wic pillow dotnet40 java7 removetooltips chrome &>> $logfile
 error_check 'Installed adobe9 wic pillow dotnet40 java7 removetooltips on VMs'
@@ -164,19 +166,26 @@ vmcloak snapshot $name $name &>> $logfile
 error_check 'Created snapshot'
 
 echo
-read -p "Would you like to register this machine with cuckoo? Y/N" -n 1 -r
-if [[ $REPLY =~ ^[Yy]$ ]]
-then
-python /etc/cuckoo-modified/utils/machine.py --add $name --ip $ipaddress --platform windows &>> $logfile
-error_check 'VMs registered with cuckoo'
-fi
-
-echo -e "${YELLOW}Running some cleanup...Please wait.${NC}"  
-
-umount /mnt/windows_ISOs &>> $logfile
-umount /mnt/office2007 &>> $logfile
-
-
-echo
 echo -e "${YELLOW}The VM is located under your current OR sudo user's home folder under .vmcloak, you will need to register this with Virtualbox on your cuckoo account.${NC}"  
 
+
+#read -p "Would you like to install Office 2007? This WILL require an ISO and key. Y/N" -n 1 -r
+#if [[ $REPLY =~ ^[Yy]$ ]]
+#then
+#dir_check /mnt/office2007 &>> $logfile
+#umount /mnt/office2007 &>> $logfile
+
+#echo
+#read -n 1 -s -p "Please place your Office 2007 ISO in the folder under /mnt/office2007/ and press any key to continue"
+#echo
+
+#mount -o loop,ro  --source /mnt/office2007/* --target /mnt/office2007/ &>> $logfile
+#error_check 'ISO mounted'
+
+#echo -e "${YELLOW}What is the license key?${NC}"
+#read key
+#echo -e "${YELLOW}Installing Office 2007${NC}"
+#vmcloak install $name --vm-visible office2007 office2007.isopath=/mnt/office2007.iso office2007.serialkey=$key &>> $logfile
+#error_check 'Office 2007 installed'
+#fi
+#echo
