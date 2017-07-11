@@ -126,10 +126,6 @@ echo -e "${RED}Active interfaces${NC}"
 #echo -e "${YELLOW}What is the IP being used for host internet access?(ex: 10.190.1.4)${NC}"
 #read interface
 
-
-echo -e "${YELLOW}###################################${NC}"
-echo -e "${YELLOW}This process will take some time, you should get a sandwich, or watch the install if you'd really like...${NC}"
-echo
 print_status "${YELLOW}Mounting ISO if needed${NC}"
 umount /mnt/$name
 rm -rf /mnt/$name
@@ -150,13 +146,17 @@ octetb=`echo "obase=16;$numbera" | bc`
 octetc=`echo "obase=16;$numberb" | bc`
 macadd="${octets}${octeta}${octetb}${octetc}"
 
-sleep 5
 #--hwvirt
-vmcloak init --$distro --vm-visible --ramsize $ram --cpus $cpu --hostonly-ip $ipaddress --hostonly-gateway 10.1.1.254 --serial-key $key --hostonly-macaddr $macadd --hostonly-mask 255.255.255.0 --hdsize 256 --no-register-cuckoo --iso-mount /mnt/$name $name &>> $logfile
-error_check 'Created VMs'
+echo -e "${YELLOW}Creating VM, some interaction may be required${NC}"
+vmcloak init --$distro --vm-visible --ramsize $ram --cpus $cpu  --serial-key $key  --no-register-cuckoo --iso-mount /mnt/$name $name &>> $logfile
+error_check 'Created VM'
 echo
 
-echo -e "${YELLOW}Installing adobe9 wic pillow dotnet40 java7 removetooltips windows_cleanup chrome firefox_41 on the VM${NC}"
+echo -e "${YELLOW}Modifying VM${NC}"
+vmcloak modify $name --hdsize 256 --hostonly-ip $ipaddress --hostonly-gateway 10.1.1.254 --hostonly-mask 255.255.255.0 --hostonly-macaddr $macadd
+error_check 'Modified VM'
+
+echo -e "${YELLOW}Installing programs on VM, some interaciton may be required${NC}"
 vmcloak install $name --vm-visible adobe9 wic pillow dotnet40 java7 removetooltips chrome &>> $logfile
 error_check 'Installed adobe9 wic pillow dotnet40 java7 removetooltips on VMs'
 
