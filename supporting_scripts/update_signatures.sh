@@ -87,8 +87,8 @@ git clone https://github.com/yara-rules/rules.git &>> $logfile
 #Bins
 #cp rules/CVE_Rules/*.yar $cuckoo_yara/binaries/
 #cp rules/malware/*.yar $cuckoo_yara/binaries/
-#cp rules/Crypto/*.yar $cuckoo_yara/binaries/
-#cp rules/utils/*.yar $cuckoo_yara/binaries/
+cp rules/Crypto/*.yar $cuckoo_yara/binaries/
+cp rules/utils/*.yar $cuckoo_yara/binaries/
 #cp rules/Malicious_Documents/*.yar $cuckoo_yara/binaries/
 #cp rules/Packers/*.yar $cuckoo_yara/binaries/
 #cp rules/email/*.yar $cuckoo_yara/binaries/
@@ -104,9 +104,11 @@ git clone https://github.com/yara-rules/rules.git &>> $logfile
 #cp $cuckoo_yara/binaries/urls.yar $cuckoo_yara/urls/
 #cp rules/Webshells/*.yar $cuckoo_yara/urls/
 #Mem
-#cp $cuckoo_yara/binaries/url.yar $cuckoo_yara/memory/
-#cp $cuckoo_yara/binaries/ip.yar $cuckoo_yara/memory/
-#cp $cuckoo_yara/binaries/urls.yar $cuckoo_yara/memory/
+cp rules/Crypto/*.yar $cuckoo_yara/memory/
+cp rules/utils/*.yar $cuckoo_yara/memory/
+cp $cuckoo_yara/binaries/url.yar $cuckoo_yara/memory/
+cp $cuckoo_yara/binaries/ip.yar $cuckoo_yara/memory/
+cp $cuckoo_yara/binaries/urls.yar $cuckoo_yara/memory/
 #cp rules/malware/*.yar $cuckoo_yara/memory/
 
 ##Create Index
