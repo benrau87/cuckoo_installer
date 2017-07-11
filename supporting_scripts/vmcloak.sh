@@ -118,13 +118,13 @@ read key
 echo -e "${YELLOW}What is the distro? (winxp, win7x86, win7x64, win81x86, win81x64, win10x86, win10x64)${NC}"
 read distro
 echo -e "${RED}Active interfaces${NC}"
-for iface in $(ifconfig | cut -d ' ' -f1| tr '\n' ' ')
-do 
-  addr=$(ip -o -4 addr list $iface | awk '{print $4}' | cut -d/ -f1)
-  printf "$iface\t$addr\n"
-done
-echo -e "${YELLOW}What is the IP being used for host internet access?(ex: 10.190.1.4)${NC}"
-read interface
+#for iface in $(ifconfig | cut -d ' ' -f1| tr '\n' ' ')
+#do 
+#  addr=$(ip -o -4 addr list $iface | awk '{print $4}' | cut -d/ -f1)
+#  printf "$iface\t$addr\n"
+#done
+#echo -e "${YELLOW}What is the IP being used for host internet access?(ex: 10.190.1.4)${NC}"
+#read interface
 
 
 echo -e "${YELLOW}###################################${NC}"
@@ -152,7 +152,7 @@ macadd="${octets}${octeta}${octetb}${octetc}"
 
 sleep 5
 #--hwvirt
-vmcloak init --$distro --vm-visible --host-ip $interface --ramsize $ram --cpus $cpu --hostonly-ip $ipaddress --hostonly-gateway 10.1.1.254 --serial-key $key --hostonly-macaddr $macadd --hostonly-mask 255.255.255.0 --hdsize 256 --no-register-cuckoo --iso-mount /mnt/$name $name &>> $logfile
+vmcloak init --$distro --vm-visible --ramsize $ram --cpus $cpu --hostonly-ip $ipaddress --hostonly-gateway 10.1.1.254 --serial-key $key --hostonly-macaddr $macadd --hostonly-mask 255.255.255.0 --hdsize 256 --no-register-cuckoo --iso-mount /mnt/$name $name &>> $logfile
 error_check 'Created VMs'
 echo
 
