@@ -97,19 +97,7 @@ else
 VBoxManage hostonlyif create
 VBoxManage hostonlyif ipconfig vboxnet0 --ip 10.1.1.254
 fi
-#rand mac
-RANGE=255
-number=$RANDOM
-numbera=$RANDOM
-numberb=$RANDOM
-let "number %= $RANGE"
-let "numbera %= $RANGE"
-let "numberb %= $RANGE"
-octets='0019eC'
-octeta=`echo "obase=16;$number" | bc`
-octetb=`echo "obase=16;$numbera" | bc`
-octetc=`echo "obase=16;$numberb" | bc`
-macadd="${octets}${octeta}${octetb}${octetc}"
+
 
 echo
 read -n 1 -s -p "Please place your Windows ISO in the folder under /mnt/windows_ISOs and press any key to continue"
