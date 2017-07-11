@@ -1,4 +1,5 @@
 #!/bin/bash
+#8XQ2M-YQK9F-7TBB2-XGG88
 if [ "$EUID" -ne 0 ]
   then echo "Please run as root"
 exit 1
