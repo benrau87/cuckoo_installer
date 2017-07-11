@@ -169,6 +169,13 @@ fi
 if [ "$(locate dist-package/pydeep | wc -l)" -ge "1" ]; then
  pydeep_check=true
 fi
+if [ "$(which mysql | wc -l)" -ge "1" ]; then
+ mysql_check=true
+fi
+if [ "$(cat /home/$name/conf/cuckoo.conf | grep localhost/cuckoo | wc -l)" -ge "1" ]; then
+ mysqlconf_check=true
+fi
+
 
 ###Add Repos
 print_status "${YELLOW}Adding Repositories${NC}"
@@ -470,6 +477,9 @@ error_check 'Pulledpork installed'
 fi
 
 ##MySQL install
+if [ "$mysql_check" == "true" ]; then
+print_status "${YELLOW}MySQL installed, skipping installation${NC}"
+else
 print_status "${YELLOW}Installing MySQL${NC}"
 debconf-set-selections <<< "mysql-server mysql-server/$root_mysql_pass password root" &>> $logfile
 debconf-set-selections <<< "mysql-server mysql-server/$root_mysql_pass password root" &>> $logfile
@@ -477,12 +487,17 @@ error_check 'MySQL passwords set'
 print_status "${YELLOW}Downloading and installing MySQL${NC}"
 apt-get -y install mysql-server python-mysqldb &>> $logfile 
 error_check 'MySQL installed'
+fi
+if [ "$mysqlconf_check" == "true" ]; then
+print_status "${YELLOW}MySQL already configured for Cuckoo, skipping${NC}"
+else
 print_status "${YELLOW}Configuring MySQL${NC}"
 mysql -uroot -p$root_mysql_pass -e "DELETE FROM mysql.user WHERE User=''; DELETE FROM mysql.user WHERE User='root' AND Host NOT IN ('localhost', '127.0.0.1', '::1'); DROP DATABASE IF EXISTS test; DELETE FROM mysql.db WHERE Db='test' OR Db='test\\_%'; DROP DATABASE IF EXISTS cuckoo; CREATE DATABASE cuckoo; GRANT ALL PRIVILEGES ON cuckoo.* TO 'cuckoo'@'localhost' IDENTIFIED BY '$cuckoo_mysql_pass'; FLUSH PRIVILEGES;" &>> $logfile
 #mysql -uroot -p$root_mysql_pass -e "DELETE FROM mysql.user WHERE User=''; DELETE FROM mysql.user WHERE User='root' AND Host NOT IN ('localhost', '127.0.0.1', '::1'); DROP DATABASE IF EXISTS test; DELETE FROM mysql.db WHERE Db='test' OR Db='test\\_%'; DROP DATABASE IF EXISTS cuckoo; FLUSH PRIVILEGES;" &>> $logfile
 error_check 'MySQL secure installation and cuckoo database/user creation'
 replace "connection =" "connection = mysql://cuckoo:$cuckoo_mysql_pass@localhost/cuckoo" -- /home/$name/conf/cuckoo.conf &>> $logfile
 error_check 'Configuration files modified'
+fi
 
 ##Other tools
 cd /home/$name/tools/
