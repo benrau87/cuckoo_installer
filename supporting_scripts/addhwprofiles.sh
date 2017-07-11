@@ -74,6 +74,14 @@ if [ "$EUID" -ne 0 ]
   then echo "Please run as root"
   exit 1
 fi
+VMLIST="$(VBoxManage list vms|cut -d' ' -f1)"
+echo "Installed VMs:"
+
+count=0
+for i in $VMLIST; do
+    count=`expr $count + 1`
+    echo [$count] $i
+done
 echo -e "${YELLOW}What VM would you like to create antivm scripts for?${NC}"
 read name
 
