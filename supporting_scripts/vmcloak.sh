@@ -148,7 +148,7 @@ echo
 
 echo -e "${YELLOW}Installing programs on VM, some interaciton may be required${NC}"
 vmcloak install $name --vm-visible adobe9 flash wic python27 pillow dotnet java removetooltips wallpaper chrome &>> $logfile
-vboxmanage modifyvm $name --macaddress $macadd
+#vboxmanage modifyvm $name --macaddress $macadd
 error_check 'Installed adobe9 wic pillow dotnet40 java7 removetooltips on VMs'
 
 echo
