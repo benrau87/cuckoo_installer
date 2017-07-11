@@ -103,9 +103,6 @@ VBoxManage hostonlyif create
 VBoxManage hostonlyif ipconfig vboxnet0 --ip 10.1.1.254
 fi
 
-print_status "${YELLOW}Mounting ISO if needed${NC}"
-mount -o loop,ro  --source /mnt/windows_ISOs/* --target /mnt/windows_ISOs/ &>> $logfile
-error_check 'Mounted ISO'
 
 #echo -e "${YELLOW}What is the Windows disto?"
 #read distro
@@ -126,6 +123,10 @@ read distro
 echo -e "${YELLOW}###################################${NC}"
 echo -e "${YELLOW}This process will take some time, you should get a sandwich, or watch the install if you'd really like...${NC}"
 echo
+print_status "${YELLOW}Mounting ISO if needed${NC}"
+mount -o loop,ro  --source /mnt/windows_ISOs/* --target /mnt/windows_ISOs/$name &>> $logfile
+error_check 'Mounted ISO'
+
 sleep 5
 #--hwvirt
 vmcloak init --$distro --vm-visible --ramsize $ram --cpus $cpu --ip $ipaddress --serial-key $key --iso-mount /mnt/windows_ISOs/$name &>> $logfile
