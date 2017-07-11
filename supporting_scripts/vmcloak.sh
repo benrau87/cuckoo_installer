@@ -79,7 +79,7 @@ error_check 'Prereqs installed'
 
 dir_check /mnt/windows_ISOs &>> $logfile
 
-if [ ! -d /usr/local/bin/vmcloak ]; then
+if [ ! -d "/usr/local/bin/vmcloak" ]; then
 print_status "${YELLOW}Installing vmcloak${NC}"
 git clone git://github.com/jbremer/vmcloak &>> $logfile
 cd vmcloak &>> $logfile
@@ -123,10 +123,13 @@ echo -e "${YELLOW}###################################${NC}"
 echo -e "${YELLOW}This process will take some time, you should get a sandwich, or watch the install if you'd really like...${NC}"
 echo
 print_status "${YELLOW}Mounting ISO if needed${NC}"
+if [ ! -d "/mnt/$name" ]; then
 mkdir  /mnt/$name
 mount -o loop,ro /mnt/windows_ISOs/* /mnt/$name &>> $logfile
 error_check 'Mounted ISO'
-
+else
+error_check 'Mounted ISO'
+fi
 sleep 5
 #--hwvirt
 vmcloak init --$distro --vm-visible --ramsize $ram --cpus $cpu --ip $ipaddress --serial-key $key --iso-mount /mnt/$name &>> $logfile
