@@ -74,18 +74,20 @@ fi
 ############################################################################################################################
 
 print_status "${YELLOW}Installing genisoimage${NC}"
-apt-get install mkisofs genisoimage -y &>> $logfile
-error_check 'Genisoimage installed'
+apt-get install mkisofs genisoimage libffi-dev python-pip libssl-dev -y &>> $logfile
+error_check 'Prereqs installed'
 
 dir_check /mnt/windows_ISOs &>> $logfile
 umount /mnt/windows_ISOs
 
+if [ ! -d /usr/local/bin/vmcloak ]; then
 print_status "${YELLOW}Installing vmcloak${NC}"
 git clone git://github.com/jbremer/vmcloak &>> $logfile
 cd vmcloak &>> $logfile
 pip install -r requirements.txt
 python setup.py develop &>> $logfile
 error_check 'Installed vmcloak'
+fi
 
 echo
 read -n 1 -s -p "Please place your Windows ISO in the folder under /mnt/windows_ISOs and press any key to continue"
