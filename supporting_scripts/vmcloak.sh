@@ -83,14 +83,10 @@ if [ ! -d "/usr/local/bin/vmcloak" ]; then
 print_status "${YELLOW}Installing vmcloak${NC}"
 git clone git://github.com/jbremer/vmcloak &>> $logfile
 cd vmcloak &>> $logfile
-pip install -r requirements.txt
+pip install -r requirements.txt &>> $logfile
 python setup.py develop &>> $logfile
 error_check 'Installed vmcloak'
 fi
-
-echo
-read -n 1 -s -p "Please place your Windows ISO in the folder under /mnt/windows_ISOs and press any key to continue"
-echo
 
 print_status "${YELLOW}Checking for host only interface${NC}"
 ON=$(ifconfig -a | grep -cs 'vboxnet0')
@@ -101,7 +97,23 @@ else
 VBoxManage hostonlyif create
 VBoxManage hostonlyif ipconfig vboxnet0 --ip 10.1.1.254
 fi
+#rand mac
+RANGE=255
+number=$RANDOM
+numbera=$RANDOM
+numberb=$RANDOM
+let "number %= $RANGE"
+let "numbera %= $RANGE"
+let "numberb %= $RANGE"
+octets='0019eC'
+octeta=`echo "obase=16;$number" | bc`
+octetb=`echo "obase=16;$numbera" | bc`
+octetc=`echo "obase=16;$numberb" | bc`
+macadd="${octets}${octeta}${octetb}${octetc}"
 
+echo
+read -n 1 -s -p "Please place your Windows ISO in the folder under /mnt/windows_ISOs and press any key to continue"
+echo
 
 #echo -e "${YELLOW}What is the Windows disto?"
 #read distro
@@ -120,19 +132,6 @@ rm -rf /mnt/$name
 mkdir  /mnt/$name
 mount -o loop,ro /mnt/windows_ISOs/* /mnt/$name &>> $logfile
 error_check 'Mounted ISO'
-
-RANGE=255
-number=$RANDOM
-numbera=$RANDOM
-numberb=$RANDOM
-let "number %= $RANGE"
-let "numbera %= $RANGE"
-let "numberb %= $RANGE"
-octets='0019eC'
-octeta=`echo "obase=16;$number" | bc`
-octetb=`echo "obase=16;$numbera" | bc`
-octetc=`echo "obase=16;$numberb" | bc`
-macadd="${octets}${octeta}${octetb}${octetc}"
 
 #--hwvirt
 echo -e "${YELLOW}Creating VM, some interaction may be required${NC}"
