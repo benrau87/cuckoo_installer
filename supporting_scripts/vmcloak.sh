@@ -157,7 +157,7 @@ vmcloak modify $name --hdsize 256 --hostonly-ip $ipaddress --hostonly-gateway 10
 error_check 'Modified VM'
 
 echo -e "${YELLOW}Installing programs on VM, some interaciton may be required${NC}"
-vmcloak install $name --vm-visible adobe9 wic pillow dotnet40 java7 removetooltips chrome &>> $logfile
+vmcloak install $name --vm-visible adobe9 flash wic python27 pillow dotnet java removetooltips wallpaper chrome &>> $logfile
 error_check 'Installed adobe9 wic pillow dotnet40 java7 removetooltips on VMs'
 
 echo
