@@ -288,7 +288,7 @@ error_check 'Elasticsearch Setup'
 fi
 
 ##Moloch
-if [ "$molochservice_check" == "true" ]; then
+if [ "$moloch_check" == "true" ]; then
 print_status "${YELLOW}Moloch Service enabled, skipping config${NC}"
 else
 print_status "${YELLOW}Setting up Moloch${NC}"
