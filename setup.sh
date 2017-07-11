@@ -377,10 +377,12 @@ python setup.py install &>> $logfile
 error_check 'Volatility installed'
 
 ##MITMProxy
+if [ ! -f /usr/local/bin/mitmproxy ]; then
 print_status "${YELLOW}Installing MITM${NC}"
 apt-get install python3-dev python3-pip libffi-dev libssl-dev -y &>> $logfile
 pip3 install mitmproxy &>> $logfile
 error_check 'MITM installed'
+fi
 
 ##Suricata
 if [ ! -f /etc/suricata/rules/cuckoo.rules ]; then
@@ -408,7 +410,8 @@ fi
 
 ##Snort
 print_status "${YELLOW}Setting up Snort${NC}"
-cd $gitdir/
+cd $gitdir
+if [ ! -f /usr/local/bin/daq-modules-config ]; then
 wget https://www.snort.org/downloads/snort/daq-2.0.6.tar.gz &>> $logfile
 tar -zxvf daq-2.0.6.tar.gz &>> $logfile
 cd daq*  &>> $logfile
@@ -416,7 +419,9 @@ cd daq*  &>> $logfile
 make  &>> $logfile
 make install  &>> $logfile
 error_check 'DAQ installed'
+fi
 cd $gitdir
+if [ ! -f /usr/sbin/snort ]; then
 wget https://www.snort.org/downloads/snort/snort-2.9.9.0.tar.gz  &>> $logfile
 tar -xvzf snort-2.9.9.0.tar.gz  &>> $logfile
 cd snort*
@@ -451,6 +456,8 @@ cp *.dtd /etc/snort &>> $logfile
 cd $gitdir/snort-*/src/dynamic-preprocessors/build/usr/local/lib/snort_dynamicpreprocessor/ &>> $logfile
 cp * /usr/local/lib/snort_dynamicpreprocessor/ &>> $logfile
 cp $gitdir/lib/snort.conf /etc/snort/ &>> $logfile
+error_check 'Snort configured'
+fi
 
 ##Pulledpork
 if [ ! -f /usr/local/bin/pulledpork.pl ]; then
