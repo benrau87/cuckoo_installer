@@ -113,8 +113,6 @@ echo -e "${YELLOW}How much RAM would you like to allocate for this machine?${NC}
 read ram
 echo -e "${YELLOW}How many CPU cores would you like to allocate for this machine?${NC}"
 read cpu
-echo -e "${YELLOW}What is the key?${NC}"
-read key
 echo -e "${YELLOW}What is the distro? (winxp, win7x86, win7x64, win81x86, win81x64, win10x86, win10x64)${NC}"
 read distro
 echo -e "${RED}Active interfaces${NC}"
@@ -148,13 +146,13 @@ macadd="${octets}${octeta}${octetb}${octetc}"
 
 #--hwvirt
 echo -e "${YELLOW}Creating VM, some interaction may be required${NC}"
-vmcloak init --$distro --vm-visible --ramsize $ram --cpus $cpu  --serial-key $key  --no-register-cuckoo --iso-mount /mnt/$name $name &>> $logfile
+vmcloak init --$distro --vm-visible --ramsize $ram --cpus $cpu --iso-mount /mnt/$name $name &>> $logfile
 error_check 'Created VM'
 echo
 
-echo -e "${YELLOW}Modifying VM${NC}"
-vmcloak modify $name --hdsize 256 --hostonly-ip $ipaddress --hostonly-gateway 10.1.1.254 --hostonly-mask 255.255.255.0 --hostonly-macaddr $macadd
-error_check 'Modified VM'
+#echo -e "${YELLOW}Modifying VM${NC}"
+#vmcloak modify $name --hdsize 256 --hostonly-ip $ipaddress --hostonly-gateway 10.1.1.254 --hostonly-mask 255.255.255.0 --hostonly-macaddr $macadd
+#error_check 'Modified VM'
 
 echo -e "${YELLOW}Installing programs on VM, some interaciton may be required${NC}"
 vmcloak install $name --vm-visible adobe9 flash wic python27 pillow dotnet java removetooltips wallpaper chrome &>> $logfile
