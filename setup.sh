@@ -508,7 +508,7 @@ print_status "${YELLOW}Installing antivmdetect and tools${NC}"
 ##Folder setup
 dir_check /usr/bin/cd-drive
 ##Antivm download
-git clone https://github.com/benrau87/antivmdetect.git
+git clone https://github.com/benrau87/antivmdetect.git  &>> $logfile
 error_check 'Antivm tools downloaded'
 
 ##Holding pattern for dpkg...
@@ -545,7 +545,7 @@ print_status "${YELLOW}Adding route commands and crons${NC}"
 echo "400    $interface" | tee -a /etc/iproute2/rt_tables &>> $logfile
 systemctl enable rc-local &>> $logfile
 cp $gitdir/lib/threshold.config /etc/suricata/
-error_check "Commands Added, please restart to finish installation"
+error_check "Routing configured"
 
 ##Cleaup
 print_status "${YELLOW}Doing some cleanup${NC}"
