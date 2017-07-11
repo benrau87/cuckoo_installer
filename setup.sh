@@ -143,7 +143,7 @@ fi
 if [ "$(locate mongodb.service | wc -l)" -ge "1" ]; then
  mongoservice_check=true
 fi
-if [ "$(ls /etc/apt/sources.list.d/elastic-5.x.list | wc -l)" -ge "1" ]; then
+if [ "$(ls /etc/apt/sources.list.d/ | grep elastic-5| wc -l)" -ge "1" ]; then
  elastic_check=true
 fi
 if [ "$(which suricata | wc -l)" -ge "1" ]; then
