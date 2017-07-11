@@ -13,4 +13,9 @@ else
 cd ~/.cuckoo/yara/IOCs/
 rm -rf signature-base/
 git clone https://github.com/Neo23x0/signature-base.git
-
+if [ ! -d ~/.cuckoo/yara/rules ]; then
+git clone https://github.com/Yara-Rules/rules.git
+else
+rm -rf yara/
+git clone https://github.com/Yara-Rules/rules.git
+fi
