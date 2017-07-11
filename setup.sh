@@ -131,7 +131,7 @@ vtx=true
 fi
 apt-get install locate -y  &>> $logfile
 updatedb  &>> $logfile
-if [ "$(cat /etc/apt/sources.list | grep xenial multiverse | wc -l)" -ge "1" ]; then
+if [ "$(cat /etc/apt/sources.list | grep multiverse | wc -l)" -ge "1" ]; then
  multi_check=true
 fi
 if [ "$(ls /etc/apt/sources.list.d/mongodb-org-3.4.list | wc -l)" -ge "1" ]; then
