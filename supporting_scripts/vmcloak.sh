@@ -131,7 +131,7 @@ error_check 'Mounted ISO'
 
 sleep 5
 #--hwvirt
-vmcloak init --$distro --vm-visible --ramsize $ram --cpus $cpu --ip $ipaddress --serial-key $key --iso-mount /mnt/$name &>> $logfile
+vmcloak init --name $name --$distro --vm-visible --ramsize $ram --cpus $cpu --ip $ipaddress --serial-key $key --iso-mount /mnt/$name &>> $logfile
 error_check 'Created VMs'
 echo
 read -p "Would you like to install Office 2007? This WILL require an ISO and key. Y/N" -n 1 -r
