@@ -104,7 +104,7 @@ VBoxManage hostonlyif ipconfig vboxnet0 --ip 10.1.1.254
 fi
 
 print_status "${YELLOW}Mounting ISO if needed${NC}"
-mount -o loop,ro  --source /mnt/windows_ISOs/*.iso --target /mnt/windows_ISOs/ &>> $logfile
+mount -o loop,ro  --source /mnt/windows_ISOs/* --target /mnt/windows_ISOs/ &>> $logfile
 error_check 'Mounted ISO'
 
 #echo -e "${YELLOW}What is the Windows disto?"
