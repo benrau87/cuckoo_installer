@@ -114,8 +114,6 @@ cp $gitdir/conf/* /home/$name/conf
 cp $gitdir/supporting_scripts/firstrun.sh /home/$name/
 chmod +x  $gitdir/supporting_scripts/update_signatures.sh
 cp $gitdir/supporting_scripts/update_signatures.sh /home/$name/
-chmod +x  $gitdir/supporting_scripts/rooter.sh
-cp $gitdir/supporting_scripts/rooter.sh ~/
 chown $name:$name -R /home/$name/conf
 chown $name:$name -R /home/$name/firstrun.sh
 chmod +x /home/$name/firstrun.sh
