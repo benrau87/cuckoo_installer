@@ -78,7 +78,6 @@ apt-get install mkisofs genisoimage libffi-dev python-pip libssl-dev -y &>> $log
 error_check 'Prereqs installed'
 
 dir_check /mnt/windows_ISOs &>> $logfile
-umount /mnt/windows_ISOs
 
 if [ ! -d /usr/local/bin/vmcloak ]; then
 print_status "${YELLOW}Installing vmcloak${NC}"
@@ -124,13 +123,13 @@ echo -e "${YELLOW}###################################${NC}"
 echo -e "${YELLOW}This process will take some time, you should get a sandwich, or watch the install if you'd really like...${NC}"
 echo
 print_status "${YELLOW}Mounting ISO if needed${NC}"
-mkdir  /mnt/windows_ISOs/$name
-mount -o loop,ro /mnt/windows_ISOs/* /mnt/windows_ISOs/$name &>> $logfile
+mkdir  /mnt/$name
+mount -o loop,ro /mnt/windows_ISOs/* /mnt/$name &>> $logfile
 error_check 'Mounted ISO'
 
 sleep 5
 #--hwvirt
-vmcloak init --$distro --vm-visible --ramsize $ram --cpus $cpu --ip $ipaddress --serial-key $key --iso-mount /mnt/windows_ISOs/$name &>> $logfile
+vmcloak init --$distro --vm-visible --ramsize $ram --cpus $cpu --ip $ipaddress --serial-key $key --iso-mount /mnt/$name &>> $logfile
 error_check 'Created VMs'
 echo
 read -p "Would you like to install Office 2007? This WILL require an ISO and key. Y/N" -n 1 -r
