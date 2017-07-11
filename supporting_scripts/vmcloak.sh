@@ -124,7 +124,7 @@ error_check 'Mounted ISO'
 
 echo -e "${YELLOW}Creating VM, some interaction may be required${NC}"
 vmcloak init --$distro --vm-visible --ramsize $ram --cpus $cpu --iso-mount /mnt/$name $name &>> $logfile
-#vmcloak init --$distro --vm-visible --ramsize $ram --cpus $cpu --key 8XQ2M-YQK9F-7TBB2-XGG88 --iso-mount /mnt/$name $name &>> $logfile
+#vmcloak init --$distro --vm-visible --ramsize $ram --cpus $cpu --serial-key M6TF9-8XQ2M-YQK9F-7TBB2-XGG88 --iso-mount /mnt/$name $name &>> $logfile
 error_check 'Created VM'
 
 echo -e "${YELLOW}Installing programs on VM, some interaciton may be required${NC}"
