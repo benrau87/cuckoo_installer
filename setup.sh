@@ -220,9 +220,6 @@ systemctl enable elasticsearch.service &>> $logfile
 systemctl start elasticsearch.service &>> $logfile
 error_check 'Elasticsearch Setup'
 
-##Vbox
-apt-get install virtualbox-ext-pack -y 
-
 ##Moloch
 print_status "${YELLOW}Setting up Moloch${NC}"
 cd $gitdir
@@ -238,6 +235,11 @@ service molochcapture start &>> $logfile
 systemctl start molochviewer.service &>> $logfile
 service molochviewer start &>> $logfile
 error_check 'Moloch Installed'
+
+##Vbox
+print_status "${YELLOW}Setting up Virtualbox${NC}"
+apt-get install virtualbox-ext-pack -y  &>> $logfile
+error_check 'VBox Setup'
 
 ##Yara
 print_status "${YELLOW}Downloading Yara${NC}"
