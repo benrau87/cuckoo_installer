@@ -139,7 +139,6 @@ macadd="${octets}${octeta}${octetb}${octetc}"
 #--hwvirt
 echo -e "${YELLOW}Creating VM, some interaction may be required${NC}"
 vmcloak init --$distro --vm-visible --ramsize $ram --cpus $cpu --iso-mount /mnt/$name $name &>> $logfile
-vboxmanage modifyvm $name --macaddress $macadd
 error_check 'Created VM'
 echo
 
@@ -149,6 +148,7 @@ echo
 
 echo -e "${YELLOW}Installing programs on VM, some interaciton may be required${NC}"
 vmcloak install $name --vm-visible adobe9 flash wic python27 pillow dotnet java removetooltips wallpaper chrome &>> $logfile
+vboxmanage modifyvm $name --macaddress $macadd
 error_check 'Installed adobe9 wic pillow dotnet40 java7 removetooltips on VMs'
 
 echo
