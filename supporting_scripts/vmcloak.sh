@@ -142,6 +142,9 @@ vboxmanage modifyvm $name --macaddress $macadd
 echo -e "${YELLOW}Creating VM, some interaction may be required${NC}"
 vmcloak init --$distro --vm-visible --ramsize $ram --cpus $cpu --iso-mount /mnt/$name $name &>> $logfile
 wait
+error_check 'Created VM'
+
+echo -e "${YELLOW}Modifying vm hardware IDs${NC}"
 VBoxManage modifyvm $name --macaddress $macadd
 VBoxManage setextradata $name VBoxInternal/Devices/pcbios/0/Config/DmiBIOSFirmwareMajor	'0'
 VBoxManage setextradata $name VBoxInternal/Devices/pcbios/0/Config/DmiBIOSFirmwareMinor	'0'
@@ -214,8 +217,7 @@ VBoxManage setextradata $name VBoxInternal/CPUM/HostCPUID/80000004/ecx  0x202020
 VBoxManage setextradata $name VBoxInternal/CPUM/HostCPUID/80000004/edx  0x00202020
 VBoxManage modifyvm $name--paravirtprovider legacy  
 
-error_check 'Created VM'
-echo
+error_check 'Hardware modified'
 
 echo -e "${YELLOW}Installing programs on VM, some interaciton may be required${NC}"
 vmcloak install $name --vm-visible adobe9 flash wic python27 pillow dotnet java removetooltips wallpaper chrome &>> $logfile
