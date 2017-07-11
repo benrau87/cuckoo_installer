@@ -135,7 +135,7 @@ error_check 'Mounted ISO'
 
 #--hwvirt
 echo -e "${YELLOW}Creating VM, some interaction may be required${NC}"
-vmcloak init --$distro --vm-visible --ramsize $ram --cpus $cpu --iso-mount /mnt/$name $name &>> $logfile
+vmcloak init --$distro --vm-visible --ramsize $ram --cpus $cpu --iso-mount /mnt/$name $name 
 wait
 vboxmanage modifyvm $name --macaddress $macadd
 #--hwvirt
