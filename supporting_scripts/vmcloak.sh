@@ -141,8 +141,12 @@ vboxmanage modifyvm $name --macaddress $macadd
 #--hwvirt
 echo -e "${YELLOW}Creating VM, some interaction may be required${NC}"
 vmcloak init --$distro --vm-visible --ramsize $ram --cpus $cpu --iso-mount /mnt/$name $name &>> $logfile
-wait
 error_check 'Created VM'
+
+echo -e "${YELLOW}Installing programs on VM, some interaciton may be required${NC}"
+vmcloak install $name --vm-visible adobe9 flash wic python27 pillow dotnet java removetooltips wallpaper chrome 
+read -p "Press enter to continue"
+error_check 'Installed adobe9 wic pillow dotnet40 java7 removetooltips on VMs'
 
 echo -e "${YELLOW}Modifying vm hardware IDs${NC}"
 VBoxManage modifyvm $name --macaddress $macadd
@@ -218,10 +222,6 @@ VBoxManage setextradata $name VBoxInternal/CPUM/HostCPUID/80000004/edx  0x002020
 VBoxManage modifyvm $name--paravirtprovider legacy  
 
 error_check 'Hardware modified'
-
-echo -e "${YELLOW}Installing programs on VM, some interaciton may be required${NC}"
-vmcloak install $name --vm-visible adobe9 flash wic python27 pillow dotnet java removetooltips wallpaper chrome &>> $logfile
-error_check 'Installed adobe9 wic pillow dotnet40 java7 removetooltips on VMs'
 
 echo
 echo -e "${YELLOW}Starting VM and creating a running snapshot...Please wait.${NC}"  
