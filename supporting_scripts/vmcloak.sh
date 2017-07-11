@@ -141,7 +141,7 @@ echo
 read -n 1 -s -p "Please place your Office 2007 ISO in the folder under /mnt/office2007/ and press any key to continue"
 echo
 
-mount -o loop,ro  --source /mnt/office2007/*.iso --target /mnt/office2007/ &>> $logfile
+mount -o loop,ro  --source /mnt/office2007/* --target /mnt/office2007/ &>> $logfile
 error_check 'ISO mounted'
 
 echo -e "${YELLOW}What is the license key?${NC}"
