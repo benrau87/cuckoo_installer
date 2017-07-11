@@ -79,15 +79,17 @@ error_check 'Genisoimage installed'
 
 dir_check /mnt/windows_ISOs &>> $logfile
 umount /mnt/windows_ISOs
-echo
-read -n 1 -s -p "Please place your Windows ISO in the folder under /mnt/windows_ISOs and press any key to continue"
-echo
 
 print_status "${YELLOW}Installing vmcloak${NC}"
 git clone git://github.com/jbremer/vmcloak &>> $logfile
 cd vmcloak &>> $logfile
+pip install -r requirements.txt
 python setup.py develop &>> $logfile
 error_check 'Installed vmcloak'
+
+echo
+read -n 1 -s -p "Please place your Windows ISO in the folder under /mnt/windows_ISOs and press any key to continue"
+echo
 
 print_status "${YELLOW}Checking for host only interface${NC}"
 ON=$(ifconfig -a | grep -cs 'vboxnet0')
