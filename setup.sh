@@ -475,7 +475,7 @@ error_check 'Pulledpork installed'
 fi
 
 ##MySQL install
-if [ "$mysql_check" == "true" ]; then
+if [ "$mysql_check" == "true" ] && [ "$mysqlconf_check" == "true" ]; then
 print_status "${YELLOW}MySQL installed, skipping installation${NC}"
 else
 print_status "${YELLOW}Installing MySQL${NC}"
@@ -485,10 +485,6 @@ error_check 'MySQL passwords set'
 print_status "${YELLOW}Downloading and installing MySQL${NC}"
 apt-get -y install mysql-server python-mysqldb &>> $logfile 
 error_check 'MySQL installed'
-fi
-if [ "$mysqlconf_check" == "true" ]; then
-print_status "${YELLOW}MySQL already configured for Cuckoo, skipping${NC}"
-else
 print_status "${YELLOW}Configuring MySQL${NC}"
 mysql -uroot -p$root_mysql_pass -e "DELETE FROM mysql.user WHERE User=''; DELETE FROM mysql.user WHERE User='root' AND Host NOT IN ('localhost', '127.0.0.1', '::1'); DROP DATABASE IF EXISTS test; DELETE FROM mysql.db WHERE Db='test' OR Db='test\\_%'; DROP DATABASE IF EXISTS cuckoo; CREATE DATABASE cuckoo; GRANT ALL PRIVILEGES ON cuckoo.* TO 'cuckoo'@'localhost' IDENTIFIED BY '$cuckoo_mysql_pass'; FLUSH PRIVILEGES;" &>> $logfile
 #mysql -uroot -p$root_mysql_pass -e "DELETE FROM mysql.user WHERE User=''; DELETE FROM mysql.user WHERE User='root' AND Host NOT IN ('localhost', '127.0.0.1', '::1'); DROP DATABASE IF EXISTS test; DELETE FROM mysql.db WHERE Db='test' OR Db='test\\_%'; DROP DATABASE IF EXISTS cuckoo; FLUSH PRIVILEGES;" &>> $logfile
