@@ -173,7 +173,9 @@ fi
 if [ "$(cat /home/$name/conf/cuckoo.conf | grep localhost/cuckoo | wc -l)" -ge "1" ]; then
  mysqlconf_check=true
 fi
-
+if [ "$(locate /usr/local/bin/vol.py)" -ge "1" ]; then
+ vol_check=true
+fi
 
 ###Add Repos
 print_status "${YELLOW}Adding Repositories${NC}"
@@ -373,6 +375,9 @@ fi
 #error_check 'Malheur installed'
 
 ##Volatility
+if [ "$vol_check" == "true" ]; then
+print_status "${YELLOW}Volatility installed, skipping config${NC}"
+else
 cd $gitdir
 print_status "${YELLOW}Setting up Volatility${NC}"
 wget https://github.com/volatilityfoundation/volatility/archive/2.5.zip &>> $logfile
@@ -382,6 +387,7 @@ cd volatility-2.5 &>> $logfile
 python setup.py build &>> $logfile
 python setup.py install &>> $logfile
 error_check 'Volatility installed'
+fi
 
 ##MITMProxy
 if [ ! -f /usr/local/bin/mitmproxy ]; then
