@@ -288,6 +288,7 @@ error_check 'Elasticsearch Setup'
 fi
 
 ##Precheck because Java sucks ass
+service elasticsearch start
 if [ "$(ps aux | grep elastic | wc -l)" -gt "1" ] && [ "$(netstat -tulpn | grep 9200 | wc -l)" -ge "1" ]; then
 print_status "${YELLOW}Java and elastic running${NC}"
 else
