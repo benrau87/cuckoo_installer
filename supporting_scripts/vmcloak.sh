@@ -114,6 +114,8 @@ echo -e "${YELLOW}How many CPU cores would you like to allocate for this machine
 read cpu
 echo -e "${YELLOW}What is the distro? (winxp, win7x86, win7x64, win81x86, win81x64, win10x86, win10x64)${NC}"
 read distro
+echo -e "${YELLOW}Enter in a serial key now if you would like to be legit, otherwise you can skip this for Windows 7.${NC}"
+read serial
 
 print_status "${YELLOW}Mounting ISO if needed${NC}"
 umount /mnt/$name
@@ -123,9 +125,14 @@ mount -o loop,ro /mnt/windows_ISOs/* /mnt/$name &>> $logfile
 error_check 'Mounted ISO'
 
 echo -e "${YELLOW}Creating VM, some interaction may be required${NC}"
+if [ -z "$serial" ]
+then
 vmcloak init --$distro --vm-visible --ramsize $ram --cpus $cpu --iso-mount /mnt/$name $name &>> $logfile
-#vmcloak init --$distro --vm-visible --ramsize $ram --cpus $cpu --serial-key M6TF9-8XQ2M-YQK9F-7TBB2-XGG88 --iso-mount /mnt/$name $name &>> $logfile
 error_check 'Created VM'
+else
+vmcloak init --$distro --vm-visible --ramsize $ram --cpus $cpu --serial-key $serial --iso-mount /mnt/$name $name &>> $logfile
+error_check 'Created VM'
+fi
 
 echo -e "${YELLOW}Installing programs on VM, some interaciton may be required${NC}"
 vmcloak install $name --vm-visible adobe9 flash wic python27 pillow dotnet java removetooltips wallpaper chrome 
