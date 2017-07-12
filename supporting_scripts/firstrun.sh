@@ -1,7 +1,7 @@
 #!/bin/bash
 if [ ! -d ~/.cuckoo ]; then
 cuckoo 
-sleep 20
+wait
 cp ~/conf/* ~/.cuckoo/conf
 cuckoo community
 else
