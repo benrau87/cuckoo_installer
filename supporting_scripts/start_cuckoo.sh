@@ -7,7 +7,7 @@ fi
 RED='\033[0;31m'
 YELLOW='\033[1;33m'
 NC='\033[0m'
-ON=$(ifconfig -a | grep -cs '10.1.1.254')
+ON=$(ifconfig -a | grep -cs 'vboxnet0')
 ##Logging setup
 logfile=/var/log/cuckoo_runlog.log
 mkfifo ${logfile}.pipe
