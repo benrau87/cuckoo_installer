@@ -287,6 +287,14 @@ systemctl start elasticsearch.service &>> $logfile
 error_check 'Elasticsearch Setup'
 fi
 
+##Precheck because Java sucks ass
+if [ "$(ps aux | grep elastic | wc -l)" -gt "1" ] && [ "$(netstat -tulpn | grep 9200 | wc -l)" -ge "1" ]; then
+print_status "${YELLOW}Java and elastic running${NC}"
+else
+	print_error "Please rerun this script or manually enable elasticsearch"
+exit 1
+fi
+
 ##Moloch
 if [ "$moloch_check" == "true" ]; then
 print_status "${YELLOW}Moloch Service enabled, skipping config${NC}"
