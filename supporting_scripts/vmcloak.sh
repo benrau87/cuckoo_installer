@@ -114,7 +114,7 @@ echo -e "${YELLOW}How many CPU cores would you like to allocate for this machine
 read cpu
 echo -e "${YELLOW}What is the distro? (winxp, win7x86, win7x64, win81x86, win81x64, win10x86, win10x64)${NC}"
 read distro
-echo -e "${YELLOW}Enter in a serial key now if you would like to be legit, otherwise you can skip this for Windows 7.${NC}"
+echo -e "${YELLOW}Enter in a serial key now if you would like to be legit, otherwise you can skip this for now.${NC}"
 read serial
 
 print_status "${YELLOW}Mounting ISO if needed${NC}"
