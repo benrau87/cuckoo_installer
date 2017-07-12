@@ -75,10 +75,11 @@ echo
 echo -e "${YELLOW}What is the name of the user account created for your cuckoo instance?${NC}"
 read user
 echo
-echo -e "${YELLOW}What is the IP address of the machine that is hosting the cuckoo webpage?${NC}"
+echo -e "${YELLOW}What is the IP address of the machine that is hosting the cuckoo webpage, or enter 0.0.0.0 to host on all address on port 443?${NC}"
 read ipaddr
 echo
-
+echo -e "${YELLOW}Please type in a user name for the website${NC}"
+read webuser
 ##Install nginx
 print_status "${YELLOW}Waiting for dpkg process to free up...${NC}"
 print_status "${YELLOW}If this takes too long try running ${RED}sudo rm -f /var/lib/dpkg/lock${YELLOW} in another terminal window.${NC}"
@@ -210,8 +211,6 @@ mv /tmp/cuckoo /etc/nginx/sites-available/
 ln -s /etc/nginx/sites-available/cuckoo /etc/nginx/sites-enabled/cuckoo
 
 ##Create web user and secure password storage
-echo -e "${YELLOW}Please type in a user name for the website.${NC}"
-read webuser
 htpasswd -c /etc/nginx/htpasswd $webuser
 chown root:www-data /etc/nginx/htpasswd
 chmod u=rw,g=r,o= /etc/nginx/htpasswd
