@@ -94,8 +94,8 @@ openssl req -x509 -nodes -days 3650 -newkey rsa:4096 -keyout malwarelab.key -out
 openssl dhparam -out dhparam.pem 4096 
 error_check 'SSL configured'
 cd ..
-mv cuckoo /etc/nginx
-mv /etc/nginx/cuckoo /etc/nginx/ssl 
+mv malwarelab/ /etc/nginx
+mv /etc/nginx/malwarelab /etc/nginx/ssl 
 chown -R root:www-data /etc/nginx/ssl 
 chmod -R u=rX,g=rX,o= /etc/nginx/ssl 
 
@@ -104,7 +104,7 @@ rm /etc/nginx/sites-enabled/default &>> $logfile
 
 print_status "${YELLOW}Configuring Nginx webserver...${NC}"
 
-sudo  cat >> /tmp/cuckoo <<EOF
+sudo  cat >> /tmp/malwarelab <<EOF
 server {
     listen 443 ssl http2;
     ssl_certificate /etc/nginx/ssl/malwarelab.crt;
@@ -180,8 +180,8 @@ EOF
 
 error_check 'Site configured'
 
-mv /tmp/cuckoo /etc/nginx/sites-available/
-ln -s /etc/nginx/sites-available/cuckoo /etc/nginx/sites-enabled/cuckoo
+mv /tmp/malwarelab /etc/nginx/sites-available/
+ln -s /etc/nginx/sites-available/malwarelab /etc/nginx/sites-enabled/malwarelab
 
 ##Create web user and secure password storage
 htpasswd -c /etc/nginx/htpasswd $webuser
