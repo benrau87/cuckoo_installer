@@ -86,11 +86,11 @@ error_check 'Nginx installed'
 cp nginx.service /lib/systemd/system/
 
 ##Create and secure keys
-mkdir /etc/ssl/cuckoo/ &>> $logfile
-cd /etc/ssl/cuckoo/ &>> $logfile
+mkdir /etc/ssl/malwarelab/ &>> $logfile
+cd /etc/ssl/malwarelab/ &>> $logfile
 
 print_status "${YELLOW}Configuring and installing SSL keys...${NC}"
-openssl req -x509 -nodes -days 3650 -newkey rsa:4096 -keyout cuckoo.key -out cuckoo.crt 
+openssl req -x509 -nodes -days 3650 -newkey rsa:4096 -keyout malwarelab.key -out malwarelab.crt 
 openssl dhparam -out dhparam.pem 4096 
 error_check 'SSL configured'
 cd ..
