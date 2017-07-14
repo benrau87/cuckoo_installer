@@ -14,6 +14,7 @@ mv /etc/nginx/malwarelab /etc/nginx/ssl
 chown -R root:www-data /etc/nginx/ssl 
 chmod -R u=rX,g=rX,o= /etc/nginx/ssl 
 
+
 server {
     listen 443 ssl http2;
     ssl_certificate /etc/nginx/ssl/malwarelab.crt;
@@ -33,18 +34,18 @@ server {
     auth_basic "Login required";
     auth_basic_user_file /etc/nginx/htpasswd;
 
-        location /cuckoo {
-        proxy_pass http://127.0.0.1:8000;
-        proxy_set_header Host \$host;
-        proxy_set_header X-Real-IP \$remote_addr;
-        proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
+        location /cuckoo/ {
+        proxy_pass http://127.0.0.1:8000/;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
     }
     
-        location /moloch {
-        proxy_pass http://127.0.0.1:8005;
-        proxy_set_header Host \$host;
-        proxy_set_header X-Real-IP \$remote_addr;
-        proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
+        location /moloch/ {
+        proxy_pass http://127.0.0.1:8005/;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
     }
     
         location /tpot/ {
