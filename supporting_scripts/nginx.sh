@@ -71,13 +71,6 @@ fi
 ########################################
 ##BEGIN MAIN SCRIPT##
 #Pre checks: These are a couple of basic sanity checks the script does before proceeding.
-echo
-echo -e "${YELLOW}What is the name of the user account created for your cuckoo instance?${NC}"
-read user
-echo
-echo -e "${YELLOW}What is the IP address of the machine that is hosting the cuckoo webpage, or enter 0.0.0.0 to host on all address on port 443?${NC}"
-read ipaddr
-echo
 echo -e "${YELLOW}Please type in a user name for the website${NC}"
 read webuser
 ##Install nginx
@@ -88,7 +81,6 @@ while fuser /var/lib/dpkg/lock >/dev/null 2>&1; do
 done
 print_status "${YELLOW}Installing Nginx...${NC}"
 apt-get -qq install nginx apache2-utils -y &>> $logfile
-usermod -a -G cuckoo $user &>> $logfile
 error_check 'Nginx installed'
 ##Copy over service conf
 cp nginx.service /lib/systemd/system/
@@ -96,16 +88,16 @@ cp nginx.service /lib/systemd/system/
 ##Create and secure keys
 mkdir /etc/ssl/cuckoo/ &>> $logfile
 cd /etc/ssl/cuckoo/ &>> $logfile
-#openssl req -x509 -nodes -days 365 -newkey rsa:4096 -keyout cuckoo.key -out cuckoo.crt 
+
 print_status "${YELLOW}Configuring and installing SSL keys...${NC}"
-openssl req -subj '/CN=Cuckoo_Sandbox/'-x509 -nodes -days 3650 -newkey rsa:4096 -keyout cuckoo.key -out cuckoo.crt &>> $logfile
-openssl dhparam -out dhparam.pem 4096 &>> $logfile
+openssl req -x509 -nodes -days 3650 -newkey rsa:4096 -keyout cuckoo.key -out cuckoo.crt 
+openssl dhparam -out dhparam.pem 4096 
 error_check 'SSL configured'
 cd ..
-mv cuckoo /etc/nginx &>> $logfile
-mv /etc/nginx/cuckoo /etc/nginx/ssl &>> $logfile
-chown -R root:www-data /etc/nginx/ssl &>> $logfile
-chmod -R u=rX,g=rX,o= /etc/nginx/ssl &>> $logfile
+mv cuckoo /etc/nginx
+mv /etc/nginx/cuckoo /etc/nginx/ssl 
+chown -R root:www-data /etc/nginx/ssl 
+chmod -R u=rX,g=rX,o= /etc/nginx/ssl 
 
 ##Remove default sites and create new cuckoo site
 rm /etc/nginx/sites-enabled/default &>> $logfile
@@ -114,9 +106,9 @@ print_status "${YELLOW}Configuring Nginx webserver...${NC}"
 
 sudo  cat >> /tmp/cuckoo <<EOF
 server {
-    listen $ipaddr:443 ssl http2;
-    ssl_certificate /etc/nginx/ssl/cuckoo.crt;
-    ssl_certificate_key /etc/nginx/ssl/cuckoo.key;
+    listen 443 ssl http2;
+    ssl_certificate /etc/nginx/ssl/malwarelab.crt;
+    ssl_certificate_key /etc/nginx/ssl/malwarelab.key;
     ssl_dhparam /etc/nginx/ssl/dhparam.pem;
     ssl_protocols TLSv1 TLSv1.1 TLSv1.2;
     ssl_prefer_server_ciphers on;
@@ -124,83 +116,64 @@ server {
     ssl_ecdh_curve secp384r1; # Requires nginx >= 1.1.0
     ssl_session_cache shared:SSL:10m;
     ssl_session_tickets off; # Requires nginx >= 1.5.9
-    # Uncomment this next line if you are using a signed, trusted cert
-    #add_header Strict-Transport-Security "max-age=63072000; includeSubdomains; preload";
     add_header X-Frame-Options SAMEORIGIN;
     add_header X-Content-Type-Options nosniff;
-    root /usr/share/nginx/html;
+    root /usr/share/nginx/html/malware;
     index index.html index.htm;
     client_max_body_size 101M;
     auth_basic "Login required";
     auth_basic_user_file /etc/nginx/htpasswd;
 
-    location / {
-        proxy_pass http://127.0.0.1:8000;
-        proxy_set_header Host \$host;
-        proxy_set_header X-Real-IP \$remote_addr;
-        proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
+        location /cuckoo/ {
+        proxy_pass http://127.0.0.1:8000/;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
     }
-
-    location /storage/analysis {
-       alias /etc/cuckoo-modified/storage/analyses/;
-       autoindex on;
-       autoindex_exact_size off;
-       autoindex_localtime on;
+    
+        location /moloch/ {
+        proxy_pass http://127.0.0.1:8005/;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
     }
-
-    location /static {
-      alias /etc/cuckoo-modified/web/static/;
+    
+        location /tpot/ {
+        proxy_pass http://127.0.0.1:8080/;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
     }
-}
-
-server {
-    listen $ipaddr:80 http2;
-    return 301 https://\$server_name$request_uri;
-}
-
-
-#server {
-#  listen 192.168.100.1:8080;
-
-#   root /home/cuckoo/vmshared;
-
-#     location / {
-#           try_files \$uri \$uri/ =404;
-#           autoindex on;
-#           autoindex_exact_size off;
-#           autoindex_localtime on;
-#     }
-#}
-# Host the upstream legacy API 
-server {
-    listen $ipaddr:4343 ssl http2;
-    ssl_certificate /etc/nginx/ssl/cuckoo.crt;
-    ssl_certificate_key /etc/nginx/ssl/cuckoo.key;
-    ssl_dhparam /etc/nginx/ssl/dhparam.pem;
-    ssl_protocols TLSv1 TLSv1.1 TLSv1.2;
-    ssl_prefer_server_ciphers on;
-    ssl_ciphers "EECDH+AESGCM:EDH+AESGCM:AES256+EECDH:AES256+EDH";
-    ssl_ecdh_curve secp384r1; # Requires nginx >= 1.1.0
-    ssl_session_cache shared:SSL:10m;
-    ssl_session_tickets off; # Requires nginx >= 1.5.9
-   # Uncomment this next line if you are using a signed, trusted cert
-    #add_header Strict-Transport-Security "max-age=63072000; includeSubdomains; preload";
-    add_header X-Frame-Options SAMEORIGIN;
-    add_header X-Content-Type-Options nosniff;
-    root /usr/share/nginx/html;
-    index index.html index.htm;
-    client_max_body_size 101M;
-
-    location / {
-        proxy_pass http://127.0.0.1:8000
-        proxy_set_header Host \$host;
-        proxy_set_header X-Real-IP \$remote_addr;
-        proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
-        
-        # Restrict access
-       #allow IP_Address;
-      #allow 192.168.1.0/24;
-      #deny all;
+    
+        location /irma/ {
+        proxy_pass http://127.0.0.1:8181/;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    }
+    
+        location /mobsf/ {
+        proxy_pass http://127.0.0.1:8282/;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    }
+       
+    	location /guacamole/ {
+    	proxy_pass http://127.0.0.1:8080/guacamole/;
+    	proxy_buffering off;
+    	proxy_http_version 1.1;
+    	proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    	proxy_set_header Upgrade $http_upgrade;
+    	proxy_set_header Connection $http_connection;
+    	access_log off;
+    }
+       
+        location /netdata/ {
+        proxy_pass http://127.0.0.1:19999/;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
     }
 }
 EOF
