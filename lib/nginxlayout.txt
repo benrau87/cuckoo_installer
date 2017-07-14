@@ -1,5 +1,5 @@
 apt-get -qq install nginx apache2-utils -y
-rm /etc/nginx/sites-enabled/default &>> $logfile
+rm /etc/nginx/sites-enabled/default 
 
 mkdir /etc/ssl/malwarelab/
 cd /etc/ssl/malwarelab/
