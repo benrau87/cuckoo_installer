@@ -79,7 +79,7 @@ if [ "$EUID" -ne 0 ]
 fi
 #sevice check
 print_status "${YELLOW}Starting essential services${NC}"
-up_check mongodb elasticsearch mysql molochcapture molochviewer suricata 
+up_check mongodb elasticsearch mysql molochcapture molochviewer suricata tor
 print_good 'All services running'
 sleep 1
 #start virtual network interface
