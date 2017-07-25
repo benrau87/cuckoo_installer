@@ -340,19 +340,19 @@ error_check 'Yara installed'
 fi
 
 ##DTrace
-if [ "$dtrace_check" == "true" ]; then
-print_status "${YELLOW}Dtrace installed, skipping config${NC}"
-else
-print_status "${YELLOW}Downloading and installing DTrace${NC}"
-cd /etc
-git clone https://github.com/dtrace4linux/linux.git dtrace &>> $logfile
-cd dtrace
-bash tools/get-deps.pl -y &>> $logfile
-make all &>> $logfile
-make install &>> $logfile
-make load &>> $logfile
-error_check 'DTrace installed'
-fi
+#if [ "$dtrace_check" == "true" ]; then
+#print_status "${YELLOW}Dtrace installed, skipping config${NC}"
+#else
+#print_status "${YELLOW}Downloading and installing DTrace${NC}"
+#cd /etc
+#git clone https://github.com/dtrace4linux/linux.git dtrace &>> $logfile
+#cd dtrace
+#bash tools/get-deps.pl -y &>> $logfile
+#make all &>> $logfile
+#make install &>> $logfile
+#make load &>> $logfile
+#error_check 'DTrace installed'
+#fi
 
 ##Pydeep
 if [ "$pydeep_check" == "true" ]; then
