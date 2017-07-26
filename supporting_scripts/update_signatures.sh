@@ -79,12 +79,15 @@ print_status "${YELLOW}Updating Cuckoo...Please Wait${NC}"
 su - cuckoo -c 'cuckoo community' 
 ###YARA
 print_status "${YELLOW}Updating Yara...Please Wait${NC}"
-cd $cuckoo_yara
-rm -rf rules/
-git clone https://github.com/yara-rules/rules.git &>> $logfile
+cd $cuckoo_yara/rules
+git pull &>> $logfile
+
+cd $cuckoo_yara/signature-base
+git pull &>> $logfile
 
 ##Copy rules
 #Bins
+cd $cuckoo_yara
 cp rules/CVE_Rules/*.yar $cuckoo_yara/binaries/
 cp rules/malware/*.yar $cuckoo_yara/binaries/
 cp rules/Crypto/*.yar $cuckoo_yara/binaries/
