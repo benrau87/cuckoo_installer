@@ -87,7 +87,7 @@ git pull &>> $logfile
 
 ##Copy rules
 #Bins
-cd $cuckoo_yara
+cd $cuckoo_yara/custom
 cp rules/CVE_Rules/*.yar $cuckoo_yara/binaries/
 cp rules/malware/*.yar $cuckoo_yara/binaries/
 cp rules/Crypto/*.yar $cuckoo_yara/binaries/
@@ -101,18 +101,6 @@ rm $cuckoo_yara/binaries/antidebug_antivm.yar   &>> $logfile
 rm $cuckoo_yara/binaries/MALW_AdGholas.yar   &>> $logfile
 rm $cuckoo_yara/binaries/APT_Shamoon*.yar   &>> $logfile
 rm $cuckoo_yara/binaries/peid.yar   &>> $logfile
-#Urls
-#cp $cuckoo_yara/binaries/url.yar $cuckoo_yara/urls/
-#cp $cuckoo_yara/binaries/ip.yar $cuckoo_yara/urls/
-#cp $cuckoo_yara/binaries/urls.yar $cuckoo_yara/urls/
-#cp rules/Webshells/*.yar $cuckoo_yara/urls/
-#Mem
-#cp rules/Crypto/*.yar $cuckoo_yara/memory/
-#cp rules/utils/*.yar $cuckoo_yara/memory/
-#cp $cuckoo_yara/binaries/url.yar $cuckoo_yara/memory/
-#cp $cuckoo_yara/binaries/ip.yar $cuckoo_yara/memory/
-#cp $cuckoo_yara/binaries/urls.yar $cuckoo_yara/memory/
-#cp rules/malware/*.yar $cuckoo_yara/memory/
 
 ##Create Index
 #Binaries
