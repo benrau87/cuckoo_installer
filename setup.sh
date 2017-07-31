@@ -137,7 +137,7 @@ fi
 if [ "$(ls /etc/apt/sources.list.d/mongodb-org-3.4.list | wc -l)" -ge "1" ]; then
  mongo_check=true
 fi
-if [ "$(locate mongodb.service | wc -l)" -ge "1" ]; then
+if [ "$(locate /etc/systemd/system/mongodb.service | wc -l)" -ge "1" ]; then
  mongoservice_check=true
 fi
 if [ "$(ls /etc/apt/sources.list.d/ | grep elastic-5| wc -l)" -ge "1" ]; then
@@ -152,10 +152,10 @@ fi
 if [ "$(which snort | wc -l)" -ge "1" ]; then
  snort_check=true
 fi
-if [ "$(locate elasticsearch.service | wc -l)" -ge "1" ]; then
+if [ "$(locate /etc/systemd/system/elasticsearch.service | wc -l)" -ge "1" ]; then
  elasticservice_check=true
 fi
-if [ "$(locate molochviewer.service | wc -l)" -ge "1" ]; then
+if [ "$(locate /etc/systemd/system/molochviewer.service | wc -l)" -ge "1" ]; then
  moloch_check=true
 fi
 if [ "$(which yara | wc -l)" -ge "1" ]; then
