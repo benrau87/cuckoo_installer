@@ -74,6 +74,7 @@ fi
 ############################################################################################################################
 
 print_status "${YELLOW}Installing Tor..${NC}"
+print_status "${YELLOW}Make sure to check the last lines of the config at /etc/tor/torrc and make sure you have the right interface defined, it should be the same as your dirty line${NC}"
 apt-get update -y &>> $logfile
 echo "deb http://deb.torproject.org/torproject.org xenial main" |  sudo tee -a /etc/apt/sources.list &>> $logfile
 echo "deb-src http://deb.torproject.org/torproject.org xenial main" |  sudo tee -a /etc/apt/sources.list &>> $logfile
