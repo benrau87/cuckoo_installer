@@ -13,6 +13,6 @@ class Custom(Auxiliary):
         Auxiliary.__init__(self, options, analyzer)
 
     def start(self):
-        log.info("Starting my Custom auxiliary module")
+        log.info("Starting my RogueKiller logging")
         nf = NetlogFile("logs/initial.json")
         nf.send(json.dumps(['foo', {'bar': ('baz', None, 1.0, 2, False)}]))
