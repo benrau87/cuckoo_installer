@@ -110,6 +110,7 @@ dir_check /home/$name/tools
 dir_check /home/$name/conf
 sed -i "s/internet = ens33/internet = $interface/g" $gitdir/conf/routing.conf &>> $logfile
 sed -i "s/steve/$name/g" $gitdir/supporting_scripts/start_cuckoo.sh &>> $logfile
+sed -i "s/ens160/$interface/g" $gitdir/lib/snort.service &>> $logfile
 cp $gitdir/conf/* /home/$name/conf
 cp $gitdir/supporting_scripts/firstrun.sh /home/$name/
 chmod +x  $gitdir/supporting_scripts/update_signatures.sh
