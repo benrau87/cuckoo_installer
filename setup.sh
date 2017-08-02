@@ -458,9 +458,9 @@ touch /etc/snort/rules/iplists/white_list.rules &>> $logfile
 touch /etc/snort/rules/local.rules &>> $logfile
 touch /etc/snort/rules/snort.rules &>> $logfile
 touch /etc/snort/sid-msg.map &>> $logfile
-chmod -R 5775 /etc/snort &>> $logfile
-chmod -R 5775 /var/log/snort &>> $logfile
-chmod -R 5775 /usr/local/lib/snort_dynamicrules &>> $logfile
+chmod -R 5777 /etc/snort &>> $logfile
+chmod -R 5777 /var/log/snort &>> $logfile
+chmod -R 5777 /usr/local/lib/snort_dynamicrules &>> $logfile
 chown -R snort:snort /etc/snort &>> $logfile
 chown -R $name:$name /var/log/snort &>> $logfile
 chown -R snort:snort /usr/local/lib/snort_dynamicrules &>> $logfile
