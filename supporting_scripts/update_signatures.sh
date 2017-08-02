@@ -88,19 +88,10 @@ git pull &>> $logfile
 ##Copy rules
 #Bins
 cd $cuckoo_yara/custom
-cp rules/CVE_Rules/*.yar $cuckoo_yara/binaries/
-cp rules/malware/*.yar $cuckoo_yara/binaries/
-cp rules/Crypto/*.yar $cuckoo_yara/binaries/
 cp rules/utils/*.yar $cuckoo_yara/binaries/
 cp rules/Malicious_Documents/*.yar $cuckoo_yara/binaries/
 cp rules/Packers/*.yar $cuckoo_yara/binaries/
 cp rules/email/*.yar $cuckoo_yara/binaries/
-##Remove shitty rules
-rm $cuckoo_yara/binaries/Android*   &>> $logfile
-rm $cuckoo_yara/binaries/antidebug_antivm.yar   &>> $logfile
-rm $cuckoo_yara/binaries/MALW_AdGholas.yar   &>> $logfile
-rm $cuckoo_yara/binaries/APT_Shamoon*.yar   &>> $logfile
-rm $cuckoo_yara/binaries/peid.yar   &>> $logfile
 
 ##Create Index
 #Binaries
