@@ -214,7 +214,7 @@ if [ "$elastic_check" == "true" ]; then
 print_status "${YELLOW}Skipping Elastic Repos${NC}"
 else
 wget -qO - https://packages.elastic.co/GPG-KEY-elasticsearch | sudo apt-key add - &>> $logfile
-echo "deb http://packages.elastic.co/elasticsearch/2.x/debian stable main" | sudo tee -a /etc/apt/sources.list.d/elasticsearch-2.x.list &>> $logfile
+echo "deb https://artifacts.elastic.co/packages/5.x/apt stable main" | sudo tee -a /etc/apt/sources.list.d/elastic-5.x.list &>> $logfile
 error_check 'Elasticsearch repo added'
 fi
 
