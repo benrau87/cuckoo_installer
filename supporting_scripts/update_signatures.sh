@@ -91,7 +91,6 @@ cd $cuckoo_yara/custom
 cp rules/utils/*.yar $cuckoo_yara/binaries/
 cp rules/Malicious_Documents/*.yar $cuckoo_yara/binaries/
 cp rules/Packers/*.yar $cuckoo_yara/binaries/
-cp rules/email/*.yar $cuckoo_yara/binaries/
 
 ##Create Index
 #Binaries
