@@ -437,41 +437,42 @@ error_check 'DAQ installed'
 fi
 cd $gitdir
 if [ ! -f /usr/sbin/snort ]; then
-wget https://www.snort.org/downloads/snort/snort-2.9.9.0.tar.gz  &>> $logfile
-tar -xvzf snort-2.9.9.0.tar.gz  &>> $logfile
-cd snort*
-./configure --enable-sourcefire &>> $logfile
-make &>> $logfile
-make install  &>> $logfile
-error_check 'Snort installed'
-ldconfig  &>> $logfile
-ln -s /usr/local/bin/snort /usr/sbin/snort  &>> $logfile
-groupadd snort  &>> $logfile 
-sudo useradd snort -r -s /sbin/nologin -c SNORT_IDS -g snort  &>> $logfile
-mkdir -p /etc/snort/rules/iplists  &>> $logfile
-mkdir /etc/snort/preproc_rules &>> $logfile
-mkdir /usr/local/lib/snort_dynamicrules &>> $logfile
-mkdir /etc/snort/so_rules &>> $logfile
-mkdir -p /var/log/snort/archived_logs &>> $logfile
-touch /etc/snort/rules/iplists/black_list.rules &>> $logfile
-touch /etc/snort/rules/iplists/white_list.rules &>> $logfile
-touch /etc/snort/rules/local.rules &>> $logfile
-touch /etc/snort/rules/snort.rules &>> $logfile
-touch /etc/snort/sid-msg.map &>> $logfile
+apt-get install snort -y
+#wget https://www.snort.org/downloads/snort/snort-2.9.9.0.tar.gz  &>> $logfile
+#tar -xvzf snort-2.9.9.0.tar.gz  &>> $logfile
+#cd snort*
+#./configure --enable-sourcefire &>> $logfile
+#make &>> $logfile
+#make install  &>> $logfile
+#error_check 'Snort installed'
+#ldconfig  &>> $logfile
+#ln -s /usr/local/bin/snort /usr/sbin/snort  &>> $logfile
+#groupadd snort  &>> $logfile 
+#sudo useradd snort -r -s /sbin/nologin -c SNORT_IDS -g snort  &>> $logfile
+#mkdir -p /etc/snort/rules/iplists  &>> $logfile
+#mkdir /etc/snort/preproc_rules &>> $logfile
+#mkdir /usr/local/lib/snort_dynamicrules &>> $logfile
+#mkdir /etc/snort/so_rules &>> $logfile
+#mkdir -p /var/log/snort/archived_logs &>> $logfile
+#touch /etc/snort/rules/iplists/black_list.rules &>> $logfile
+#touch /etc/snort/rules/iplists/white_list.rules &>> $logfile
+#touch /etc/snort/rules/local.rules &>> $logfile
+#touch /etc/snort/rules/snort.rules &>> $logfile
+#touch /etc/snort/sid-msg.map &>> $logfile
 chmod -R 5777 /etc/snort &>> $logfile
 chmod -R 5777 /var/log/snort &>> $logfile
 chmod -R 5777 /usr/local/lib/snort_dynamicrules &>> $logfile
-chown -R snort:snort /etc/snort &>> $logfile
+#chown -R snort:snort /etc/snort &>> $logfile
 chown -R $name:$name /var/log/snort &>> $logfile
-chown -R snort:snort /usr/local/lib/snort_dynamicrules &>> $logfile
-cd $gitdir/snort-*/etc/ &>> $logfile
-cp *.conf* /etc/snort &>> $logfile
-cp *.map /etc/snort &>> $logfile
-cp *.dtd /etc/snort &>> $logfile
-cd $gitdir/snort-*/src/dynamic-preprocessors/build/usr/local/lib/snort_dynamicpreprocessor/ &>> $logfile
-cp * /usr/local/lib/snort_dynamicpreprocessor/ &>> $logfile
-cp $gitdir/lib/snort.conf /etc/snort/ &>> $logfile
-error_check 'Snort configured'
+#chown -R snort:snort /usr/local/lib/snort_dynamicrules &>> $logfile
+#cd $gitdir/snort-*/etc/ &>> $logfile
+#cp *.conf* /etc/snort &>> $logfile
+#cp *.map /etc/snort &>> $logfile
+#cp *.dtd /etc/snort &>> $logfile
+#cd $gitdir/snort-*/src/dynamic-preprocessors/build/usr/local/lib/snort_dynamicpreprocessor/ &>> $logfile
+#cp * /usr/local/lib/snort_dynamicpreprocessor/ &>> $logfile
+#cp $gitdir/lib/snort.conf /etc/snort/ &>> $logfile
+#error_check 'Snort configured'
 fi
 
 ##Pulledpork
