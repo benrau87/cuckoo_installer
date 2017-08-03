@@ -438,6 +438,8 @@ fi
 cd $gitdir
 if [ ! -f /usr/sbin/snort ]; then
 apt-get install snort -y
+rm /etc/snort/snort.conf
+cp $gitdir/lib/snort.conf /etc/snort/
 #wget https://www.snort.org/downloads/snort/snort-2.9.9.0.tar.gz  &>> $logfile
 #tar -xvzf snort-2.9.9.0.tar.gz  &>> $logfile
 #cd snort*
