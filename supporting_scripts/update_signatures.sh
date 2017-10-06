@@ -78,20 +78,29 @@ cuckoo_yara=/home/cuckoo/.cuckoo/yara
 print_status "${YELLOW}Updating Cuckoo...Please Wait${NC}"
 su - cuckoo -c 'cuckoo community' 
 ###YARA
-print_status "${YELLOW}Updating Yara...Please Wait${NC}"
-cd $cuckoo_yara/rules
-git pull &>> $logfile
+#print_status "${YELLOW}Updating Yara...Please Wait${NC}"
+#cd $cuckoo_yara/rules
+#git pull &>> $logfile
+print_status "${YELLOW}Updating Critical Stack...Please Wait${NC}"
+critical-stack-intel pull 
+CS_RULES=/opt/critical-stack/frameworks/intel/master-public.bro.dat
+SURI_RULE_FILE=/etc/suricata/rules/cuckoo.rules
+BL2=/opt/bl2ru2/bl2ru2/bl2ru2.py
+rm $SURI_RULE_FILE
+touch $SURI_RULE_FILE
 
-cd $cuckoo_yara/signature-base
-git pull &>> $logfile
+awk '/ /{print $2 " " "Critical_Stack_Intel" " " $1}' $CS_RULES > /tmp/rules.list
+$BL2 /tmp/rules.list -o $SURI_RULE_FILE
+
+#cd $cuckoo_yara/signature-base
+#git pull &>> $logfile
 
 ##Copy rules
 #Bins
-cd $cuckoo_yara/custom
-cp rules/utils/*.yar $cuckoo_yara/binaries/
-cp rules/Malicious_Documents/*.yar $cuckoo_yara/binaries/
-cp rules/Packers/*.yar $cuckoo_yara/binaries/
-
+#cd $cuckoo_yara/custom
+#cp rules/utils/*.yar $cuckoo_yara/binaries/
+#cp rules/Malicious_Documents/*.yar $cuckoo_yara/binaries/
+#cp rules/Packers/*.yar $cuckoo_yara/binaries/
 ##Create Index
 #Binaries
 #ls -d $cuckoo_yara/binaries/*.yar | awk '{print "include \"" $0 "\""}' | tee $cuckoo_yara/index_binaries.yar &>> $logfile
