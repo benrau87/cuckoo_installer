@@ -98,8 +98,8 @@ do
 done
 echo -e "${YELLOW}What is the name of the interface you wish to route traffic through?(ex: eth0)${NC}"
 read interface
-echo -e "${YELLOW}If you want to use Snort, please type in your Oinkcode, if you do not have it now you will need to append it to /etc/snort/pulledpork.conf in the future, the cron job will take care of updating it.${NC}"
-read oinkcode
+#echo -e "${YELLOW}If you want to use Snort, please type in your Oinkcode, if you do not have it now you will need to append it to /etc/snort/pulledpork.conf in the future, the cron job will take care of updating it.${NC}"
+#read oinkcode
 echo -e "${RED}Hang around for a few minutes to setup moloch, it will require some input.${NC}"
 
 ##Create directories and scripts for later
@@ -424,75 +424,75 @@ error_check 'Suricata configured for auto-update'
 fi
 
 ##Snort
-print_status "${YELLOW}Setting up Snort${NC}"
-cd $gitdir
-if [ ! -f /usr/local/bin/daq-modules-config ]; then
-wget https://www.snort.org/downloads/snort/daq-2.0.6.tar.gz &>> $logfile
-tar -zxvf daq-2.0.6.tar.gz &>> $logfile
-cd daq*  &>> $logfile
-./configure &>> $logfile
-make  &>> $logfile
-make install  &>> $logfile
-error_check 'DAQ installed'
-fi
-cd $gitdir
-if [ ! -f /usr/sbin/snort ]; then
-apt-get install snort -y
-rm /etc/snort/snort.conf
-cp $gitdir/lib/snort.conf /etc/snort/
-#wget https://www.snort.org/downloads/snort/snort-2.9.9.0.tar.gz  &>> $logfile
-#tar -xvzf snort-2.9.9.0.tar.gz  &>> $logfile
-#cd snort*
-#./configure --enable-sourcefire &>> $logfile
-#make &>> $logfile
+#print_status "${YELLOW}Setting up Snort${NC}"
+#cd $gitdir
+#if [ ! -f /usr/local/bin/daq-modules-config ]; then
+#wget https://www.snort.org/downloads/snort/daq-2.0.6.tar.gz &>> $logfile
+#tar -zxvf daq-2.0.6.tar.gz &>> $logfile
+#cd daq*  &>> $logfile
+#./configure &>> $logfile
+#make  &>> $logfile
 #make install  &>> $logfile
-#error_check 'Snort installed'
-#ldconfig  &>> $logfile
-#ln -s /usr/local/bin/snort /usr/sbin/snort  &>> $logfile
-#groupadd snort  &>> $logfile 
-#sudo useradd snort -r -s /sbin/nologin -c SNORT_IDS -g snort  &>> $logfile
-#mkdir -p /etc/snort/rules/iplists  &>> $logfile
-#mkdir /etc/snort/preproc_rules &>> $logfile
-#mkdir /usr/local/lib/snort_dynamicrules &>> $logfile
-#mkdir /etc/snort/so_rules &>> $logfile
-#mkdir -p /var/log/snort/archived_logs &>> $logfile
-#touch /etc/snort/rules/iplists/black_list.rules &>> $logfile
-#touch /etc/snort/rules/iplists/white_list.rules &>> $logfile
-#touch /etc/snort/rules/local.rules &>> $logfile
-#touch /etc/snort/rules/snort.rules &>> $logfile
-#touch /etc/snort/sid-msg.map &>> $logfile
-chmod -R 5777 /etc/snort &>> $logfile
-chmod -R 5777 /var/log/snort &>> $logfile
-chmod -R 5777 /usr/local/lib/snort_dynamicrules &>> $logfile
-#chown -R snort:snort /etc/snort &>> $logfile
-chown -R $name:$name /var/log/snort &>> $logfile
-#chown -R snort:snort /usr/local/lib/snort_dynamicrules &>> $logfile
-#cd $gitdir/snort-*/etc/ &>> $logfile
-#cp *.conf* /etc/snort &>> $logfile
-#cp *.map /etc/snort &>> $logfile
-#cp *.dtd /etc/snort &>> $logfile
-#cd $gitdir/snort-*/src/dynamic-preprocessors/build/usr/local/lib/snort_dynamicpreprocessor/ &>> $logfile
-#cp * /usr/local/lib/snort_dynamicpreprocessor/ &>> $logfile
-#cp $gitdir/lib/snort.conf /etc/snort/ &>> $logfile
-#error_check 'Snort configured'
-fi
+#error_check 'DAQ installed'
+#fi
+#cd $gitdir
+#if [ ! -f /usr/sbin/snort ]; then
+#apt-get install snort -y
+#rm /etc/snort/snort.conf
+#cp $gitdir/lib/snort.conf /etc/snort/
+##wget https://www.snort.org/downloads/snort/snort-2.9.9.0.tar.gz  &>> $logfile
+##tar -xvzf snort-2.9.9.0.tar.gz  &>> $logfile
+##cd snort*
+##./configure --enable-sourcefire &>> $logfile
+##make &>> $logfile
+##make install  &>> $logfile
+##error_check 'Snort installed'
+##ldconfig  &>> $logfile
+##ln -s /usr/local/bin/snort /usr/sbin/snort  &>> $logfile
+##groupadd snort  &>> $logfile 
+##sudo useradd snort -r -s /sbin/nologin -c SNORT_IDS -g snort  &>> $logfile
+##mkdir -p /etc/snort/rules/iplists  &>> $logfile
+##mkdir /etc/snort/preproc_rules &>> $logfile
+##mkdir /usr/local/lib/snort_dynamicrules &>> $logfile
+##mkdir /etc/snort/so_rules &>> $logfile
+##mkdir -p /var/log/snort/archived_logs &>> $logfile
+##touch /etc/snort/rules/iplists/black_list.rules &>> $logfile
+##touch /etc/snort/rules/iplists/white_list.rules &>> $logfile
+##touch /etc/snort/rules/local.rules &>> $logfile
+##touch /etc/snort/rules/snort.rules &>> $logfile
+##touch /etc/snort/sid-msg.map &>> $logfile
+#chmod -R 5777 /etc/snort &>> $logfile
+#chmod -R 5777 /var/log/snort &>> $logfile
+#chmod -R 5777 /usr/local/lib/snort_dynamicrules &>> $logfile
+##chown -R snort:snort /etc/snort &>> $logfile
+#chown -R $name:$name /var/log/snort &>> $logfile
+##chown -R snort:snort /usr/local/lib/snort_dynamicrules &>> $logfile
+##cd $gitdir/snort-*/etc/ &>> $logfile
+##cp *.conf* /etc/snort &>> $logfile
+##cp *.map /etc/snort &>> $logfile
+##cp *.dtd /etc/snort &>> $logfile
+##cd $gitdir/snort-*/src/dynamic-preprocessors/build/usr/local/lib/snort_dynamicpreprocessor/ &>> $logfile
+##cp * /usr/local/lib/snort_dynamicpreprocessor/ &>> $logfile
+##cp $gitdir/lib/snort.conf /etc/snort/ &>> $logfile
+##error_check 'Snort configured'
+#fi
 
-##Pulledpork
-if [ ! -f /usr/local/bin/pulledpork.pl ]; then
-cd $gitdir
-git clone https://github.com/shirkdog/pulledpork.git &>> $logfile
-cd pulledpork &>> $logfile
-sudo cp pulledpork.pl /usr/local/bin/ &>> $logfile
-chmod +x /usr/local/bin/pulledpork.pl &>> $logfile
-cp etc/*.conf /etc/snort/ &>> $logfile
-cp $gitdir/lib/pulledpork.conf /etc/snort/ &>> $logfile
-sed -ie "s/<oinkcode>/$oinkcode/g" /etc/snort/pulledpork.conf
-/usr/local/bin/pulledpork.pl -c /etc/snort/pulledpork.conf -l &>> $logfile
-cp  $gitdir/lib/snort.service /lib/systemd/system/ &>> $logfile
-systemctl enable snort &>> $logfile
-systemctl start snort &>> $logfile
-error_check 'Pulledpork installed'
-fi
+###Pulledpork
+#if [ ! -f /usr/local/bin/pulledpork.pl ]; then
+#cd $gitdir
+#git clone https://github.com/shirkdog/pulledpork.git &>> $logfile
+#cd pulledpork &>> $logfile
+#sudo cp pulledpork.pl /usr/local/bin/ &>> $logfile
+#chmod +x /usr/local/bin/pulledpork.pl &>> $logfile
+#cp etc/*.conf /etc/snort/ &>> $logfile
+#cp $gitdir/lib/pulledpork.conf /etc/snort/ &>> $logfile
+#sed -ie "s/<oinkcode>/$oinkcode/g" /etc/snort/pulledpork.conf
+#/usr/local/bin/pulledpork.pl -c /etc/snort/pulledpork.conf -l &>> $logfile
+#cp  $gitdir/lib/snort.service /lib/systemd/system/ &>> $logfile
+#systemctl enable snort &>> $logfile
+#systemctl start snort &>> $logfile
+#error_check 'Pulledpork installed'
+#fi
 
 ##MySQL install
 if [ "$mysql_check" == "true" ] && [ "$mysqlconf_check" == "true" ]; then
