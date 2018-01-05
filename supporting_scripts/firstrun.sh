@@ -4,7 +4,7 @@ cuckoo
 wait
 cp ~/conf/* ~/.cuckoo/conf
 cuckoo community
-cuckoo migrate
+#cuckoo migrate
 else
 cuckoo community
 fi
