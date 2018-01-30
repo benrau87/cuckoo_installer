@@ -84,7 +84,8 @@ if [ ! -d "/usr/local/bin/vmcloak" ]; then
 print_status "${YELLOW}Installing vmcloak${NC}"
 apt-get install build-essential libssl-dev libffi-dev -y
 apt-get install python-dev genisoimage -y 
-pip install vmcloak -y
+pip install vmcloak 
+pip install -U pytest pytest-xdist
 error_check 'Installed vmcloak'
 fi
 
