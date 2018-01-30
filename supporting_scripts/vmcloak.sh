@@ -106,6 +106,8 @@ echo
 
 #echo -e "${YELLOW}What is the Windows disto?"
 #read distro
+echo -e "${YELLOW}What is the name for the Cuckoo user on this machine?${NC}"
+read user
 echo -e "${YELLOW}What is the name for this machine?${NC}"
 read name
 echo -e "${YELLOW}How much RAM would you like to allocate for this machine?${NC}"
@@ -122,26 +124,27 @@ umount /mnt/$name
 rm -rf /mnt/$name
 mkdir  /mnt/$name
 mount -o loop,ro /mnt/windows_ISOs/* /mnt/$name &>> $logfile
+chown $user:$user -R /mnt/$name
 error_check 'Mounted ISO'
 
 echo -e "${YELLOW}Creating VM, some interaction may be required${NC}"
 if [ -z "$serial" ]
 then
-vmcloak init --$distro --vm-visible --ramsize $ram --cpus $cpu --iso-mount /mnt/$name $name &>> $logfile
+su - $user -c "vmcloak init --$distro --vm-visible --ramsize $ram --cpus $cpu --iso-mount /mnt/$name $name" &>> $logfile
 error_check 'Created VM'
 else
-vmcloak init --$distro --vm-visible --ramsize $ram --cpus $cpu --serial-key $serial --iso-mount /mnt/$name $name &>> $logfile
+su - $user -c "vmcloak init --$distro --vm-visible --ramsize $ram --cpus $cpu --serial-key $serial --iso-mount /mnt/$name $name" &>> $logfile
 error_check 'Created VM'
 fi
 
 echo -e "${YELLOW}Installing programs on VM, some interaciton may be required${NC}"
-vmcloak install $name --vm-visible adobe9 flash wic python27 pillow dotnet java removetooltips wallpaper chrome 
+su - $user -c "vmcloak install $name --vm-visible adobe9 flash wic python27 pillow dotnet java removetooltips wallpaper chrome" 
 error_check 'Installed adobe9 wic pillow dotnet40 java7 removetooltips on VMs'
 
 echo -e "${YELLOW}Starting VM and creating a running snapshot...Please wait.${NC}"  
-vmcloak snapshot $name $name &>> $logfile
+su - $user -c "vmcloak snapshot $name $name" &>> $logfile
 error_check 'Created snapshot'
 
 echo
-echo -e "${YELLOW}The VM is located under your current OR sudo user's home folder under .vmcloak, you will need to register this with Virtualbox on your cuckoo account.${NC}"  
+echo -e "${YELLOW}The VM is located under your user $user home folder under .vmcloak, you will need to register this with Virtualbox on your cuckoo account.${NC}"  
 
