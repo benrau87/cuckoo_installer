@@ -73,27 +73,6 @@ fi
 ############################################################################################################################
 ############################################################################################################################
 ############################################################################################################################
-
-print_status "${YELLOW}Installing genisoimage${NC}"
-apt-get install mkisofs genisoimage libffi-dev python-pip libssl-dev -y &>> $logfile
-error_check 'Prereqs installed'
-
-dir_check /mnt/windows_ISOs &>> $logfile
-
-if [ ! -d "/usr/local/bin/vmcloak" ]; then
-print_status "${YELLOW}Installing vmcloak${NC}"
-apt-get install build-essential libssl-dev libffi-dev -y
-apt-get install python-dev genisoimage -y 
-pip install vmcloak 
-pip install -U pytest pytest-xdist
-error_check 'Installed vmcloak'
-fi
-
-print_status "${YELLOW}Checking for host only interface${NC}"
-VBoxManage hostonlyif create
-VBoxManage hostonlyif ipconfig vboxnet0 --ip 10.1.1.254
-vmcloak-iptables 10.1.1.0/24 eth0
-
 RANGE=255
 number=$RANDOM
 numbera=$RANDOM
@@ -107,22 +86,16 @@ octetb=`echo "obase=16;$numbera" | bc`
 octetc=`echo "obase=16;$numberb" | bc`
 macadd="${octets}${octeta}${octetb}${octetc}"
 
-echo -e "${YELLOW}What is the name for this machine?${NC}"
-read name
-echo
-read -n 1 -s -p "Please place your Windows ISO in the folder under /mnt/windows_ISOs and press any key to continue"
-echo
-print_status "${YELLOW}Mounting ISO if needed${NC}"
-#umount /mnt/$name
-#rm -rf /mnt/$name
-#chown $user:$user -R /mnt/windows_ISOs/
-mkdir  /mnt/$name &>> $logfile
-mount -o loop,ro /mnt/windows_ISOs/* /mnt/$name &>> $logfile
-#chown $user:$user /mnt/$name
-error_check 'Mounted ISO'
+dir_check /mnt/windows_ISOs &>> $logfile
 
-#echo -e "${YELLOW}What is the Windows disto?"
-#read distro
+echo -e "${RED}Active interfaces${NC}"
+for iface in $(ifconfig | cut -d ' ' -f1| tr '\n' ' ')
+do 
+  addr=$(ip -o -4 addr list $iface | awk '{print $4}' | cut -d/ -f1)
+  printf "$iface\t$addr\n"
+done
+echo -e "${YELLOW}What is the name of the interface which has an internet connection?(ex: eth0)${NC}"
+read interface
 echo -e "${YELLOW}What is the name for the Cuckoo user on this machine?${NC}"
 read user
 echo -e "${YELLOW}What is the IP you would like to use for this machine (must be between 10.1.1.2 and 10.1.1.253)?${NC}"
@@ -135,6 +108,31 @@ echo -e "${YELLOW}What is the distro? (winxp, win7x86, win7x64, win81x86, win81x
 read distro
 echo -e "${YELLOW}Enter in a serial key now if you would like to be legit, otherwise you can skip this for now.${NC}"
 read serial
+echo -e "${YELLOW}What is the name for this machine?${NC}"
+read name
+echo
+read -n 1 -s -p "Please place your Windows ISO in the folder under /mnt/windows_ISOs and press any key to continue"
+echo
+print_status "${YELLOW}Mounting ISO if needed${NC}"
+mkdir  /mnt/$name &>> $logfile
+mount -o loop,ro /mnt/windows_ISOs/* /mnt/$name &>> $logfile
+error_check 'Mounted ISO'
+
+print_status "${YELLOW}Installing genisoimage${NC}"
+apt-get install mkisofs genisoimage libffi-dev python-pip libssl-dev python-dev -y &>> $logfile
+error_check 'Prereqs installed'
+
+if [ ! -d "/usr/local/bin/vmcloak" ]; then
+print_status "${YELLOW}Installing vmcloak${NC}"
+pip install vmcloak  &>> $logfile
+pip install -U pytest pytest-xdist &>> $logfile
+error_check 'Installed vmcloak'
+fi
+
+print_status "${YELLOW}Checking for host only interface${NC}"
+VBoxManage hostonlyif create
+VBoxManage hostonlyif ipconfig vboxnet0 --ip 10.1.1.254
+vmcloak-iptables 10.1.1.0/24 $interface
 
 echo -e "${YELLOW}Creating VM, some interaction may be required${NC}"
 if [ -z "$serial" ]
