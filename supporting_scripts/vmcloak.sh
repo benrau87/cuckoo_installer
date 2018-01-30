@@ -113,7 +113,8 @@ octetb=`echo "obase=16;$numbera" | bc`
 octetc=`echo "obase=16;$numberb" | bc`
 macadd="${octets}${octeta}${octetb}${octetc}"
 
-
+echo -e "${YELLOW}What is the name for this machine?${NC}"
+read name
 echo
 read -n 1 -s -p "Please place your Windows ISO in the folder under /mnt/windows_ISOs and press any key to continue"
 echo
@@ -130,8 +131,6 @@ error_check 'Mounted ISO'
 #read distro
 echo -e "${YELLOW}What is the name for the Cuckoo user on this machine?${NC}"
 read user
-echo -e "${YELLOW}What is the name for this machine?${NC}"
-read name
 echo -e "${YELLOW}What is the IP you would like to use for this machine (must be between 10.1.1.2 and 10.1.1.253)?${NC}"
 read ip
 echo -e "${YELLOW}How much RAM would you like to allocate for this machine?${NC}"
