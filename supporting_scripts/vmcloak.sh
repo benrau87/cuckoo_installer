@@ -90,14 +90,8 @@ error_check 'Installed vmcloak'
 fi
 
 print_status "${YELLOW}Checking for host only interface${NC}"
-ON=$(ifconfig -a | grep -cs 'vboxnet0')
-if [[ $ON == 1 ]]
-then
-  echo "Host only interface is up"
-else 
 VBoxManage hostonlyif create
 VBoxManage hostonlyif ipconfig vboxnet0 --ip 10.1.1.254
-fi
 vmcloak-iptables
 
 RANGE=255
