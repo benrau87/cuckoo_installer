@@ -121,7 +121,7 @@ print_status "${YELLOW}Mounting ISO if needed${NC}"
 #umount /mnt/$name
 #rm -rf /mnt/$name
 #chown $user:$user -R /mnt/windows_ISOs/
-mkdir  /mnt/$name
+mkdir  /mnt/$name &>> $logfile
 mount -o loop,ro /mnt/windows_ISOs/* /mnt/$name &>> $logfile
 #chown $user:$user /mnt/$name
 error_check 'Mounted ISO'
@@ -146,10 +146,10 @@ read serial
 echo -e "${YELLOW}Creating VM, some interaction may be required${NC}"
 if [ -z "$serial" ]
 then
-su - $user -c "vmcloak init --$distro --vm-visible --ip $ip --gateway 10.1.1.254 --netmaskmask 255.255.255.0 --ramsize $ram --cpus $cpu --iso-mount /mnt/$name $name" &>> $logfile
+su - $user -c "vmcloak init --$distro --vm-visible --ip $ip --gateway 10.1.1.254 --netmask 255.255.255.0 --ramsize $ram --cpus $cpu --iso-mount /mnt/$name $name" &>> $logfile
 error_check 'Created VM'
 else
-su - $user -c "vmcloak init --$distro --serial-key $serial --vm-visible --ip $ip --gateway 10.1.1.254 --netmaskmask 255.255.255.0 --ramsize $ram --cpus $cpu --iso-mount /mnt/$name $name" &>> $logfile
+su - $user -c "vmcloak init --$distro --serial-key $serial --vm-visible --ip $ip --gateway 10.1.1.254 --netmask 255.255.255.0 --ramsize $ram --cpus $cpu --iso-mount /mnt/$name $name" &>> $logfile
 error_check 'Created VM'
 fi
 
