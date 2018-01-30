@@ -138,8 +138,7 @@ read serial
 print_status "${YELLOW}Mounting ISO if needed${NC}"
 umount /mnt/$name
 rm -rf /mnt/$name
-chown $user:$user -R /mnt/$name
-chown $user:$user -R /mnt/windows_ISOs/
+#chown $user:$user -R /mnt/windows_ISOs/
 mkdir  /mnt/$name
 chown $user:$user /mnt/$name
 mount -o loop,ro /mnt/windows_ISOs/* /mnt/$name &>> $logfile
