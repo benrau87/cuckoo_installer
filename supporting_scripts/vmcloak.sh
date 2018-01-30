@@ -92,7 +92,7 @@ fi
 print_status "${YELLOW}Checking for host only interface${NC}"
 VBoxManage hostonlyif create
 VBoxManage hostonlyif ipconfig vboxnet0 --ip 10.1.1.254
-vmcloak-iptables
+vmcloak-iptables 10.1.1.0/24 eth0
 
 RANGE=255
 number=$RANDOM
