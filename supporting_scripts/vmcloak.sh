@@ -146,10 +146,10 @@ read serial
 echo -e "${YELLOW}Creating VM, some interaction may be required${NC}"
 if [ -z "$serial" ]
 then
-su - $user -c "vmcloak init --$distro --vm-visible --hostonly-ip $ip --host-ip 10.1.1.254 --hostonly-macaddr $macadd --hostonly-gateway 10.1.1.254 --hostonly-mask 255.255.255.0 --ramsize $ram --cpus $cpu --iso-mount /mnt/$name $name" &>> $logfile
+su - $user -c "vmcloak init --$distro --vm-visible --ip $ip --gateway 10.1.1.254 --netmaskmask 255.255.255.0 --ramsize $ram --cpus $cpu --iso-mount /mnt/$name $name" &>> $logfile
 error_check 'Created VM'
 else
-su - $user -c "vmcloak init --$distro --vm-visible  --serial-key $serial --hostonly-ip $ip --host-ip 10.1.1.254 --hostonly-macaddr $macadd --hostonly-gateway 10.1.1.254 --hostonly-mask 255.255.255.0 --ramsize $ram --cpus $cpu --iso-mount /mnt/$name $name" &>> $logfile
+su - $user -c "vmcloak init --$distro --serial-key $serial --vm-visible --ip $ip --gateway 10.1.1.254 --netmaskmask 255.255.255.0 --ramsize $ram --cpus $cpu --iso-mount /mnt/$name $name" &>> $logfile
 error_check 'Created VM'
 fi
 
