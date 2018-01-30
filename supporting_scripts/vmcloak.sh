@@ -117,6 +117,14 @@ macadd="${octets}${octeta}${octetb}${octetc}"
 echo
 read -n 1 -s -p "Please place your Windows ISO in the folder under /mnt/windows_ISOs and press any key to continue"
 echo
+print_status "${YELLOW}Mounting ISO if needed${NC}"
+#umount /mnt/$name
+#rm -rf /mnt/$name
+#chown $user:$user -R /mnt/windows_ISOs/
+mkdir  /mnt/$name
+chown $user:$user /mnt/$name
+mount -o loop,ro /mnt/windows_ISOs/* /mnt/$name &>> $logfile
+error_check 'Mounted ISO
 
 #echo -e "${YELLOW}What is the Windows disto?"
 #read distro
@@ -134,15 +142,6 @@ echo -e "${YELLOW}What is the distro? (winxp, win7x86, win7x64, win81x86, win81x
 read distro
 echo -e "${YELLOW}Enter in a serial key now if you would like to be legit, otherwise you can skip this for now.${NC}"
 read serial
-
-print_status "${YELLOW}Mounting ISO if needed${NC}"
-#umount /mnt/$name
-#rm -rf /mnt/$name
-#chown $user:$user -R /mnt/windows_ISOs/
-mkdir  /mnt/$name
-chown $user:$user /mnt/$name
-mount -o loop,ro /mnt/windows_ISOs/* /mnt/$name &>> $logfile
-error_check 'Mounted ISO'
 
 echo -e "${YELLOW}Creating VM, some interaction may be required${NC}"
 if [ -z "$serial" ]
