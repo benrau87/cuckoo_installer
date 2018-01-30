@@ -98,6 +98,20 @@ else
 VBoxManage hostonlyif create
 VBoxManage hostonlyif ipconfig vboxnet0 --ip 10.1.1.254
 fi
+vmcloak-iptables
+
+RANGE=255
+number=$RANDOM
+numbera=$RANDOM
+numberb=$RANDOM
+let "number %= $RANGE"
+let "numbera %= $RANGE"
+let "numberb %= $RANGE"
+octets='0019eC'
+octeta=`echo "obase=16;$number" | bc`
+octetb=`echo "obase=16;$numbera" | bc`
+octetc=`echo "obase=16;$numberb" | bc`
+macadd="${octets}${octeta}${octetb}${octetc}"
 
 
 echo
@@ -110,6 +124,8 @@ echo -e "${YELLOW}What is the name for the Cuckoo user on this machine?${NC}"
 read user
 echo -e "${YELLOW}What is the name for this machine?${NC}"
 read name
+echo -e "${YELLOW}What is the IP you would like to use for this machine (must be between 10.1.1.2 and 10.1.1.253)?${NC}"
+read ip
 echo -e "${YELLOW}How much RAM would you like to allocate for this machine?${NC}"
 read ram
 echo -e "${YELLOW}How many CPU cores would you like to allocate for this machine?${NC}"
@@ -132,10 +148,10 @@ error_check 'Mounted ISO'
 echo -e "${YELLOW}Creating VM, some interaction may be required${NC}"
 if [ -z "$serial" ]
 then
-su - $user -c "vmcloak init --$distro --vm-visible --ramsize $ram --cpus $cpu --iso-mount /mnt/$name $name" &>> $logfile
+su - $user -c "vmcloak init --$distro --vm-visible --hostonly-ip $ip --host-ip 10.1.1.254 --hostonly-macaddr $macadd --hostonly-gateway 10.1.1.254 --hostonly-mask 255.255.255.0 --ramsize $ram --cpus $cpu --iso-mount /mnt/$name $name" &>> $logfile
 error_check 'Created VM'
 else
-su - $user -c "vmcloak init --$distro --vm-visible --ramsize $ram --cpus $cpu --serial-key $serial --iso-mount /mnt/$name $name" &>> $logfile
+su - $user -c "vmcloak init --$distro --vm-visible  --serial-key $serial --hostonly-ip $ip --host-ip 10.1.1.254 --hostonly-macaddr $macadd --hostonly-gateway 10.1.1.254 --hostonly-mask 255.255.255.0 --ramsize $ram --cpus $cpu --iso-mount /mnt/$name $name" &>> $logfile
 error_check 'Created VM'
 fi
 
