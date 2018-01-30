@@ -136,8 +136,8 @@ echo -e "${YELLOW}Enter in a serial key now if you would like to be legit, other
 read serial
 
 print_status "${YELLOW}Mounting ISO if needed${NC}"
-umount /mnt/$name
-rm -rf /mnt/$name
+#umount /mnt/$name
+#rm -rf /mnt/$name
 #chown $user:$user -R /mnt/windows_ISOs/
 mkdir  /mnt/$name
 chown $user:$user /mnt/$name
