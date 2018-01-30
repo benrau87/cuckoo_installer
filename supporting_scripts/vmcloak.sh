@@ -82,10 +82,9 @@ dir_check /mnt/windows_ISOs &>> $logfile
 
 if [ ! -d "/usr/local/bin/vmcloak" ]; then
 print_status "${YELLOW}Installing vmcloak${NC}"
-git clone git://github.com/jbremer/vmcloak &>> $logfile
-cd vmcloak &>> $logfile
-pip install -r requirements.txt &>> $logfile
-python setup.py develop &>> $logfile
+apt-get install build-essential libssl-dev libffi-dev -y
+apt-get install python-dev genisoimage -y 
+pip install vmcloak -y
 error_check 'Installed vmcloak'
 fi
 
