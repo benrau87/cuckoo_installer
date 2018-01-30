@@ -123,7 +123,7 @@ print_status "${YELLOW}Mounting ISO if needed${NC}"
 #chown $user:$user -R /mnt/windows_ISOs/
 mkdir  /mnt/$name
 mount -o loop,ro /mnt/windows_ISOs/* /mnt/$name &>> $logfile
-chown $user:$user /mnt/$name
+#chown $user:$user /mnt/$name
 error_check 'Mounted ISO'
 
 #echo -e "${YELLOW}What is the Windows disto?"
