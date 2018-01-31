@@ -131,9 +131,10 @@ fi
 
 print_status "${YELLOW}Checking for host only interface${NC}"
 VBoxManage hostonlyif create
-VBoxManage hostonlyif ipconfig vboxnet0 --ip 10.1.1.254
-vmcloak-iptables 10.1.1.0/24 $interface
-#vmcloak-iptables
+#VBoxManage hostonlyif ipconfig vboxnet0 --ip 10.1.1.254
+VBoxManage hostonlyif ipconfig vboxnet0 --ip 192.168.56.1
+#vmcloak-iptables 10.1.1.0/24 $interface
+vmcloak-iptables 192.168.56.0/24 $interface
 
 echo -e "${YELLOW}Creating VM, some interaction may be required${NC}"
 #if [ -z "$serial" ]
@@ -148,9 +149,9 @@ error_check 'Created VM'
 #su - $user -c "vmcloak init --$distro --serial-key $serial --vm-visible --ip $ip --gateway 10.1.1.254 --netmask 255.255.255.0 --ramsize $ram --cpus $cpu --iso-mount /mnt/$name $name" &>> $logfile
 #error_check 'Created VM'
 #fi
-VBoxManage hostonlyif ipconfig vboxnet0 --ip 10.1.1.254
+#VBoxManage hostonlyif ipconfig vboxnet0 --ip 10.1.1.254
 echo -e "${YELLOW}Installing programs on VM, some interaciton may be required${NC}"
-su - $user -c "vmcloak install $name --vm-visible wallpaper adobe flash wic python27 pillow dotnet java removetooltips wallpaper chrome winrar ie11" 
+su - $user -c "vmcloak install $name --vm-visible wallpaper adobe9 flash wic python27 pillow dotnet java removetooltips wallpaper chrome winrar ie11" 
 error_check 'Installed adobe9 wic pillow dotnet40 java7 removetooltips on VMs'
 
 echo -e "${YELLOW}Starting VM and creating a running snapshot...Please wait.${NC}"  
