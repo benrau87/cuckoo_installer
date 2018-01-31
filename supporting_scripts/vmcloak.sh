@@ -136,17 +136,17 @@ VBoxManage hostonlyif create
 vmcloak-iptables
 
 echo -e "${YELLOW}Creating VM, some interaction may be required${NC}"
-if [ -z "$serial" ]
-then
-VBoxManage hostonlyif ipconfig vboxnet0 --ip 10.1.1.254
+#if [ -z "$serial" ]
+#then
+#VBoxManage hostonlyif ipconfig vboxnet0 --ip 10.1.1.254
 #su - $user -c "vmcloak init --$distro --vm-visible --ip $ip --gateway 10.1.1.254 --netmask 255.255.255.0 --ramsize $ram --cpus $cpu --iso-mount /mnt/$name $name" &>> $logfile
-su - $user -c "vmcloak init --$distro --vm-visible --ip $ip --ramsize $ram --cpus $cpu --iso-mount /mnt/$name $name" &>> $logfile
+su - $user -c "vmcloak init --$distro --vm-visible --ip $ip --gateway 192.168.56.1 --netmask 255.255.255.0 --ramsize $ram --cpus $cpu --iso-mount /mnt/$name $name" &>> $logfile
 
 error_check 'Created VM'
-else
-su - $user -c "vmcloak init --$distro --serial-key $serial --vm-visible --ip $ip --gateway 10.1.1.254 --netmask 255.255.255.0 --ramsize $ram --cpus $cpu --iso-mount /mnt/$name $name" &>> $logfile
-error_check 'Created VM'
-fi
+#else
+#su - $user -c "vmcloak init --$distro --serial-key $serial --vm-visible --ip $ip --gateway 10.1.1.254 --netmask 255.255.255.0 --ramsize $ram --cpus $cpu --iso-mount /mnt/$name $name" &>> $logfile
+#error_check 'Created VM'
+#fi
 
 echo -e "${YELLOW}Installing programs on VM, some interaciton may be required${NC}"
 su - $user -c "vmcloak install $name --vm-visible wallpaper adobe flash wic python27 pillow dotnet java removetooltips wallpaper chrome winrar ie11" 
