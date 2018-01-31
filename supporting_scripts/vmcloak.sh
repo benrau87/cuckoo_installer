@@ -232,8 +232,8 @@ error_check 'Created VM'
 #error_check 'Created VM'
 #fi
 #VBoxManage hostonlyif ipconfig vboxnet0 --ip 10.1.1.254
-#echo -e "${YELLOW}Installing programs on VM, some interaciton may be required${NC}"
-#su - $user -c "vmcloak install $name --vm-visible adobe9 flash wic python27 pillow dotnet40 java removetooltips wallpaper chrome winrar ie11" 
+echo -e "${YELLOW}Installing programs on VM, some interaciton may be required${NC}"
+su - $user -c "vmcloak install $name --vm-visible adobe11010 dotnet461 cuteftp firefox flash wic python27 pillow java removetooltips wallpaper chrome winrar ie11" 
 #flash wic pillow java adobe11010 cuteftp dotnet461 firefox chrome winrar
 #error_check 'Installed adobe9 wic pillow dotnet40 java7 removetooltips on VMs'
 
