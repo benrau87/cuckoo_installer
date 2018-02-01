@@ -153,10 +153,14 @@ then
 su - $user -c "vmcloak install $name --vm-visible adobe9 dotnet cuteftp firefox flash wic python27 pillow java removetooltips wallpaper chrome winrar" 
 error_check 'Installed apps on VMs'
 else
-su - $user -c "vmcloak install $name --vm-visible office2013 office2013.isopath=/mnt/office_ISO/*.iso office2013.serialkey=$office_serial"
-su - $user -c "vmcloak install $name --vm-visible adobe9 dotnet cuteftp firefox flash wic python27 pillow java removetooltips wallpaper chrome winrar" 
+su - $user -c "vmcloak install $name --vm-visible office2007 office2007.isopath=/mnt/office_ISO/*.iso office2007.serialkey=$office_serial"
+su - $user -c "vmcloak install $name --vm-visible adobe9 dotnet cuteftp flash wic python27 pillow java removetooltips wallpaper winrar chrome firefox" 
 error_check 'Installed apps on VMs'
 fi
+
+echo -e "${YELLOW}Starting VM and creating a running snapshot...Please wait.${NC}"  
+su - $user -c "vmcloak snapshot $name $name" &>> $logfile
+error_check 'Created snapshot'
 
 echo -e "${YELLOW}Modifying VM Hardware${NC}"
 hexchars="0123456789ABCDEF"
@@ -237,9 +241,6 @@ fi
  sudo -i -u $user VBoxManage modifyvm $name --paravirtprovider legacy  
 
 
-echo -e "${YELLOW}Starting VM and creating a running snapshot...Please wait.${NC}"  
-su - $user -c "vmcloak snapshot $name $name" &>> $logfile
-error_check 'Created snapshot'
 
 echo
 echo -e "${YELLOW}The VM is located under your user $user home folder under .vmcloak, you will need to register this with Virtualbox on your cuckoo account.${NC}"  
