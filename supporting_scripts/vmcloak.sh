@@ -148,18 +148,10 @@ su - $user -c "vmcloak snapshot $name $name" &>> $logfile
 error_check 'Created snapshot'
 
 echo -e "${YELLOW}Modifying VM Hardware${NC}"
-RANGE=255
-number=$RANDOM
-numbera=$RANDOM
-numberb=$RANDOM
-let "number %= $RANGE"
-let "numbera %= $RANGE"
-let "numberb %= $RANGE"
-octets='0019eC'
-octeta=`echo "obase=16;$number" | bc`
-octetb=`echo "obase=16;$numbera" | bc`
-octetc=`echo "obase=16;$numberb" | bc`
-macadd="${octets}${octeta}${octetb}${octetc}"
+'0019eC'
+hexchars="0123456789ABCDEF"
+end=$( for i in {1..6} ; do echo -n ${hexchars:$(( $RANDOM % 16 )):1} ; done | sed -e 's/\(..\)/-\1/g' )
+macadd="00-19-EC$end"
 
  sudo -i -u $user VBoxManage setextradata $name VBoxInternal/Devices/pcbios/0/Config/DmiBIOSFirmwareMajor	'0'
  sudo -i -u $user VBoxManage setextradata $name VBoxInternal/Devices/pcbios/0/Config/DmiBIOSFirmwareMinor	'0'
@@ -193,7 +185,6 @@ macadd="${octets}${octeta}${octetb}${octetc}"
  sudo -i -u $user VBoxManage setextradata $name VBoxInternal/Devices/pcbios/0/Config/DmiSystemVersion	'string:1'
 
 controller=`sudo -i -u $user VBoxManage showvminfo $name --machinereadable | grep SATA`
-
 if [[ -z "$controller" ]]; then
  sudo -i -u $user VBoxManage setextradata $name VBoxInternal/Devices/piix3ide/0/Config/PrimaryMaster/ModelNumber	'HITACHI HTD723216L9SA60'
  sudo -i -u $user VBoxManage setextradata $name VBoxInternal/Devices/piix3ide/0/Config/PrimaryMaster/SerialNumber	'379E6F6659874FC2B0AE'
@@ -220,7 +211,7 @@ fi
  sudo -i -u $user VBoxManage setextradata $name VBoxInternal/Devices/acpi/0/Config/AcpiCreatorRev	'03000001'
  sudo -i -u $user VBoxManage modifyvm $name --macaddress1	$macadd
 
- sudo -i -u $user VBoxManage modifyvm $name puidset 00000001 000306a9 04100800 7fbae3ff bfebfbff
+ sudo -i -u $user VBoxManage modifyvm $name --cpuidset 00000001 000306a9 04100800 7fbae3ff bfebfbff
  sudo -i -u $user VBoxManage setextradata $name VBoxInternal/CPUM/HostCPUID/80000002/eax  0x20444d41	
  sudo -i -u $user VBoxManage setextradata $name VBoxInternal/CPUM/HostCPUID/80000002/ebx  0x69727554	
  sudo -i -u $user VBoxManage setextradata $name VBoxInternal/CPUM/HostCPUID/80000002/ecx  0x74286e6f	
