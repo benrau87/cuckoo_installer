@@ -128,7 +128,7 @@ echo -e "${YELLOW}Creating VM, some interaction may be required${NC}"
 #if [ -z "$serial" ]
 #then
 #sudo -i -u $user VBoxManage hostonlyif ipconfig vboxnet0 --ip 10.1.1.254
-su - $user -c "vmcloak init --$distro --vm-visible --ramsize $ram pus $cpu --iso-mount /mnt/$name $name" &>> $logfile
+su - $user -c "vmcloak init --$distro --vm-visible --ramsize $ram --cpus $cpu --iso-mount /mnt/$name $name" &>> $logfile
 #su - $user "vmcloak init --$distro --vm-visible --ip $ip --gateway 10.1.1.254 --netmask 255.255.255.0 --ramsize $ram pus $cpu --iso-mount /mnt/$name $name" &>> $logfile
 #su - $user "vmcloak init --$distro --vm-visible --ip $ip --gateway 192.168.56.1 --netmask 255.255.255.0 --ramsize $ram pus $cpu --iso-mount /mnt/$name $name" &>> $logfile
 error_check 'Created VM'
