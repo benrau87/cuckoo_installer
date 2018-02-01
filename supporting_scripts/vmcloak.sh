@@ -138,8 +138,16 @@ error_check 'Created VM'
 #fi
 #sudo -i -u $user VBoxManage hostonlyif ipconfig vboxnet0 --ip 10.1.1.254
 
-echo -e "${YELLOW}Modifying VM Hardware${NC}"
+echo -e "${YELLOW}Installing programs on VM, some interaciton may be required${NC}"
+su - $user -c "vmcloak install $name --vm-visible ie11 adobe9 dotnet cuteftp firefox flash wic python27 pillow java removetooltips wallpaper chrome winrar" 
+#flash wic pillow java adobe11010 cuteftp dotnet461 firefox chrome winrar
+#error_check 'Installed adobe9 wic pillow dotnet40 java7 removetooltips on VMs'
 
+echo -e "${YELLOW}Starting VM and creating a running snapshot...Please wait.${NC}"  
+su - $user -c "vmcloak snapshot $name $name" &>> $logfile
+error_check 'Created snapshot'
+
+echo -e "${YELLOW}Modifying VM Hardware${NC}"
 RANGE=255
 number=$RANDOM
 numbera=$RANDOM
@@ -226,13 +234,9 @@ fi
  sudo -i -u $user VBoxManage setextradata $name VBoxInternal/CPUM/HostCPUID/80000004/edx  0x00202020
  sudo -i -u $user VBoxManage modifyvm $name --paravirtprovider legacy  
 
-echo -e "${YELLOW}Installing programs on VM, some interaciton may be required${NC}"
-su - $user "vmcloak install $name --vm-visible ie11 adobe9 dotnet cuteftp firefox flash wic python27 pillow java removetooltips wallpaper chrome winrar" 
-#flash wic pillow java adobe11010 cuteftp dotnet461 firefox chrome winrar
-#error_check 'Installed adobe9 wic pillow dotnet40 java7 removetooltips on VMs'
 
 echo -e "${YELLOW}Starting VM and creating a running snapshot...Please wait.${NC}"  
-su - $user "vmcloak snapshot $name $name" &>> $logfile
+su - $user -c "vmcloak snapshot $name $name" &>> $logfile
 error_check 'Created snapshot'
 
 echo
