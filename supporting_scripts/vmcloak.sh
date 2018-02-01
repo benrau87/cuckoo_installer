@@ -150,7 +150,7 @@ su - $user -c "vmcloak install $name --vm-visible adobe9 dotnet cuteftp firefox 
 #error_check 'Installed adobe9 wic pillow dotnet40 java7 removetooltips on VMs'
 
 echo -e "${YELLOW}Modifying VM Hardware${NC}"
-'0019eC'
+
 hexchars="0123456789ABCDEF"
 end=$( for i in {1..6} ; do echo -n ${hexchars:$(( $RANDOM % 16 )):1} ; done | sed -e 's/\(..\)/\1/g' )
 macadd="0019EC$end"
