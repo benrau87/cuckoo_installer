@@ -139,7 +139,7 @@ error_check 'Created VM'
 #sudo -i -u $user VBoxManage hostonlyif ipconfig vboxnet0 --ip 10.1.1.254
 
 echo -e "${YELLOW}Installing programs on VM, some interaciton may be required${NC}"
-su - $user -c "vmcloak install $name --vm-visible ie11 adobe9 dotnet cuteftp firefox flash wic python27 pillow java removetooltips wallpaper chrome winrar" 
+su - $user -c "vmcloak install $name --vm-visible adobe9 dotnet cuteftp firefox flash wic python27 pillow java removetooltips wallpaper chrome winrar" 
 #flash wic pillow java adobe11010 cuteftp dotnet461 firefox chrome winrar
 #error_check 'Installed adobe9 wic pillow dotnet40 java7 removetooltips on VMs'
 
@@ -192,7 +192,8 @@ macadd="${octets}${octeta}${octetb}${octetc}"
  sudo -i -u $user VBoxManage setextradata $name VBoxInternal/Devices/pcbios/0/Config/DmiSystemVendor	'Hewlett-Packard'
  sudo -i -u $user VBoxManage setextradata $name VBoxInternal/Devices/pcbios/0/Config/DmiSystemVersion	'string:1'
 
-controller=` sudo -i -u $user VBoxManage showvminfo $name --machinereadable | grep SATA`
+controller=`sudo -i -u $user VBoxManage showvminfo $name --machinereadable | grep SATA`
+
 if [[ -z "$controller" ]]; then
  sudo -i -u $user VBoxManage setextradata $name VBoxInternal/Devices/piix3ide/0/Config/PrimaryMaster/ModelNumber	'HITACHI HTD723216L9SA60'
  sudo -i -u $user VBoxManage setextradata $name VBoxInternal/Devices/piix3ide/0/Config/PrimaryMaster/SerialNumber	'379E6F6659874FC2B0AE'
