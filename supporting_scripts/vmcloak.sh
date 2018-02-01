@@ -76,6 +76,12 @@ fi
 
 dir_check /mnt/windows_ISOs &>> $logfile
 
+interface="eth0"
+user="cuckoo"
+ip="192.168.56.100"
+distro="win7x86"
+name="win7x86"
+
 echo -e "${RED}Active interfaces${NC}"
 for iface in $(ifconfig | cut -d ' ' -f1| tr '\n' ' ')
 do 
@@ -142,10 +148,6 @@ echo -e "${YELLOW}Installing programs on VM, some interaciton may be required${N
 su - $user -c "vmcloak install $name --vm-visible adobe9 dotnet cuteftp firefox flash wic python27 pillow java removetooltips wallpaper chrome winrar" 
 #flash wic pillow java adobe11010 cuteftp dotnet461 firefox chrome winrar
 #error_check 'Installed adobe9 wic pillow dotnet40 java7 removetooltips on VMs'
-
-echo -e "${YELLOW}Starting VM and creating a running snapshot...Please wait.${NC}"  
-su - $user -c "vmcloak snapshot $name $name" &>> $logfile
-error_check 'Created snapshot'
 
 echo -e "${YELLOW}Modifying VM Hardware${NC}"
 '0019eC'
