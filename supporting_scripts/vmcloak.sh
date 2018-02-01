@@ -74,7 +74,8 @@ fi
 ############################################################################################################################
 ############################################################################################################################
 
-dir_check /mnt/windows_ISOs &>> $logfile
+dir_check /mnt/windows_ISO &>> $logfile
+dir_check /mnt/office_ISO &>> $logfile
 
 interface="eth0"
 user="cuckoo"
@@ -100,16 +101,18 @@ echo -e "${YELLOW}How many CPU cores would you like to allocate for this machine
 read cpu
 echo -e "${YELLOW}What is the distro? (winxp, win7x86, win7x64, win81x86, win81x64, win10x86, win10x64)${NC}"
 read distro
-echo -e "${YELLOW}Enter in a serial key now if you would like to be legit, otherwise you can skip this for now.${NC}"
+echo -e "${YELLOW}Enter in a Windows serial key now if you would like to be legit, otherwise you can skip this for now.${NC}"
 read serial
+echo -e "${YELLOW}Enter in a Office 2013 serial key now if you wish to install Office, otherwise you can skip this for now.${NC}"
+read office_serial
 echo -e "${YELLOW}What is the name for this machine?${NC}"
 read name
 echo
-read -n 1 -s -p "Please place your Windows ISO in the folder under /mnt/windows_ISOs and press any key to continue"
+read -n 1 -s -p "Please place your Windows ISO in the folder under /mnt/windows_ISO and Office 2013 ISO in /mnt/office_ISO if you have one and press any key to continue"
 echo
 print_status "${YELLOW}Mounting ISO if needed${NC}"
 mkdir  /mnt/$name &>> $logfile
-mount -o loop,ro /mnt/windows_ISOs/* /mnt/$name &>> $logfile
+mount -o loop,ro /mnt/windows_ISO/* /mnt/$name &>> $logfile
 error_check 'Mounted ISO'
 
 print_status "${YELLOW}Installing genisoimage${NC}"
@@ -131,26 +134,31 @@ sudo -i -u $user VBoxManage hostonlyif ipconfig vboxnet0 --ip 192.168.56.1
 vmcloak-iptables 192.168.56.0/24 $interface
 
 echo -e "${YELLOW}Creating VM, some interaction may be required${NC}"
-#if [ -z "$serial" ]
-#then
-#sudo -i -u $user VBoxManage hostonlyif ipconfig vboxnet0 --ip 10.1.1.254
+if [ -z "$serial" ]
+then
 su - $user -c "vmcloak init --$distro --vm-visible --ramsize $ram --cpus $cpu --iso-mount /mnt/$name $name" &>> $logfile
 #su - $user "vmcloak init --$distro --vm-visible --ip $ip --gateway 10.1.1.254 --netmask 255.255.255.0 --ramsize $ram pus $cpu --iso-mount /mnt/$name $name" &>> $logfile
 #su - $user "vmcloak init --$distro --vm-visible --ip $ip --gateway 192.168.56.1 --netmask 255.255.255.0 --ramsize $ram pus $cpu --iso-mount /mnt/$name $name" &>> $logfile
 error_check 'Created VM'
-#else
+else
+su - $user -c "vmcloak init --$distro --vm-visible  --serial-key $serial --ramsize $ram --cpus $cpu --iso-mount /mnt/$name $name" &>> $logfile
 #su - $user "vmcloak init --$distro --serial-key $serial --vm-visible --ip $ip --gateway 10.1.1.254 --netmask 255.255.255.0 --ramsize $ram pus $cpu --iso-mount /mnt/$name $name" &>> $logfile
-#error_check 'Created VM'
-#fi
+error_check 'Created VM'
+fi
 #sudo -i -u $user VBoxManage hostonlyif ipconfig vboxnet0 --ip 10.1.1.254
 
 echo -e "${YELLOW}Installing programs on VM, some interaciton may be required${NC}"
+if [ -z "$office_serial" ]
+then
 su - $user -c "vmcloak install $name --vm-visible adobe9 dotnet cuteftp firefox flash wic python27 pillow java removetooltips wallpaper chrome winrar" 
-#flash wic pillow java adobe11010 cuteftp dotnet461 firefox chrome winrar
-#error_check 'Installed adobe9 wic pillow dotnet40 java7 removetooltips on VMs'
+error_check 'Installed apps on VMs'
+else
+su - $user -c "vmcloak install $name --vm-visible office2013 office2013.isopath=/mnt/office_ISO/*.iso office2013.serialkey=$office_serial"
+su - $user -c "vmcloak install $name --vm-visible adobe9 dotnet cuteftp firefox flash wic python27 pillow java removetooltips wallpaper chrome winrar" 
+error_check 'Installed apps on VMs'
+fi
 
 echo -e "${YELLOW}Modifying VM Hardware${NC}"
-
 hexchars="0123456789ABCDEF"
 end=$( for i in {1..6} ; do echo -n ${hexchars:$(( $RANDOM % 16 )):1} ; done | sed -e 's/\(..\)/\1/g' )
 macadd="0019EC$end"
