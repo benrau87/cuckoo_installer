@@ -132,7 +132,16 @@ su - $user -c "vmcloak init --$distro --vm-visible --ramsize $ram --cpus $cpu --
 #su - $user -c "vmcloak init --$distro --vm-visible --ip $ip --gateway 10.1.1.254 --netmask 255.255.255.0 --ramsize $ram --cpus $cpu --iso-mount /mnt/$name $name" &>> $logfile
 #su - $user -c "vmcloak init --$distro --vm-visible --ip $ip --gateway 192.168.56.1 --netmask 255.255.255.0 --ramsize $ram --cpus $cpu --iso-mount /mnt/$name $name" &>> $logfile
 
- 
+error_check 'Created VM'
+#else
+#su - $user -c "vmcloak init --$distro --serial-key $serial --vm-visible --ip $ip --gateway 10.1.1.254 --netmask 255.255.255.0 --ramsize $ram --cpus $cpu --iso-mount /mnt/$name $name" &>> $logfile
+#error_check 'Created VM'
+#fi
+#VBoxManage hostonlyif ipconfig vboxnet0 --ip 10.1.1.254
+echo -e "${YELLOW}Installing programs on VM, some interaciton may be required${NC}"
+su - $user -c "vmcloak install $name --vm-visible adobe11010 dotnet461 cuteftp firefox flash wic python27 pillow java removetooltips wallpaper chrome winrar ie11" 
+#flash wic pillow java adobe11010 cuteftp dotnet461 firefox chrome winrar
+#error_check 'Installed adobe9 wic pillow dotnet40 java7 removetooltips on VMs'
 echo -e "${YELLOW}Modifying VM Hardware${NC}"
 
 RANGE=255
@@ -224,20 +233,9 @@ fi
  VBoxManage modifyvm $name --paravirtprovider legacy  
 
 
-error_check 'Created VM'
-#else
-#su - $user -c "vmcloak init --$distro --serial-key $serial --vm-visible --ip $ip --gateway 10.1.1.254 --netmask 255.255.255.0 --ramsize $ram --cpus $cpu --iso-mount /mnt/$name $name" &>> $logfile
-#error_check 'Created VM'
-#fi
-#VBoxManage hostonlyif ipconfig vboxnet0 --ip 10.1.1.254
-echo -e "${YELLOW}Installing programs on VM, some interaciton may be required${NC}"
-su - $user -c "vmcloak install $name --vm-visible adobe11010 dotnet461 cuteftp firefox flash wic python27 pillow java removetooltips wallpaper chrome winrar ie11" 
-#flash wic pillow java adobe11010 cuteftp dotnet461 firefox chrome winrar
-#error_check 'Installed adobe9 wic pillow dotnet40 java7 removetooltips on VMs'
-
-#echo -e "${YELLOW}Starting VM and creating a running snapshot...Please wait.${NC}"  
-#su - $user -c "vmcloak snapshot $name $name" &>> $logfile
-#error_check 'Created snapshot'
+echo -e "${YELLOW}Starting VM and creating a running snapshot...Please wait.${NC}"  
+su - $user -c "vmcloak snapshot $name $name" &>> $logfile
+error_check 'Created snapshot'
 
 echo
 echo -e "${YELLOW}The VM is located under your user $user home folder under .vmcloak, you will need to register this with Virtualbox on your cuckoo account.${NC}"  
