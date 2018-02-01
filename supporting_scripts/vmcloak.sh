@@ -153,7 +153,7 @@ then
 su - $user -c "vmcloak install $name --vm-visible adobe9 dotnet cuteftp firefox flash wic python27 pillow java removetooltips wallpaper chrome winrar" 
 error_check 'Installed apps on VMs'
 else
-su - $user -c "vmcloak install $name --vm-visible office2007 office2007.isopath=/mnt/office_ISO/*.iso office2007.serialkey=$office_serial"
+su - $user -c "vmcloak install $name --vm-visible office office.isopath=/mnt/office_ISO/*.iso office.serialkey=$office_serial"
 su - $user -c "vmcloak install $name --vm-visible adobe9 dotnet cuteftp flash wic python27 pillow java removetooltips wallpaper winrar chrome firefox" 
 error_check 'Installed apps on VMs'
 fi
