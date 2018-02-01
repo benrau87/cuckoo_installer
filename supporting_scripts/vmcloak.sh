@@ -152,8 +152,8 @@ su - $user -c "vmcloak install $name --vm-visible adobe9 dotnet cuteftp firefox 
 echo -e "${YELLOW}Modifying VM Hardware${NC}"
 '0019eC'
 hexchars="0123456789ABCDEF"
-end=$( for i in {1..6} ; do echo -n ${hexchars:$(( $RANDOM % 16 )):1} ; done | sed -e 's/\(..\)/-\1/g' )
-macadd="00-19-EC$end"
+end=$( for i in {1..6} ; do echo -n ${hexchars:$(( $RANDOM % 16 )):1} ; done | sed -e 's/\(..\)/\1/g' )
+macadd="0019EC$end"
 
  sudo -i -u $user VBoxManage setextradata $name VBoxInternal/Devices/pcbios/0/Config/DmiBIOSFirmwareMajor	'0'
  sudo -i -u $user VBoxManage setextradata $name VBoxInternal/Devices/pcbios/0/Config/DmiBIOSFirmwareMinor	'0'
