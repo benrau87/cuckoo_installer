@@ -113,7 +113,8 @@ echo
 print_status "${YELLOW}Mounting ISO if needed${NC}"
 mkdir  /mnt/$name &>> $logfile
 mount -o loop,ro /mnt/windows_ISO/* /mnt/$name &>> $logfile
-error_check 'Mounted ISO'
+chmod $name:$name /mnt/office_ISO/*
+error_check 'Mounted ISOs'
 
 print_status "${YELLOW}Installing genisoimage${NC}"
 apt-get install mkisofs genisoimage libffi-dev python-pip libssl-dev python-dev -y &>> $logfile
@@ -153,8 +154,9 @@ then
 su - $user -c "vmcloak install $name --vm-visible adobe9 dotnet cuteftp firefox flash wic python27 pillow java removetooltips wallpaper chrome winrar" 
 error_check 'Installed apps on VMs'
 else
-su - $user -c "vmcloak install $name --vm-visible office office.isopath=/mnt/office_ISO/*.iso office.serialkey=$office_serial"
-su - $user -c "vmcloak install $name --vm-visible adobe9 dotnet cuteftp flash wic python27 pillow java removetooltips wallpaper winrar chrome firefox" 
+mv $name:$name /mnt/office_ISO/* /mnt/office_ISO/office.iso
+su - $user -c "vmcloak install $name --vm-visible office office.isopath=/mnt/office_ISO/office.iso office.serialkey=$office_serial activate=1"
+su - $user -c "vmcloak install $name --vm-visible adobe9 dotnet cuteftp flash wic python27 pillow java removetooltips wallpaper winrar chrome" 
 error_check 'Installed apps on VMs'
 fi
 
