@@ -151,12 +151,12 @@ fi
 echo -e "${YELLOW}Installing programs on VM, some interaciton may be required${NC}"
 if [ -z "$office_serial" ]
 then
-su - $user -c "vmcloak install $name --vm-visible adobe9 dotnet cuteftp firefox flash wic python27 pillow java removetooltips wallpaper chrome winrar" 
+su - $user -c "vmcloak install $name --vm-visible adobe9 dotnet cuteftp firefox flash wic python27 pillow java removetooltips wallpaper chrome winrar ie11" 
 error_check 'Installed apps on VMs'
 else
 mv $name:$name /mnt/office_ISO/* /mnt/office_ISO/office.iso
 su - $user -c "vmcloak install $name --vm-visible office office.isopath=/mnt/office_ISO/office.iso office.serialkey=$office_serial activate=1"
-su - $user -c "vmcloak install $name --vm-visible adobe9 dotnet cuteftp flash wic python27 pillow java removetooltips wallpaper winrar chrome" 
+su - $user -c "vmcloak install $name --vm-visible adobe9 dotnet cuteftp flash wic python27 pillow java removetooltips wallpaper winrar chrome ie11" 
 error_check 'Installed apps on VMs'
 fi
 
