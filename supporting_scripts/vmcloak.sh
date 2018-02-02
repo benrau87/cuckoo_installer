@@ -158,9 +158,9 @@ su - $user -c "vmcloak install $name --vm-visible adobe9 dotnet cuteftp flash wi
 error_check 'Installed apps on VMs'
 fi
 
-echo -e "${YELLOW}Starting VM and creating a running snapshot...Please wait.${NC}"  
-su - $user -c "vmcloak snapshot $name $name" &>> $logfile
-error_check 'Created snapshot'
+#echo -e "${YELLOW}Starting VM and creating a running snapshot...Please wait.${NC}"  
+#su - $user -c "vmcloak snapshot $name $name" &>> $logfile
+#error_check 'Created snapshot'
 
 echo -e "${YELLOW}Modifying VM Hardware${NC}"
 hexchars="0123456789ABCDEF"
