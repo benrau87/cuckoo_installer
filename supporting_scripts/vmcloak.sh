@@ -113,7 +113,7 @@ echo
 print_status "${YELLOW}Mounting ISO if needed${NC}"
 mkdir  /mnt/$name &>> $logfile
 mount -o loop,ro /mnt/windows_ISO/* /mnt/$name &>> $logfile
-chmod $user:$user /mnt/office_ISO/*
+chown $user:$user /mnt/office_ISO/*
 error_check 'Mounted ISOs'
 
 print_status "${YELLOW}Installing genisoimage${NC}"
