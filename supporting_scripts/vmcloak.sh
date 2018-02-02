@@ -138,20 +138,16 @@ echo -e "${YELLOW}Creating VM, some interaction may be required${NC}"
 if [ -z "$serial" ]
 then
 su - $user -c "vmcloak init --$distro --vm-visible --ramsize $ram --cpus $cpu --iso-mount /mnt/$name $name" &>> $logfile
-#su - $user "vmcloak init --$distro --vm-visible --ip $ip --gateway 10.1.1.254 --netmask 255.255.255.0 --ramsize $ram pus $cpu --iso-mount /mnt/$name $name" &>> $logfile
-#su - $user "vmcloak init --$distro --vm-visible --ip $ip --gateway 192.168.56.1 --netmask 255.255.255.0 --ramsize $ram pus $cpu --iso-mount /mnt/$name $name" &>> $logfile
 error_check 'Created VM'
 else
 su - $user -c "vmcloak init --$distro --vm-visible  --serial-key $serial --ramsize $ram --cpus $cpu --iso-mount /mnt/$name $name" &>> $logfile
-#su - $user "vmcloak init --$distro --serial-key $serial --vm-visible --ip $ip --gateway 10.1.1.254 --netmask 255.255.255.0 --ramsize $ram pus $cpu --iso-mount /mnt/$name $name" &>> $logfile
 error_check 'Created VM'
 fi
-#sudo -i -u $user VBoxManage hostonlyif ipconfig vboxnet0 --ip 10.1.1.254
 
 echo -e "${YELLOW}Installing programs on VM, some interaciton may be required${NC}"
 if [ -z "$office_serial" ]
 then
-su - $user -c "vmcloak install $name --vm-visible adobe9 dotnet cuteftp firefox flash wic python27 pillow java removetooltips wallpaper chrome winrar ie11" 
+su - $user -c "vmcloak install $name --vm-visible adobe9 dotnet cuteftp flash wic python27 pillow java removetooltips wallpaper winrar chrome ie11" 
 error_check 'Installed apps on VMs'
 else
 mv $name:$name /mnt/office_ISO/* /mnt/office_ISO/office.iso
@@ -241,8 +237,6 @@ fi
  sudo -i -u $user VBoxManage setextradata $name VBoxInternal/CPUM/HostCPUID/80000004/ecx  0x20202020	
  sudo -i -u $user VBoxManage setextradata $name VBoxInternal/CPUM/HostCPUID/80000004/edx  0x00202020
  sudo -i -u $user VBoxManage modifyvm $name --paravirtprovider legacy  
-
-
 
 echo
 echo -e "${YELLOW}The VM is located under your user $user home folder under .vmcloak, you will need to register this with Virtualbox on your cuckoo account.${NC}"  
