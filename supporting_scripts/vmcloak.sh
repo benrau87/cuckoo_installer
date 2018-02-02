@@ -129,9 +129,7 @@ fi
 
 print_status "${YELLOW}Checking for host only interface${NC}"
 sudo -i -u $user VBoxManage hostonlyif create
-#sudo -i -u $user VBoxManage hostonlyif ipconfig vboxnet0 --ip 10.1.1.254
 sudo -i -u $user VBoxManage hostonlyif ipconfig vboxnet0 --ip 192.168.56.1
-#vmcloak-iptables 10.1.1.0/24 $interface
 vmcloak-iptables 192.168.56.0/24 $interface
 
 echo -e "${YELLOW}Creating VM, some interaction may be required${NC}"
@@ -150,7 +148,7 @@ then
 su - $user -c "vmcloak install $name --vm-visible adobe9 dotnet cuteftp flash wic python27 pillow java removetooltips wallpaper winrar chrome ie11" 
 error_check 'Installed apps on VMs'
 else
-mv $name:$name /mnt/office_ISO/* /mnt/office_ISO/office.iso
+mv /mnt/office_ISO/* /mnt/office_ISO/office.iso
 su - $user -c "vmcloak install $name --vm-visible office office.isopath=/mnt/office_ISO/office.iso office.serialkey=$office_serial activate=1"
 su - $user -c "vmcloak install $name --vm-visible adobe9 dotnet cuteftp flash wic python27 pillow java removetooltips wallpaper winrar chrome ie11" 
 error_check 'Installed apps on VMs'
