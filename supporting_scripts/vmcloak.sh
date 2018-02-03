@@ -235,7 +235,11 @@ fi
  sudo -i -u $user VBoxManage setextradata $name VBoxInternal/CPUM/HostCPUID/80000004/ecx  0x20202020	
  sudo -i -u $user VBoxManage setextradata $name VBoxInternal/CPUM/HostCPUID/80000004/edx  0x00202020
  sudo -i -u $user VBoxManage modifyvm $name --paravirtprovider legacy  
-
+ 
+echo -e "${YELLOW}Starting VM and creating a running snapshot...Please wait.${NC}"  
+su - $user -c "vmcloak snapshot $name $name" &>> $logfile
+error_check 'Created snapshot'
 echo
+
 echo -e "${YELLOW}The VM is located under your user $user home folder under .vmcloak, you will need to register this with Virtualbox on your cuckoo account.${NC}"  
 
