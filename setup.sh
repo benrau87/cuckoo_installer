@@ -258,7 +258,8 @@ pip install -U pip distorm3 &>> $logfile
 pip install -U pip pycrypto &>> $logfile
 pip install -U pip weasyprint &>> $logfile
 pip install -U pip yara-python &>> $logfile
-pip install -U pip cuckoo==2.0.4a5 &>> $logfile
+#pip install -U pip cuckoo==2.0.4a5 &>> $logfile
+pip install -U pip cuckoo &>> $logfile
 error_check 'Cuckoo and depos downloaded and installed'
 
 ##Start MongoDB
