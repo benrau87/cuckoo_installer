@@ -134,7 +134,7 @@ sudo -i -u $user VBoxManage hostonlyif create
 sudo -i -u $user VBoxManage hostonlyif ipconfig vboxnet0 --ip 192.168.56.1
 vmcloak-iptables 192.168.56.0/24 $interface
 
-echo -e "${YELLOW}Creating VM, hold on to your butts, some interaciton may be required, you can RDP to this machine on port $rdp.${NC}"
+echo -e "${YELLOW}Creating VM, hold on to your butts.${NC}"
 if [ -z "$serial" ]
 then
 su - $user -c "vmcloak init --$distro --ramsize $ram --cpus $cpu  --iso-mount /mnt/$name $name" &>> $logfile
@@ -143,7 +143,7 @@ else
 su - $user -c "vmcloak init --$distro --serial-key $serial --ramsize $ram --cpus $cpu --iso-mount /mnt/$name $name" &>> $logfile
 error_check 'Created VM'
 fi
-echo -e "${YELLOW}Installing programs on VM, some interaciton may be required, you can RDP to this machine on port $rdp.${NC}"
+echo -e "${YELLOW}Installing programs on VM.${NC}"
 if [ -z "$office_serial" ]
 then
 su - $user -c "vmcloak install $name adobe9 dotnet cuteftp flash wic python27 pillow java removetooltips wallpaper winrar chrome ie11" 
@@ -253,3 +253,4 @@ sudo -i -u $user VBoxManage --startvm $name
 while true; do ping -c1 $ip > /dev/null && break; done
 sleep 60
 sudo -i -u $user VBoxManage $name snapshot take vmcloak --live
+echo -e "${YELLOW}VMs created, you can RDP to the running box at port $rdp${NC}"
