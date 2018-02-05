@@ -95,6 +95,8 @@ echo -e "${YELLOW}What is the name for the Cuckoo user on this machine?${NC}"
 read user
 echo -e "${YELLOW}What is the IP you would like to use for this machine (must be between 192.168.56.100-200)?${NC}"
 read ip
+echo -e "${YELLOW}What RDP port would you like to assign to this machine?${NC}"
+read rdp
 echo -e "${YELLOW}How much RAM would you like to allocate for this machine?${NC}"
 read ram
 echo -e "${YELLOW}How many CPU cores would you like to allocate for this machine?${NC}"
@@ -154,9 +156,9 @@ su - $user -c "vmcloak install $name --vm-visible adobe9 dotnet cuteftp flash wi
 error_check 'Installed apps on VMs'
 fi
 
-#echo -e "${YELLOW}Modyfing VM.${NC}"  
-#su - $user -c "vmcloak modify $name " &>> $logfile
-#error_check 'Created snapshot'
+echo -e "${YELLOW}Registering VM.${NC}"  
+su - $user -c "vmcloak register $name $name " &>> $logfile
+error_check 'Created snapshot'
 
 echo -e "${YELLOW}Modifying VM Hardware${NC}"
 hexchars="0123456789ABCDEF"
@@ -235,11 +237,12 @@ fi
  sudo -i -u $user VBoxManage setextradata $name VBoxInternal/CPUM/HostCPUID/80000004/ecx  0x20202020	
  sudo -i -u $user VBoxManage setextradata $name VBoxInternal/CPUM/HostCPUID/80000004/edx  0x00202020
  sudo -i -u $user VBoxManage modifyvm $name --paravirtprovider legacy  
+ sudo -i -u $user VBoxManage modifyvm $name --vrdeport $rdp
  
 echo -e "${YELLOW}Starting VM and creating a running snapshot...Please wait.${NC}"  
 su - $user -c "vmcloak snapshot $name $name" &>> $logfile
 error_check 'Created snapshot'
 echo
 
-echo -e "${YELLOW}The VM is located under your user $user home folder under .vmcloak, you will need to register this with Virtualbox on your cuckoo account.${NC}"  
+echo -e "${YELLOW}The VM is located under your user $user home folder under .vmcloak, you ${NC}"  
 
