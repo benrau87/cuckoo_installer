@@ -543,8 +543,8 @@ gpg --keyserver keys.gnupg.net --recv A3C4F0F979CAA22CDBA8F512EE8CBC9E886DDD89 &
 gpg --export A3C4F0F979CAA22CDBA8F512EE8CBC9E886DDD89 | sudo apt-key add - &>> $logfile
 apt-get update &>> $logfile
 apt-get install tor deb.torproject.org-keyring -y &>> $logfile
-echo "TransPort 10.1.1.254:9040" | tee -a /etc/tor/torrc
-echo "DNSPort 10.1.1.254:5353" | tee -a /etc/tor/torrc
+echo "TransPort 192.168.56.1:9040" | tee -a /etc/tor/torrc
+echo "DNSPort 192.168.56.1:5353" | tee -a /etc/tor/torrc
 error_check 'Tor installed'
 
 ##Holding pattern for dpkg...
