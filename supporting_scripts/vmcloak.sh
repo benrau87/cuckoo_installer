@@ -143,8 +143,33 @@ else
 su - $user -c "vmcloak init --$distro --serial-key $serial --ramsize $ram --cpus $cpu --iso-mount /mnt/$name $name" &>> $logfile
 error_check 'Created VM'
 fi
+echo -e "${YELLOW}Installing programs on VM, some interaciton may be required, you can RDP to this machine on port $rdp.${NC}"
+if [ -z "$office_serial" ]
+then
+su - $user -c "vmcloak install $name adobe9 dotnet cuteftp flash wic python27 pillow java removetooltips wallpaper winrar chrome ie11" 
+error_check 'Installed apps on VMs'
+else
+mv /mnt/office_ISO/* /mnt/office_ISO/office.iso
+su - $user -c "vmcloak install $name office office.isopath=/mnt/office_ISO/office.iso office.serialkey=$office_serial activate=1"
+su - $user -c "vmcloak install $name adobe9 dotnet cuteftp flash wic python27 pillow java removetooltips wallpaper winrar chrome ie11" 
+error_check 'Installed apps on VMs'
+fi
+
+#echo -e "${YELLOW}Registering VM.${NC}"  
+#su - $user -c "vmcloak clone $name $name " &>> $logfile
+#su - $user -c "VBoxManage createvm --name $name --register" &>> $logfile
+#su - $user -c "VBoxManage modifyvm --nic1 hostonly --memory $ram --cpus $cpu" &>> $logfile
+#su - $user -c "VBoxManage storagectl $name --name "IDE Controller" --add ide" &>> $logfile
+#su - $user -c "VBoxManage storageattach $name --storagectl 'IDE Controller' --port 0 --device 0 --type hdd --medium /home/$user/.vmcloak/image/$name.vdi" &>> $logfile
+
+ 
+echo -e "${YELLOW}Starting VM and creating a running snapshot...Please wait.${NC}"  
+su - $user -c "vmcloak snapshot $name $name" &>> $logfile
+error_check 'Created snapshot'
+echo
 
 echo -e "${YELLOW}Modifying VM Hardware${NC}"
+sudo -i -u $user VBoxManage $name discardstate
 hexchars="0123456789ABCDEF"
 end=$( for i in {1..6} ; do echo -n ${hexchars:$(( $RANDOM % 16 )):1} ; done | sed -e 's/\(..\)/\1/g' )
 macadd="0019EC$end"
@@ -222,30 +247,9 @@ fi
  sudo -i -u $user VBoxManage setextradata $name VBoxInternal/CPUM/HostCPUID/80000004/edx  0x00202020
  sudo -i -u $user VBoxManage modifyvm $name --paravirtprovider legacy  
  sudo -i -u $user VBoxManage modifyvm $name --vrdeport $rdp
-echo -e "${YELLOW}Installing programs on VM, some interaciton may be required, you can RDP to this machine on port $rdp.${NC}"
-if [ -z "$office_serial" ]
-then
-su - $user -c "vmcloak install $name adobe9 dotnet cuteftp flash wic python27 pillow java removetooltips wallpaper winrar chrome ie11" 
-error_check 'Installed apps on VMs'
-else
-mv /mnt/office_ISO/* /mnt/office_ISO/office.iso
-su - $user -c "vmcloak install $name office office.isopath=/mnt/office_ISO/office.iso office.serialkey=$office_serial activate=1"
-su - $user -c "vmcloak install $name adobe9 dotnet cuteftp flash wic python27 pillow java removetooltips wallpaper winrar chrome ie11" 
-error_check 'Installed apps on VMs'
-fi
-
-#echo -e "${YELLOW}Registering VM.${NC}"  
-#su - $user -c "vmcloak clone $name $name " &>> $logfile
-#su - $user -c "VBoxManage createvm --name $name --register" &>> $logfile
-#su - $user -c "VBoxManage modifyvm --nic1 hostonly --memory $ram --cpus $cpu" &>> $logfile
-#su - $user -c "VBoxManage storagectl $name --name "IDE Controller" --add ide" &>> $logfile
-#su - $user -c "VBoxManage storageattach $name --storagectl 'IDE Controller' --port 0 --device 0 --type hdd --medium /home/$user/.vmcloak/image/$name.vdi" &>> $logfile
-
  
-echo -e "${YELLOW}Starting VM and creating a running snapshot...Please wait.${NC}"  
-su - $user -c "vmcloak snapshot $name $name" &>> $logfile
-error_check 'Created snapshot'
-echo
-
-echo -e "${YELLOW}The VM is located under your user $user home folder under .vmcloak, you ${NC}"  
-
+echo -e "${YELLOW}Starting VM and waiting for response before taking a snapshot.${NC}"
+sudo -i -u $user VBoxManage --startvm $name
+while true; do ping -c1 $ip > /dev/null && break; done
+sleep 60
+sudo -i -u $user VBoxManage $name snapshot take vmcloak --live
