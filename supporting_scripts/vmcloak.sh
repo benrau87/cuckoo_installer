@@ -134,25 +134,25 @@ sudo -i -u $user VBoxManage hostonlyif create
 sudo -i -u $user VBoxManage hostonlyif ipconfig vboxnet0 --ip 192.168.56.1
 vmcloak-iptables 192.168.56.0/24 $interface
 
-echo -e "${YELLOW}Creating VM, some interaction may be required${NC}"
+echo -e "${YELLOW}Creating VM, hold on to your butts${NC}"
 if [ -z "$serial" ]
 then
-su - $user -c "vmcloak init --$distro --vm-visible --ramsize $ram --cpus $cpu --iso-mount /mnt/$name $name" &>> $logfile
+su - $user -c "vmcloak init --$distro --ramsize $ram --cpus $cpu --iso-mount /mnt/$name $name" &>> $logfile
 error_check 'Created VM'
 else
-su - $user -c "vmcloak init --$distro --vm-visible  --serial-key $serial --ramsize $ram --cpus $cpu --iso-mount /mnt/$name $name" &>> $logfile
+su - $user -c "vmcloak init --$distro --serial-key $serial --ramsize $ram --cpus $cpu --iso-mount /mnt/$name $name" &>> $logfile
 error_check 'Created VM'
 fi
 
 echo -e "${YELLOW}Installing programs on VM, some interaciton may be required${NC}"
 if [ -z "$office_serial" ]
 then
-su - $user -c "vmcloak install $name --vm-visible adobe9 dotnet cuteftp flash wic python27 pillow java removetooltips wallpaper winrar chrome ie11" 
+su - $user -c "vmcloak install $name adobe9 dotnet cuteftp flash wic python27 pillow java removetooltips wallpaper winrar chrome ie11" 
 error_check 'Installed apps on VMs'
 else
 mv /mnt/office_ISO/* /mnt/office_ISO/office.iso
-su - $user -c "vmcloak install $name --vm-visible office office.isopath=/mnt/office_ISO/office.iso office.serialkey=$office_serial activate=1"
-su - $user -c "vmcloak install $name --vm-visible adobe9 dotnet cuteftp flash wic python27 pillow java removetooltips wallpaper winrar chrome ie11" 
+su - $user -c "vmcloak install $name office office.isopath=/mnt/office_ISO/office.iso office.serialkey=$office_serial activate=1"
+su - $user -c "vmcloak install $name adobe9 dotnet cuteftp flash wic python27 pillow java removetooltips wallpaper winrar chrome ie11" 
 error_check 'Installed apps on VMs'
 fi
 
