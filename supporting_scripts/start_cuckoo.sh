@@ -78,6 +78,9 @@ if [ "$EUID" -ne 0 ]
   exit 1
 fi
 #sevice check
+print_status "${YELLOW}Stopping existing Cuckoo services${NC}"
+kill $(ps aux | grep '[x]term' | awk '{print $2}') &>> $logfile
+
 print_status "${YELLOW}Starting essential services${NC}"
 up_check mongodb elasticsearch mysql molochcapture molochviewer suricata tor snort
 print_good 'All services running'
@@ -87,10 +90,10 @@ print_status "${YELLOW}Checking for virtual interface${NC}"
 sleep 1
 if [[ $ON == 1 ]]
 then
-  VBoxManage hostonlyif ipconfig vboxnet0 --ip 10.1.1.254 &>> $logfile
+  VBoxManage hostonlyif ipconfig vboxnet0 --ip 192.168.56.1 &>> $logfile
 else
   VBoxManage hostonlyif create vboxnet0 &>> $logfile
-  VBoxManage hostonlyif ipconfig vboxnet0 --ip 10.1.1.254 &>> $logfile
+  VBoxManage hostonlyif ipconfig vboxnet0 --ip 192.168.56.1 &>> $logfile
 fi
 print_good 'Interface is up'
 #start routing
