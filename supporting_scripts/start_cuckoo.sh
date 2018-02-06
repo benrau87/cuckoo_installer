@@ -110,7 +110,7 @@ cuckoo -d rooter &
 sleep 10
 #start cuckoo
 su - steve -c 'cuckoo' &
-su - steve -c 'cuckoo -d process auto' &
+su - steve -c 'cuckoo process auto' &
 su - steve -c 'cuckoo web runserver 0.0.0.0:8000' &
 error_check 'Cuckoo services launched'
 
