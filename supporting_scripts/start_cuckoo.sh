@@ -82,8 +82,8 @@ print_status "${YELLOW}Stopping existing Cuckoo services${NC}"
 kill $(ps aux | grep '[x]term' | awk '{print $2}') &>> $logfile
 
 print_status "${YELLOW}Starting essential services${NC}"
-up_check mongodb elasticsearch mysql molochcapture molochviewer suricata tor snort
-print_good 'All services running'
+up_check mongodb elasticsearch mysql molochcapture molochviewer suricata tor 
+error_check 'All services running'
 sleep 1
 #start virtual network interface
 print_status "${YELLOW}Checking for virtual interface${NC}"
@@ -95,20 +95,22 @@ else
   VBoxManage hostonlyif create vboxnet0 &>> $logfile
   VBoxManage hostonlyif ipconfig vboxnet0 --ip 192.168.56.1 &>> $logfile
 fi
-print_good 'Interface is up'
+error_check 'Interface configured'
+
 #start routing
 print_status "${YELLOW}Configuring routing${NC}"
 sleep 1
 echo 1 | tee -a /proc/sys/net/ipv4/ip_forward &>> $logfile
 sysctl -w net.ipv4.ip_forward=1 &>> $logfile
-print_good 'Routing configured'
+error_check 'Routing configured'
+
 print_status "${YELLOW}Launching Cuckoo...${NC}"
 sleep 1
-xterm -hold -e cuckoo -d rooter &
+cuckoo -d rooter &
 sleep 10
 #start cuckoo
-su - steve -c 'xterm -hold -e cuckoo' &
-su - steve -c 'xterm -hold -e cuckoo -d process auto' &
-su - steve -c 'xterm -hold -e cuckoo web runserver 0.0.0.0:8000' &
-
+su - steve -c 'cuckoo' &
+su - steve -c 'cuckoo -d process auto' &
+su - steve -c 'cuckoo web runserver 0.0.0.0:8000' &
+error_check 'Cuckoo services launched'
 
