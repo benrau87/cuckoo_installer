@@ -168,8 +168,6 @@ su - $user -c "vmcloak snapshot $name $name" &>> $logfile
 error_check 'Created snapshot'
 echo
 
-echo -e "${YELLOW}Modifying VM Hardware${NC}"
-sudo -i -u $user VBoxManage $name discardstate
 hexchars="0123456789ABCDEF"
 end=$( for i in {1..6} ; do echo -n ${hexchars:$(( $RANDOM % 16 )):1} ; done | sed -e 's/\(..\)/\1/g' )
 macadd="0019EC$end"
@@ -248,8 +246,11 @@ fi
  sudo -i -u $user VBoxManage modifyvm $name --paravirtprovider legacy  
  sudo -i -u $user VBoxManage modifyvm $name --vrdeport $rdp
  
+echo -e "${YELLOW}Modifying VM Hardware${NC}"
+sudo -i -u $user VBoxManage discardstate $name
+
 echo -e "${YELLOW}Starting VM and waiting for response before taking a snapshot.${NC}"
-sudo -i -u $user VBoxManage --startvm $name
+sudo -i -u $user VBoxManage startvm $name
 while true; do ping -c1 $ip > /dev/null && break; done
 sleep 60
 sudo -i -u $user VBoxManage $name snapshot take vmcloak --live
