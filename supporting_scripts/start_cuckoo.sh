@@ -79,7 +79,7 @@ if [ "$EUID" -ne 0 ]
 fi
 #sevice check
 print_status "${YELLOW}Stopping existing Cuckoo services${NC}"
-kill $(ps aux | grep '[x]term' | awk '{print $2}') &>> $logfile
+kill $(ps aux | grep '/usr/local/bin/cuckoo' | awk '{print $2}') &>> $logfile
 
 print_status "${YELLOW}Starting essential services${NC}"
 up_check mongodb elasticsearch mysql molochcapture molochviewer suricata tor 
