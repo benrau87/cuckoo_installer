@@ -88,8 +88,10 @@ sleep 1
 #start virtual network interface
 print_status "${YELLOW}Checking for virtual interface${NC}"
 sleep 1
-if [[ $ON == 1 ]]
-then
+t1=$(ifconfig | grep -o vboxnet0)
+t2='vboxnet0'
+
+if [ "$t1" = "$t2" ]; then
   VBoxManage hostonlyif ipconfig vboxnet0 --ip 192.168.56.1 &>> $logfile
 else
   VBoxManage hostonlyif create vboxnet0 &>> $logfile
