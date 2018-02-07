@@ -108,7 +108,7 @@ error_check 'Routing configured'
 
 print_status "${YELLOW}Launching Cuckoo...${NC}"
 sleep 1
-cuckoo -d rooter &
+cuckoo rooter &
 sleep 10
 #start cuckoo
 su - steve -c 'cuckoo' &
