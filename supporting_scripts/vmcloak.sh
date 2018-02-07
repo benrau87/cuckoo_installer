@@ -252,6 +252,7 @@ sudo -i -u $user VBoxManage startvm $name --type headless
 while true; do ping -c1 $ip > /dev/null && break; done
 
 read -n 1 -s -p "VM started, you can RDP to the running box at port $rdp, once you have made any changes, hit ENTER to take a snapshot and shutdown the machine."
+echo
 sudo -i -u $user VBoxManage snapshot $name take vmcloak_modified --live
 sudo -i -u $user VBoxManage controlvm $name poweroff
 
