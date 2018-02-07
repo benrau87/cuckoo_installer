@@ -81,7 +81,7 @@ read name
 
 if [ ! -d ~/.cuckoo ]; then
 sudo -i -u $name cuckoo 
-wait
+sleep 20
 sudo -i -u $name cp ~/conf/* ~/.cuckoo/conf
 sudo -i -u $name cuckoo community
 sudo -i -u $name cuckoo migrate
