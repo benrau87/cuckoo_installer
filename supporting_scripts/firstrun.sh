@@ -90,10 +90,12 @@ sudo adduser www-data $name  &>> $logfile
 sudo -i -u $name cuckoo web --uwsgi > /etc/uwsgi/apps-available/cuckoo-web.ini  &>> $logfile
 ln -s /etc/uwsgi/apps-available/cuckoo-web.ini /etc/uwsgi/apps-enabled/  &>> $logfile
 sudo -i -u $name cuckoo web --nginx > /etc/nginx/sites-available/cuckoo-web  &>> $logfile
+sed -i -e 's/localhost/0.0.0.0/g' /etc/uwsgi/apps-available/cuckoo-web
 ln -s /etc/nginx/sites-available/cuckoo-web /etc/nginx/sites-enabled/ &>> $logfile
 sudo -i -u $name cuckoo api --uwsgi > /etc/uwsgi/apps-available/cuckoo-api.ini  &>> $logfile
 ln -s /etc/uwsgi/apps-available/cuckoo-api.ini /etc/uwsgi/apps-enabled/ &>> $logfile
 sudo -i -u $name cuckoo api --nginx > /etc/nginx/sites-available/cuckoo-api &>> $logfile
+sed -i -e 's/localhost/0.0.0.0/g' /etc/uwsgi/apps-available/cuckoo-api
 ln -s /etc/nginx/sites-available/cuckoo-api /etc/nginx/sites-enabled/ &>> $logfile
 else
 sudo -i -u $name cuckoo community
