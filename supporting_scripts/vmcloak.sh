@@ -163,7 +163,7 @@ fi
 #su - $user -c "VBoxManage storageattach $name --storagectl 'IDE Controller' --port 0 --device 0 --type hdd --medium /home/$user/.vmcloak/image/$name.vdi" &>> $logfile
 
  
-echo -e "${YELLOW}Starting VM and creating a running snapshot...Please wait.${NC}"  
+echo -e "${YELLOW}Starting VM and creating a clean snapshot...Please wait.${NC}"  
 su - $user -c "vmcloak snapshot $name $name" &>> $logfile
 error_check 'Created snapshot'
 echo
@@ -247,11 +247,11 @@ fi
  sudo -i -u $user VBoxManage modifyvm $name --vrde on
  sudo -i -u $user VBoxManage modifyvm $name --vrdeport $rdp
 
-echo -e "${YELLOW}Starting VM and waiting for response before taking a snapshot.${NC}"
+echo -e "${YELLOW}Starting VM and waiting for response...${NC}"
 sudo -i -u $user VBoxManage startvm $name --type headless
 while true; do ping -c1 $ip > /dev/null && break; done
 
-read -n 1 -s -p "${YELLOW}VM created, you can RDP to the running box at port $rdp, once you have made any changes, hit ENTER to take a snapshot and shutdown the machine.${NC}"
+read -n 1 -s -p "VM started, you can RDP to the running box at port $rdp, once you have made any changes, hit ENTER to take a snapshot and shutdown the machine."
 sudo -i -u $user VBoxManage snapshot $name take vmcloak_modified --live
 sudo -i -u $user VBoxManage controlvm $name poweroff
 
