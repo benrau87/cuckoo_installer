@@ -88,22 +88,22 @@ sudo -i -u $name cuckoo migrate
 print_status "${YELLOW}Configuring webserver${NC}"
 sudo adduser www-data $name  &>> $logfile
 
-sudo -i -u $name cuckoo web --uwsgi > /tmp/cuckoo-web.ini  &>> $logfile
-mv /tmp/cuckoo-web.ini /etc/uwsgi/apps-available/
+sudo -i -u $name cuckoo web --uwsgi | tee /tmp/cuckoo-web.ini  &>> $logfile
+mv /tmp/cuckoo-web.ini /etc/uwsgi/apps-available/  &>> $logfile
 ln -s /etc/uwsgi/apps-available/cuckoo-web.ini /etc/uwsgi/apps-enabled/  &>> $logfile
 
-sudo -i -u $name cuckoo web --nginx > /tmp/cuckoo-web  &>> $logfile
-mv /tmp/cuckoo-web /etc/nginx/sites-available/
-sed -i -e 's/localhost/0.0.0.0/g' /etc/uwsgi/apps-available/cuckoo-web
+sudo -i -u $name cuckoo web --nginx | tee /tmp/cuckoo-web  &>> $logfile
+mv /tmp/cuckoo-web /etc/nginx/sites-available/  &>> $logfile
+sed -i -e 's/localhost/0.0.0.0/g' /etc/nginx/sites-available/cuckoo-web  &>> $logfile
 ln -s /etc/nginx/sites-available/cuckoo-web /etc/nginx/sites-enabled/ &>> $logfile
 
-sudo -i -u $name cuckoo api --uwsgi > /tmp/cuckoo-api.ini  &>> $logfile
-mv /tmp/cuckoo-api.ini /etc/uwsgi/apps-available/
+sudo -i -u $name cuckoo api --uwsgi | tee /tmp/cuckoo-api.ini  &>> $logfile
+mv /tmp/cuckoo-api.ini /etc/uwsgi/apps-available/  &>> $logfile
 ln -s /etc/uwsgi/apps-available/cuckoo-api.ini /etc/uwsgi/apps-enabled/ &>> $logfile
 
-sudo -i -u $name cuckoo api --nginx > /tmp/cuckoo-api &>> $logfile
-mv /tmp/cuckoo-api /etc/nginx/sites-available/
-sed -i -e 's/localhost/0.0.0.0/g' /etc/uwsgi/apps-available/cuckoo-api
+sudo -i -u $name cuckoo api --nginx | tee /tmp/cuckoo-api &>> $logfile
+mv /tmp/cuckoo-api /etc/nginx/sites-available/  &>> $logfile
+sed -i -e 's/localhost/0.0.0.0/g' /etc/nginx/sites-available/cuckoo-api  &>> $logfile
 ln -s /etc/nginx/sites-available/cuckoo-api /etc/nginx/sites-enabled/ &>> $logfile
 
 else
