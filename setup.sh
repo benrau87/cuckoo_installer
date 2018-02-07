@@ -583,9 +583,6 @@ systemctl enable rc-local &>> $logfile
 cp $gitdir/lib/threshold.config /etc/suricata/
 error_check "Routing configured"
 
-##Webserver
-sudo adduser www-data $name
-
 ##Cleaup
 print_status "${YELLOW}Doing some cleanup${NC}"
 apt-get -y autoremove &>> $logfile && apt-get -y autoclean &>> $logfile
