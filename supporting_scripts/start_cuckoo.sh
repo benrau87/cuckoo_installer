@@ -109,7 +109,8 @@ error_check 'Routing configured'
 print_status "${YELLOW}Launching Cuckoo...${NC}"
 sleep 1
 cuckoo rooter &
-sleep 10
+sleep 5
+service uwsgi restart
 #start cuckoo
 su - steve -c 'cuckoo' &
 su - steve -c 'cuckoo process auto' &
