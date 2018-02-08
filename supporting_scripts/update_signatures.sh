@@ -77,10 +77,7 @@ fi
 cuckoo_yara=/home/cuckoo/.cuckoo/yara
 print_status "${YELLOW}Updating Cuckoo...Please Wait${NC}"
 su - cuckoo -c 'cuckoo community' 
-###YARA
-#print_status "${YELLOW}Updating Yara...Please Wait${NC}"
-#cd $cuckoo_yara/rules
-#git pull &>> $logfile
+##Critical Stack
 print_status "${YELLOW}Updating Critical Stack...Please Wait${NC}"
 critical-stack-intel pull 
 CS_RULES=/opt/critical-stack/frameworks/intel/master-public.bro.dat
@@ -92,28 +89,8 @@ touch $SURI_RULE_FILE
 awk '/ /{print $2 " " "Critical_Stack_Intel" " " $1}' $CS_RULES > /tmp/rules.list
 $BL2 /tmp/rules.list -o $SURI_RULE_FILE
 
-#cd $cuckoo_yara/signature-base
-#git pull &>> $logfile
-
-##Copy rules
-#Bins
-#cd $cuckoo_yara/custom
-#cp rules/utils/*.yar $cuckoo_yara/binaries/
-#cp rules/Malicious_Documents/*.yar $cuckoo_yara/binaries/
-#cp rules/Packers/*.yar $cuckoo_yara/binaries/
-##Create Index
-#Binaries
-#ls -d $cuckoo_yara/binaries/*.yar | awk '{print "include \"" $0 "\""}' | tee $cuckoo_yara/index_binaries.yar &>> $logfile
-##URLs
-#ls -d $cuckoo_yara/urls/*.yar | awk '{print "include \"" $1 "\""}' |  tee $cuckoo_yara/index_urls.yar &>> $logfile
-##Memory
-#ls -d $cuckoo_yara/memory/*.yar | awk '{print "include \"" $1 "\""}' |  tee $cuckoo_yara/index_memory.yar &>> $logfile
-
 ##Update IDS signatures
 print_status "${YELLOW}Updating Suricata...Please Wait${NC}"
 etupdate -V 
 service suricata restart
-print_status "${YELLOW}Updating Snort...Please Wait${NC}"
-pulledpork.pl -c /etc/snort/pulledpork.conf 
-service snort restart &>> $logfile
 print_status "${GREEN}You are now too legit 2 quit!${NC}"
