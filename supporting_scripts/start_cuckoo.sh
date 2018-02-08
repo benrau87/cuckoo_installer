@@ -108,6 +108,7 @@ sleep 1
 cuckoo rooter &
 sleep 5
 service uwsgi restart &>> $logfile
+service tor restart &>> $logfile
 error_check 'Routing configured'
 
 print_status "${YELLOW}Launching Cuckoo...${NC}"
