@@ -114,5 +114,5 @@ error_check 'Routing configured'
 print_status "${YELLOW}Launching Cuckoo...${NC}"
 #start cuckoo
 su - steve -c 'cuckoo' &
-su - steve -c 'cuckoo process auto' &
+su - steve -c 'cuckoo -d process auto' &
 error_check 'Cuckoo services launched'
