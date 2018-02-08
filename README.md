@@ -2,6 +2,8 @@
 
 **Tested on v2.0.5**
 
+Limited error and input checking, use at your own risk!
+
 Chmod +x and run the setup.sh
 
 Reboot and login to your cuckoo user
