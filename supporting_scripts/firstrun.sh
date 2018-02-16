@@ -84,7 +84,7 @@ sudo -i -u $name cuckoo &
 sleep 20
 sudo -i -u $name cp /home/$name/conf/* /home/$name/.cuckoo/conf
 sudo -i -u $name cuckoo community
-sudo -i -u $name cuckoo migrate
+#sudo -i -u $name cuckoo migrate
 print_status "${YELLOW}Configuring webserver${NC}"
 sudo adduser www-data $name  &>> $logfile
 
