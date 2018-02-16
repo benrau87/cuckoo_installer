@@ -137,9 +137,11 @@ vmcloak-iptables 192.168.56.0/24 $interface
 echo -e "${YELLOW}Creating VM, hold on to your butts.${NC}"
 if [ -z "$serial" ]
 then
-su - $user -c "vmcloak init --$distro --ramsize $ram --cpus $cpu --ip $ip --gateway 192.168.56.1 --iso-mount /mnt/$name $name" &>> $logfile
+#su - $user -c "vmcloak init --$distro --ramsize $ram --cpus $cpu --ip $ip --gateway 192.168.56.1 --iso-mount /mnt/$name $name" &>> $logfile
+su - $user -c "vmcloak init --$distro --ramsize $ram --cpus $cpu --iso-mount /mnt/$name $name" &>> $logfile
 error_check 'Created VM'
 else
+su - $user -c "vmcloak init --$distro --serial-key $serial --ramsize $ram --cpus $cpu --iso-mount /mnt/$name $name" &>> $logfile
 su - $user -c "vmcloak init --$distro --serial-key $serial --ramsize $ram --cpus $cpu --ip $ip --gateway 192.168.56.1 --iso-mount /mnt/$name $name" &>> $logfile
 error_check 'Created VM'
 fi
