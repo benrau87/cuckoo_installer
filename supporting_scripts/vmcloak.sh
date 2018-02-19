@@ -152,7 +152,7 @@ su - $user -c "vmcloak install $name adobe9 dotnet cuteftp flash wic python27 pi
 error_check 'Installed apps on VMs'
 else
 mv /mnt/office_ISO/* /mnt/office_ISO/office.iso
-su - $user -c "vmcloak install $name office office.isopath=/mnt/office_ISO/office.iso office.serialkey=$office_serial activate=1"
+su - $user -c "vmcloak install $name office office.isopath=/mnt/office_ISO/office.iso office.serialkey=$office_serial"
 su - $user -c "vmcloak install $name adobe9 dotnet cuteftp flash wic python27 pillow java removetooltips wallpaper winrar chrome ie11" 
 error_check 'Installed apps on VMs'
 fi
