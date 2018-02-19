@@ -91,12 +91,12 @@ su - cuckoo -c 'cuckoo community'
 print_status "${YELLOW}Updating Yara...Please Wait${NC}"
 cd /tmp
 git clone https://github.com/Yara-Rules/rules
-cd /rules
+cd rules
 cp CVE_Rules/* $cuckoo_yara/binaries
 cp Crypto/* $cuckoo_yara/binaries
 cp malware/* $cuckoo_yara/binaries
 cp Packers/* $cuckoo_yara/binaries
-cp $cuckoo_yara/binaries/* cp $cuckoo_yara/memory/* 
+cp $cuckoo_yara/binaries/* cp $cuckoo_yara/memory/ 
 ##Update IDS signatures
 print_status "${YELLOW}Updating Suricata...Please Wait${NC}"
 etupdate -V 
