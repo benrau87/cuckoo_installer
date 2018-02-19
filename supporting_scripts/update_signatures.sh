@@ -90,6 +90,7 @@ su - cuckoo -c 'cuckoo community'
 ##Update Yara sigsnatures
 print_status "${YELLOW}Updating Yara...Please Wait${NC}"
 cd /tmp
+rm -rf rules/
 git clone https://github.com/Yara-Rules/rules
 cd rules
 cp CVE_Rules/* $cuckoo_yara/binaries
