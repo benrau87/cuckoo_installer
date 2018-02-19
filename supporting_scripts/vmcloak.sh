@@ -251,7 +251,7 @@ fi
 
 echo -e "${YELLOW}Starting VM and waiting for response...${NC}"
 sudo -i -u $user VBoxManage startvm $name --type headless
-while true; do ping -c1 $ip > /dev/null && break; done
+while true; do ping -c 1 $ip > /dev/null && break; done
 
 read -n 1 -s -p "VM started, you can RDP to the running box at port $rdp, once you have made any changes, hit ENTER to take a snapshot and shutdown the machine."
 echo
