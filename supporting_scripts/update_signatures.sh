@@ -97,6 +97,7 @@ cp CVE_Rules/* $cuckoo_yara/binaries
 cp Crypto/* $cuckoo_yara/binaries
 cp malware/* $cuckoo_yara/binaries
 cp Packers/* $cuckoo_yara/binaries
+rm $cuckoo_yara/binaries/MALW_AZORULT.yar
 cp $cuckoo_yara/binaries/* $cuckoo_yara/memory/ 
 ##Update IDS signatures
 print_status "${YELLOW}Updating Suricata...Please Wait${NC}"
