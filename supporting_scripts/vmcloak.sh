@@ -258,4 +258,7 @@ echo
 sudo -i -u $user VBoxManage snapshot $name take vmcloak_modified --live
 sudo -i -u $user VBoxManage controlvm $name poweroff
 
-echo -e "${YELLOW}VM creation completed.${NC}"
+echo -e "${YELLOW}Creating baseline report for machine...${NC}"
+sudo -i -u $user cuckoo submit --machine $name --baseline
+
+echo -e "${YELLOW}VM creation completed, you will need to register $name in virtualbox.conf.${NC}"
