@@ -99,7 +99,7 @@ cp malware/* $cuckoo_yara/binaries
 cp Packers/* $cuckoo_yara/binaries
 #Rulz that dont play well
 rm $cuckoo_yara/binaries/MALW_AZORULT.yar
-rm $cuckoo_yara/binaries/MALW_Rebirth_Vulcan_ELF.yar
+rm $(ls $cuckoo_yara/binaries/ | grep ELF)
 cp $cuckoo_yara/binaries/* $cuckoo_yara/memory/ 
 ##Update IDS signatures
 print_status "${YELLOW}Updating Suricata...Please Wait${NC}"
