@@ -620,8 +620,6 @@ service nginx restart  &>> $logfile
 print_status "${YELLOW}Installing vmcloak${NC}"
 dir_check /mnt/windows_ISO &>> $logfile
 dir_check /mnt/office_ISO &>> $logfile
-chown $name:$name /mnt/windows_ISO
-chown $name:$name /mnt/office_ISO
 apt-get install mkisofs genisoimage libffi-dev python-pip libssl-dev python-dev -y &>> $logfile
 pip install vmcloak  &>> $logfile
 pip install -U pytest pytest-xdist &>> $logfile
