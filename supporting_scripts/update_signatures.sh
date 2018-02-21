@@ -74,7 +74,7 @@ fi
 ##BEGIN MAIN SCRIPT##
 #Pre checks: These are a couple of basic sanity checks the script does before proceeding.
 ###Cuckoo Modules
-cuckoo_yara=/home/cuckoo/.cuckoo/yara
+cuckoo_yara=/home/steve/.cuckoo/yara
 print_status "${YELLOW}Updating Cuckoo...Please Wait${NC}"
 su - cuckoo -c 'cuckoo community' 
 ##Critical Stack
