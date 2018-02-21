@@ -126,36 +126,32 @@ vmcloak-iptables 192.168.56.0/24 $interface
 echo -e "${YELLOW}Creating VM, hold on to your butts.${NC}"
 if [ -z "$serial" ]
 then
-#su - $user -c "vmcloak init --$distro --ramsize $ram --cpus $cpu --ip $ip --gateway 192.168.56.1 --iso-mount /mnt/$name $name" &>> $logfile
-su - $user -c "vmcloak init --$distro --ramsize $ram --cpus $cpu --iso-mount /mnt/$name $name" &>> $logfile
+#su - $user -c "vmcloak init --$distro --ramsize $ram --cpus $cpu --iso-mount /mnt/$name $name" &>> $logfile
+vmcloak -u $user init --$distro --ramsize $ram --cpus $cpu --iso-mount /mnt/$name $name &>> $logfile
 error_check 'Created VM'
 else
-su - $user -c "vmcloak init --$distro --serial-key $serial --ramsize $ram --cpus $cpu --iso-mount /mnt/$name $name" &>> $logfile
-su - $user -c "vmcloak init --$distro --serial-key $serial --ramsize $ram --cpus $cpu --ip $ip --gateway 192.168.56.1 --iso-mount /mnt/$name $name" &>> $logfile
+#su - $user -c "vmcloak init --$distro --serial-key $serial --ramsize $ram --cpus $cpu --iso-mount /mnt/$name $name" &>> $logfile
+vmcloak -u $user init --$distro --serial-key $serial --ramsize $ram --cpus $cpu --iso-mount /mnt/$name $name &>> $logfile
 error_check 'Created VM'
 fi
 echo -e "${YELLOW}Installing programs on VM.${NC}"
 if [ -z "$office_serial" ]
 then
-su - $user -c "vmcloak install $name adobe9 dotnet cuteftp flash wic python27 pillow java removetooltips wallpaper winrar chrome ie11" 
+#su - $user -c "vmcloak install $name adobe9 dotnet cuteftp flash wic python27 pillow java removetooltips wallpaper winrar chrome ie11"
+vmcloak -u $user install $name adobe9 dotnet cuteftp flash wic python27 pillow java removetooltips wallpaper winrar chrome ie11
 error_check 'Installed apps on VMs'
 else
 mv /mnt/office_ISO/* /mnt/office_ISO/office.iso &>> $logfile
-su - $user -c "vmcloak install $name office office.isopath=/mnt/office_ISO/office.iso office.serialkey=$office_serial"
-su - $user -c "vmcloak install $name adobe9 dotnet cuteftp flash wic python27 pillow java removetooltips wallpaper winrar chrome ie11" 
+#su - $user -c "vmcloak install $name office office.isopath=/mnt/office_ISO/office.iso office.serialkey=$office_serial"
+vmcloak -u $user install $name office office.isopath=/mnt/office_ISO/office.iso office.serialkey=$office_serial
+#su - $user -c "vmcloak install $name adobe9 dotnet cuteftp flash wic python27 pillow java removetooltips wallpaper winrar chrome ie11" 
+vmcloak -u $user install $name adobe9 dotnet cuteftp flash wic python27 pillow java removetooltips wallpaper winrar chrome ie11
 error_check 'Installed apps on VMs'
 fi
 
-#echo -e "${YELLOW}Registering VM.${NC}"  
-#su - $user -c "vmcloak clone $name $name " &>> $logfile
-#su - $user -c "VBoxManage createvm --name $name --register" &>> $logfile
-#su - $user -c "VBoxManage modifyvm --nic1 hostonly --memory $ram --cpus $cpu" &>> $logfile
-#su - $user -c "VBoxManage storagectl $name --name "IDE Controller" --add ide" &>> $logfile
-#su - $user -c "VBoxManage storageattach $name --storagectl 'IDE Controller' --port 0 --device 0 --type hdd --medium /home/$user/.vmcloak/image/$name.vdi" &>> $logfile
-
- 
 echo -e "${YELLOW}Starting VM and creating a clean snapshot...Please wait.${NC}"  
-su - $user -c "vmcloak snapshot $name $name" &>> $logfile
+#su - $user -c "vmcloak snapshot $name $name" &>> $logfile
+vmcloak -u $user snapshot $name $name &>> $logfile
 error_check 'Created snapshot'
 echo
 
@@ -246,6 +242,9 @@ read -n 1 -s -p "VM started, you can RDP to the running box at port $rdp, once y
 echo
 sudo -i -u $user VBoxManage snapshot $name take vmcloak_modified --live
 sudo -i -u $user VBoxManage controlvm $name poweroff
+
+echo -e "${YELLOW}Registering machine with Cuckoo...${NC}"
+vmcloak -u $user register $name vmcloak_modified
 
 echo -e "${YELLOW}Creating baseline report for machine...${NC}"
 sudo -i -u $user cuckoo submit --machine $name --baseline
