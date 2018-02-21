@@ -583,6 +583,37 @@ systemctl enable rc-local &>> $logfile
 cp $gitdir/lib/threshold.config /etc/suricata/
 error_check "Routing configured"
 
+##Cuckoo Web and first run
+print_status "${YELLOW}Setting up Cuckoo signatures${NC}"
+sudo -i -u $name cuckoo &
+sleep 20
+sudo -i -u $name cp /home/$name/conf/* /home/$name/.cuckoo/conf
+sudo -i -u $name cuckoo community
+
+print_status "${YELLOW}Configuring webserver${NC}"
+sudo adduser www-data $name  &>> $logfile
+
+sudo -i -u $name cuckoo web --uwsgi | tee /tmp/cuckoo-web.ini  &>> $logfile
+mv /tmp/cuckoo-web.ini /etc/uwsgi/apps-available/  &>> $logfile
+ln -s /etc/uwsgi/apps-available/cuckoo-web.ini /etc/uwsgi/apps-enabled/  &>> $logfile
+
+sudo -i -u $name cuckoo web --nginx | tee /tmp/cuckoo-web  &>> $logfile
+mv /tmp/cuckoo-web /etc/nginx/sites-available/  &>> $logfile
+sed -i -e 's/localhost/0.0.0.0/g' /etc/nginx/sites-available/cuckoo-web  &>> $logfile
+ln -s /etc/nginx/sites-available/cuckoo-web /etc/nginx/sites-enabled/ &>> $logfile
+
+sudo -i -u $name cuckoo api --uwsgi | tee /tmp/cuckoo-api.ini  &>> $logfile
+mv /tmp/cuckoo-api.ini /etc/uwsgi/apps-available/  &>> $logfile
+ln -s /etc/uwsgi/apps-available/cuckoo-api.ini /etc/uwsgi/apps-enabled/ &>> $logfile
+
+sudo -i -u $name cuckoo api --nginx | tee /tmp/cuckoo-api &>> $logfile
+mv /tmp/cuckoo-api /etc/nginx/sites-available/  &>> $logfile
+sed -i -e 's/localhost/0.0.0.0/g' /etc/nginx/sites-available/cuckoo-api  &>> $logfile
+ln -s /etc/nginx/sites-available/cuckoo-api /etc/nginx/sites-enabled/ &>> $logfile
+
+service uwsgi restart  &>> $logfile
+service nginx restart  &>> $logfile
+
 ##Cleaup
 print_status "${YELLOW}Doing some cleanup${NC}"
 apt-get -y autoremove &>> $logfile && apt-get -y autoclean &>> $logfile
