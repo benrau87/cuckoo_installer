@@ -114,17 +114,6 @@ mount -o loop,ro /mnt/windows_ISO/* /mnt/$name &>> $logfile
 chown $user:$user /mnt/office_ISO/*
 error_check 'Mounted ISOs'
 
-print_status "${YELLOW}Installing genisoimage${NC}"
-apt-get install mkisofs genisoimage libffi-dev python-pip libssl-dev python-dev -y &>> $logfile
-error_check 'Prereqs installed'
-
-if [ ! -d "/usr/local/bin/vmcloak" ]; then
-print_status "${YELLOW}Installing vmcloak${NC}"
-pip install vmcloak  &>> $logfile
-pip install -U pytest pytest-xdist &>> $logfile
-error_check 'Installed vmcloak'
-fi
-
 print_status "${YELLOW}Updating Agent${NC}"
 cp /home/$user/.cuckoo/agent/agent.py  /usr/local/lib/python2.7/dist-packages/vmcloak/data/bootstrap/
 chown root:staff /usr/local/lib/python2.7/dist-packages/vmcloak/data/bootstrap/agent.py
