@@ -129,6 +129,10 @@ pip install -U pytest pytest-xdist &>> $logfile
 error_check 'Installed vmcloak'
 fi
 
+print_status "${YELLOW}Updating Agent${NC}"
+cp /home/$user/.cuckoo/agent/agent.py  /usr/local/lib/python2.7/dist-packages/vmcloak/data/bootstrap/
+chown root:staff /usr/local/lib/python2.7/dist-packages/vmcloak/data/bootstrap/agent.py
+
 print_status "${YELLOW}Checking for host only interface${NC}"
 sudo -i -u $user VBoxManage hostonlyif create
 sudo -i -u $user VBoxManage hostonlyif ipconfig vboxnet0 --ip 192.168.56.1
