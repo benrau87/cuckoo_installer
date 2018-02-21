@@ -137,12 +137,12 @@ updatedb  &>> $logfile
 if [ "$(cat /etc/apt/sources.list | grep multiverse | wc -l)" -ge "1" ]; then
  multi_check=true
 fi
-if [ "$(ls /etc/apt/sources.list.d/mongodb-org-3.4.list | wc -l)" -ge "1" ]; then
+if [ "$(ls /etc/apt/sources.list.d/mongodb-org-3.6.list | wc -l)" -ge "1" ]; then
  mongo_check=true
 fi
-if [ "$(locate /etc/systemd/system/mongodb.service | wc -l)" -ge "1" ]; then
- mongoservice_check=true
-fi
+#if [ "$(locate /etc/systemd/system/mongodb.service | wc -l)" -ge "1" ]; then
+# mongoservice_check=true
+#fi
 if [ "$(ls /etc/apt/sources.list.d/ | grep elastic-5| wc -l)" -ge "1" ]; then
  elastic_check=true
 fi
@@ -194,8 +194,8 @@ fi
 if [ "$mongo_check" == "true" ]; then
 print_status "${YELLOW}Skipping Mongo Repos${NC}"
 else
-apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 0C49F3730359A14518585931BC711F9BA15703C6 &>> $logfile
-echo "deb [ arch=amd64,arm64 ] http://repo.mongodb.org/apt/ubuntu xenial/mongodb-org/3.4 multiverse" | tee /etc/apt/sources.list.d/mongodb-org-3.4.list &>> $logfile
+apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 2930ADAE8CAF5059EE73BB4B58712A2291FA4AD5 &>> $logfile
+echo "deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu xenial/mongodb-org/3.6 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-3.6.list &>> $logfile
 error_check 'Mongodb repo added'
 fi
 
@@ -263,16 +263,16 @@ pip install -U pip cuckoo &>> $logfile
 error_check 'Cuckoo and depos downloaded and installed'
 
 ##Start MongoDB
-if [ "$mongoservice_check" == "true" ]; then
-print_status "${YELLOW}Mongo Service enabled, skipping config${NC}"
-else
-print_status "${YELLOW}Setting up MongoDB${NC}"
-chmod 755 $gitdir/lib/mongodb.service &>> $logfile
-cp $gitdir/lib/mongodb.service /etc/systemd/system/ &>> $logfile
-systemctl start mongodb &>> $logfile
-systemctl enable mongodb &>> $logfile
-error_check 'MongoDB Setup'
-fi
+#if [ "$mongoservice_check" == "true" ]; then
+#print_status "${YELLOW}Mongo Service enabled, skipping config${NC}"
+#else
+#print_status "${YELLOW}Setting up MongoDB${NC}"
+#chmod 755 $gitdir/lib/mongodb.service &>> $logfile
+#cp $gitdir/lib/mongodb.service /etc/systemd/system/ &>> $logfile
+#systemctl start mongodb &>> $logfile
+#systemctl enable mongodb &>> $logfile
+#error_check 'MongoDB Setup'
+#fi
 
 ##Cuckoo Add-ons
 ##Java 
