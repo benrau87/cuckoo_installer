@@ -89,6 +89,8 @@ dir_check /mnt/office_ISO &>> $logfile
 #read interface
 #echo -e "${YELLOW}What is the name for the Cuckoo user on this machine?${NC}"
 #read user
+echo -e "${YELLOW}What is the name for this machine?${NC}"
+read name
 echo -e "${YELLOW}What is the IP you would like to use for this machine (must be between 192.168.56.100-200)?${NC}"
 read ip
 echo -e "${YELLOW}What RDP port would you like to assign to this machine?${NC}"
@@ -103,8 +105,6 @@ echo -e "${YELLOW}Enter in a Windows serial key now if you would like to be legi
 read serial
 echo -e "${YELLOW}Enter in a Office 2013 serial key now if you wish to install Office, otherwise you can skip this for now.${NC}"
 read office_serial
-echo -e "${YELLOW}What is the name for this machine?${NC}"
-read name
 echo
 read -n 1 -s -p "Please place your Windows ISO in the folder under /mnt/windows_ISO and Office 2013 ISO in /mnt/office_ISO if you have one and press any key to continue"
 echo
