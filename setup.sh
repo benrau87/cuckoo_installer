@@ -137,7 +137,7 @@ updatedb  &>> $logfile
 if [ "$(cat /etc/apt/sources.list | grep multiverse | wc -l)" -ge "1" ]; then
  multi_check=true
 fi
-if [ "$(ls /etc/apt/sources.list.d/mongodb-org-3.6.list | wc -l)" -ge "1" ]; then
+if [ "$(ls /etc/apt/sources.list.d | grep mongodb-org-3.6.list | wc -l)" -ge "1" ]; then
  mongo_check=true
 fi
 #if [ "$(locate /etc/systemd/system/mongodb.service | wc -l)" -ge "1" ]; then
