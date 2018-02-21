@@ -617,9 +617,17 @@ ln -s /etc/nginx/sites-available/cuckoo-api /etc/nginx/sites-enabled/ &>> $logfi
 service uwsgi restart  &>> $logfile
 service nginx restart  &>> $logfile
 
+print_status "${YELLOW}Installing vmcloak${NC}"
+dir_check /mnt/windows_ISO &>> $logfile
+dir_check /mnt/office_ISO &>> $logfile
+apt-get install mkisofs genisoimage libffi-dev python-pip libssl-dev python-dev -y &>> $logfile
+pip install vmcloak  &>> $logfile
+pip install -U pytest pytest-xdist &>> $logfile
+error_check 'Installed vmcloak'
+
 ##Cleaup
 print_status "${YELLOW}Doing some cleanup${NC}"
 apt-get -y autoremove &>> $logfile && apt-get -y autoclean &>> $logfile
 error_check "House keeping finished"
-echo -e "${YELLOW}Installation complete, login as $name and open the terminal. Change to the $name home directory and execute the ./firstrun.sh script to finish setup. In $name home folder you will find the start_cuckoo.sh script that will start rooter, cuckoo, processing module and the web ui. To get started as fast as possible you will need to create a VM with the vmcloak.sh script provided in your home directory. This will require you have a local copy of the Windows ISO you wish to use. You can then launch cuckoo_start.sh and navigate to $HOSTNAME:8000.${NC}"
+echo -e "${YELLOW}Installation complete, login as $name and open the terminal. Run restart_cuckoo.sh if needed. To get started as fast as possible you will need to create a VM with the vmcloak.sh script provided in your home directory. This will require you have a local copy of the Windows ISO you wish to use. You can then navigate to $HOSTNAME:8000 and submit samples.${NC}"
 
