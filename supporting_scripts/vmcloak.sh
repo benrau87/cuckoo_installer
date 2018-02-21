@@ -73,26 +73,22 @@ fi
 ############################################################################################################################
 ############################################################################################################################
 ############################################################################################################################
+user=steve
+interface=qwe123
 
 dir_check /mnt/windows_ISO &>> $logfile
 dir_check /mnt/office_ISO &>> $logfile
 
-interface="eth0"
-user="cuckoo"
-ip="192.168.56.100"
-distro="win7x86"
-name="win7x86"
-
-echo -e "${RED}Active interfaces${NC}"
-for iface in $(ifconfig | cut -d ' ' -f1| tr '\n' ' ')
-do 
-  addr=$(ip -o -4 addr list $iface | awk '{print $4}' | cut -d/ -f1)
-  printf "$iface\t$addr\n"
-done
-echo -e "${YELLOW}What is the name of the interface which has an internet connection?(ex: eth0)${NC}"
-read interface
-echo -e "${YELLOW}What is the name for the Cuckoo user on this machine?${NC}"
-read user
+#echo -e "${RED}Active interfaces${NC}"
+#for iface in $(ifconfig | cut -d ' ' -f1| tr '\n' ' ')
+#do 
+#  addr=$(ip -o -4 addr list $iface | awk '{print $4}' | cut -d/ -f1)
+#  printf "$iface\t$addr\n"
+#done
+#echo -e "${YELLOW}What is the name of the interface which has an internet connection?(ex: eth0)${NC}"
+#read interface
+#echo -e "${YELLOW}What is the name for the Cuckoo user on this machine?${NC}"
+#read user
 echo -e "${YELLOW}What is the IP you would like to use for this machine (must be between 192.168.56.100-200)?${NC}"
 read ip
 echo -e "${YELLOW}What RDP port would you like to assign to this machine?${NC}"
