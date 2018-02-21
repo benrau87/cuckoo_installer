@@ -624,6 +624,9 @@ apt-get install mkisofs genisoimage libffi-dev python-pip libssl-dev python-dev 
 pip install vmcloak  &>> $logfile
 pip install -U pytest pytest-xdist &>> $logfile
 error_check 'Installed vmcloak'
+print_status "${YELLOW}Updating Agent${NC}"
+cp /home/$user/.cuckoo/agent/agent.py  /usr/local/lib/python2.7/dist-packages/vmcloak/data/bootstrap/ &>> $logfile
+chown root:staff /usr/local/lib/python2.7/dist-packages/vmcloak/data/bootstrap/agent.py &>> $logfile
 
 ##Cleaup
 print_status "${YELLOW}Doing some cleanup${NC}"
