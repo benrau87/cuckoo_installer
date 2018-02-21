@@ -92,8 +92,8 @@ echo
 read -n 1 -s -p "Please place your Windows ISO in the folder under /mnt/windows_ISO and Office 2013 ISO in /mnt/office_ISO if you have one and press any key to continue"
 echo
 print_status "${YELLOW}Mounting ISO if needed${NC}"
-mkdir  /mnt/$name &>> $logfile
-mount -o loop,ro /mnt/windows_ISO/* /mnt/$name &>> $logfile
+mkdir  /tmp/$name &>> $logfile
+mount -o loop,ro /mnt/windows_ISO/* /tmp/$name &>> $logfile
 error_check 'Mounted ISOs'
 
 #print_status "${YELLOW}Updating Agent${NC}"
@@ -108,10 +108,10 @@ vmcloak-iptables 192.168.56.0/24 $interface
 echo -e "${YELLOW}Creating VM, hold on to your butts.${NC}"
 if [ -z "$serial" ]
 then
-vmcloak init --$distro --ramsize $ram --cpus $cpu --iso-mount /mnt/$name $name &>> $logfile
+vmcloak init --$distro --ramsize $ram --cpus $cpu --iso-mount /tmp/$name $name &>> $logfile
 error_check 'Created VM'
 else
-vmcloak init --$distro --serial-key $serial --ramsize $ram --cpus $cpu --iso-mount /mnt/$name $name &>> $logfile
+vmcloak init --$distro --serial-key $serial --ramsize $ram --cpus $cpu --iso-mount /tmp/$name $name &>> $logfile
 error_check 'Created VM'
 fi
 echo -e "${YELLOW}Installing programs on VM.${NC}"
