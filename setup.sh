@@ -115,6 +115,7 @@ sed -i "s/ens160/$interface/g" $gitdir/lib/snort.service &>> $logfile
 cp $gitdir/conf/* /home/$name/conf
 #cp $gitdir/supporting_scripts/firstrun.sh /home/$name/
 cp $gitdir/supporting_scripts/vmcloak.sh /home/$name/
+chmod +x /home/$name/vmcloak.sh
 chmod +x  $gitdir/supporting_scripts/update_signatures.sh
 cp $gitdir/supporting_scripts/update_signatures.sh /home/$name/
 chown $name:$name -R /home/$name/conf
