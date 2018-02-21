@@ -111,12 +111,12 @@ echo
 print_status "${YELLOW}Mounting ISO if needed${NC}"
 mkdir  /mnt/$name &>> $logfile
 mount -o loop,ro /mnt/windows_ISO/* /mnt/$name &>> $logfile
-chown $user:$user /mnt/office_ISO/*
+chown $user:$user /mnt/office_ISO/* &>> $logfile
 error_check 'Mounted ISOs'
 
 print_status "${YELLOW}Updating Agent${NC}"
-cp /home/$user/.cuckoo/agent/agent.py  /usr/local/lib/python2.7/dist-packages/vmcloak/data/bootstrap/
-chown root:staff /usr/local/lib/python2.7/dist-packages/vmcloak/data/bootstrap/agent.py
+cp /home/$user/.cuckoo/agent/agent.py  /usr/local/lib/python2.7/dist-packages/vmcloak/data/bootstrap/ &>> $logfile
+chown root:staff /usr/local/lib/python2.7/dist-packages/vmcloak/data/bootstrap/agent.py &>> $logfile
 
 print_status "${YELLOW}Checking for host only interface${NC}"
 sudo -i -u $user VBoxManage hostonlyif create
@@ -140,7 +140,7 @@ then
 su - $user -c "vmcloak install $name adobe9 dotnet cuteftp flash wic python27 pillow java removetooltips wallpaper winrar chrome ie11" 
 error_check 'Installed apps on VMs'
 else
-mv /mnt/office_ISO/* /mnt/office_ISO/office.iso
+mv /mnt/office_ISO/* /mnt/office_ISO/office.iso &>> $logfile
 su - $user -c "vmcloak install $name office office.isopath=/mnt/office_ISO/office.iso office.serialkey=$office_serial"
 su - $user -c "vmcloak install $name adobe9 dotnet cuteftp flash wic python27 pillow java removetooltips wallpaper winrar chrome ie11" 
 error_check 'Installed apps on VMs'
