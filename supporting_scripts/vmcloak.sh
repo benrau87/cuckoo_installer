@@ -91,8 +91,6 @@ dir_check /mnt/office_ISO &>> $logfile
 #read user
 echo -e "${YELLOW}What is the name for this machine?${NC}"
 read name
-echo -e "${YELLOW}What is the IP you would like to use for this machine (must be between 192.168.56.100-200)?${NC}"
-read ip
 echo -e "${YELLOW}What RDP port would you like to assign to this machine?${NC}"
 read rdp
 echo -e "${YELLOW}How much RAM would you like to allocate for this machine?${NC}"
@@ -238,7 +236,7 @@ echo -e "${YELLOW}Starting VM and waiting for response...${NC}"
 sudo -i -u $user VBoxManage startvm $name --type headless
 #while true; do ping -c 1 $ip > /dev/null && break; done
 
-read -n 1 -s -p "VM started, you can RDP to the running box at port $rdp, once you have made any changes, hit ENTER to take a snapshot and shutdown the machine."
+read -n 1 -s -p "VM started, you can RDP to the running box at port $rdp, MAKE SURE TO ASSIGN A UNIQUE IP, make any changes, hit ENTER to take a snapshot and shutdown the machine."
 echo
 sudo -i -u $user VBoxManage snapshot $name take vmcloak_modified --live
 sudo -i -u $user VBoxManage controlvm $name poweroff
