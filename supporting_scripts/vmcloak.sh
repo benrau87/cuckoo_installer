@@ -119,9 +119,17 @@ cp /home/$user/.cuckoo/agent/agent.py  /usr/local/lib/python2.7/dist-packages/vm
 chown root:staff /usr/local/lib/python2.7/dist-packages/vmcloak/data/bootstrap/agent.py &>> $logfile
 
 print_status "${YELLOW}Checking for host only interface${NC}"
-sudo -i -u $user VBoxManage hostonlyif create
-sudo -i -u $user VBoxManage hostonlyif ipconfig vboxnet0 --ip 192.168.56.1
+t1=$(ifconfig -a | grep -o vboxnet0)
+t2='vboxnet0'
+
+if [ "$t1" = "$t2" ]; then
+  VBoxManage hostonlyif ipconfig vboxnet0 --ip 192.168.56.1 &>> $logfile
+else
+  VBoxManage hostonlyif create &>> $logfile
+  VBoxManage hostonlyif ipconfig vboxnet0 --ip 192.168.56.1 &>> $logfile
+fi
 vmcloak-iptables 192.168.56.0/24 $interface
+error_check 'Interface configured'
 
 echo -e "${YELLOW}Creating VM, hold on to your butts.${NC}"
 if [ -z "$serial" ]
