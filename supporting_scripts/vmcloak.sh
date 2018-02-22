@@ -91,6 +91,8 @@ dir_check /mnt/office_ISO &>> $logfile
 #read user
 echo -e "${YELLOW}What is the name for this machine?${NC}"
 read name
+echo -e "${YELLOW}What IP would you like to assign to this machine (nneds to be in the 192.168.56.0/24 space)?${NC}"
+read ip
 echo -e "${YELLOW}What RDP port would you like to assign to this machine?${NC}"
 read rdp
 echo -e "${YELLOW}How much RAM would you like to allocate for this machine?${NC}"
@@ -241,14 +243,10 @@ echo
 sudo -i -u $user VBoxManage snapshot $name take vmcloak_modified --live
 sudo -i -u $user VBoxManage controlvm $name poweroff
 
-#echo -e "${YELLOW}Registering machine with Cuckoo...${NC}"
-#su - $user -c "vmcloak register $name vmcloak_modified"
-#echo "[$name]" | tee -a /home/$user/.cuckoo/virtualbox.conf
-#echo "[$name]" | tee -a /home/$user/.cuckoo/virtualbox.conf
+echo -e "${YELLOW}Registering machine with Cuckoo...${NC}"
+su - $user -c "cuckoo machine $name $ip"
 
+echo -e "${YELLOW}Creating baseline report for machine...${NC}"
+sudo -i -u $user cuckoo submit --machine $name --baseline
 
-
-#echo -e "${YELLOW}Creating baseline report for machine...${NC}"
-#sudo -i -u $user cuckoo submit --machine $name --baseline
-
-echo -e "${YELLOW}VM creation completed, you will need to register $name in virtualbox.conf.${NC}"
+echo -e "${YELLOW}VM creation completed!${NC}"
