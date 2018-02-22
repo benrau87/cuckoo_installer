@@ -244,9 +244,9 @@ sudo -i -u $user VBoxManage snapshot $name take vmcloak_modified --live
 sudo -i -u $user VBoxManage controlvm $name poweroff
 
 echo -e "${YELLOW}Registering machine with Cuckoo...${NC}"
-su - $user -c "cuckoo machine $name $ip"
+su - $user -c "cuckoo machine --add $name $ip --platform windows"
 
-echo -e "${YELLOW}Creating baseline report for machine...${NC}"
-sudo -i -u $user cuckoo submit --machine $name --baseline
+#echo -e "${YELLOW}Creating baseline report for machine...${NC}"
+#sudo -i -u $user cuckoo submit --machine $name --baseline
 
 echo -e "${YELLOW}VM creation completed!${NC}"
