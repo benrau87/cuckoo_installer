@@ -5,13 +5,6 @@ YELLOW='\033[1;33m'
 NC='\033[0m'
 gitdir=$PWD
 
-##Logging setup
-logfile=~/import_ova.log
-mkfifo ${logfile}.pipe
-tee < ${logfile}.pipe $logfile &
-exec &> ${logfile}.pipe
-rm ${logfile}.pipe
-
 ##Functions
 function print_status ()
 {
@@ -77,7 +70,13 @@ if [ "$#" -eq 0 ];then
 	echo "Enter the name of the .ova to import "
         exit
 	else
-	ova=$#
+	ova=$1
+fi
+
+if [ -f $ova ];then
+	else
+	echo "$1 does not exist, are you using the full path?"
+	exit
 fi
 echo -e "${YELLOW}What is the name for this machine?${NC}"
 read name
