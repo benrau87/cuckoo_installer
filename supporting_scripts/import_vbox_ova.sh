@@ -98,7 +98,7 @@ VBoxManage snapshot $name take vmcloak_modified --live
 VBoxManage controlvm $name poweroff
 echo -e "${YELLOW}Registering machine with Cuckoo...${NC}"
 cuckoo machine --add $name $ip --platform windows --snapshot vmcloak_modified
-read -n 1 -s -p "Creating baseline report for this machine, make sure cuckoo is running and hit ENTER"
+echo -e "${YELLOW}Adding baseline process, this will be ran when you first start cuckoo${NC}"
 echo
 cuckoo submit --machine $name --baseline
 echo -e "${YELLOW}VM creation completed!${NC}"
