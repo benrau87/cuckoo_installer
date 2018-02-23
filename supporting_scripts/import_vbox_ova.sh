@@ -75,33 +75,29 @@ macadd="0019EC$end"
 
 if [ "$#" -eq 0 ];then
 	echo "Enter the name of the .ova to import "
+        exit
 	else
-	echo "Importing ova" 
 	ova=$#
-	fi
-	if [ -f $ova ];then 
-  echo -e "${YELLOW}What is the name for this machine?${NC}"
-  read name
-  echo -e "${YELLOW}What RDP port would you like to assign this machine?${NC}"
-  read rdp
-  echo -e "${YELLOW}What IP would you like to assign this machine?${NC}"
-  read ip
-  VBoxManage import $ova --vsys 0 --vmname $name
-  echo -e "${YELLOW}Setting up machine machine?${NC}"
-  VBoxManage modifyvm $name --macaddress1	$macadd
-  VBoxManage modifyvm $name --vrde on
-  VBoxManage modifyvm $name --vrdeport $rdp
-  echo -e "${YELLOW}Starting VM and waiting for response...${NC}"
-  VBoxManage startvm $name --type headless
-  read -n 1 -s -p "VM started, you can RDP to the running box at port $rdp, MAKE SURE TO ASSIGN THE IP $ip, make any changes, hit ENTER to take a snapshot and shutdown the machine."
-  echo
-  VBoxManage snapshot $name take vmcloak_modified --live
-  VBoxManage controlvm $name poweroff
-  echo -e "${YELLOW}Registering machine with Cuckoo...${NC}"
-  cuckoo machine --add $name $ip --platform windows --snapshot vmcloak_modified
-  echo -e "${YELLOW}Creating baseline report for machine...${NC}"
-  cuckoo submit --machine $name --baseline
-  echo -e "${YELLOW}VM creation completed!${NC}"
-	else
-	echo "No such ova"
-	fi
+fi
+echo -e "${YELLOW}What is the name for this machine?${NC}"
+read name
+echo -e "${YELLOW}What RDP port would you like to assign this machine?${NC}"
+read rdp
+echo -e "${YELLOW}What IP would you like to assign this machine?${NC}"
+read ip
+VBoxManage import $ova --vsys 0 --vmname $name
+echo -e "${YELLOW}Setting up machine machine?${NC}"
+VBoxManage modifyvm $name --macaddress1	$macadd
+VBoxManage modifyvm $name --vrde on
+VBoxManage modifyvm $name --vrdeport $rdp
+echo -e "${YELLOW}Starting VM and waiting for response...${NC}"
+VBoxManage startvm $name --type headless
+read -n 1 -s -p "VM started, you can RDP to the running box at port $rdp, MAKE SURE TO ASSIGN THE IP $ip, make any changes, hit ENTER to take a snapshot and shutdown the machine."
+echo
+VBoxManage snapshot $name take vmcloak_modified --live
+VBoxManage controlvm $name poweroff
+echo -e "${YELLOW}Registering machine with Cuckoo...${NC}"
+cuckoo machine --add $name $ip --platform windows --snapshot vmcloak_modified
+echo -e "${YELLOW}Creating baseline report for machine...${NC}"
+cuckoo submit --machine $name --baseline
+echo -e "${YELLOW}VM creation completed!${NC}"
