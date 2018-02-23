@@ -74,6 +74,7 @@ if [ "$#" -eq 0 ];then
 fi
 
 if [ -f $ova ];then
+	echo
 	else
 	echo "$1 does not exist, are you using the full path?"
 	exit
