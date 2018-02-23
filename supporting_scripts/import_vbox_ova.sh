@@ -86,7 +86,7 @@ read rdp
 echo -e "${YELLOW}What IP would you like to assign this machine?${NC}"
 read ip
 VBoxManage import $ova --vsys 0 --vmname $name
-echo -e "${YELLOW}Setting up machine machine?${NC}"
+echo -e "${YELLOW}Setting up machine machine${NC}"
 VBoxManage modifyvm $name --macaddress1	$macadd
 VBoxManage modifyvm $name --vrde on
 VBoxManage modifyvm $name --vrdeport $rdp
@@ -98,6 +98,7 @@ VBoxManage snapshot $name take vmcloak_modified --live
 VBoxManage controlvm $name poweroff
 echo -e "${YELLOW}Registering machine with Cuckoo...${NC}"
 cuckoo machine --add $name $ip --platform windows --snapshot vmcloak_modified
-echo -e "${YELLOW}Creating baseline report for machine...${NC}"
+read -n 1 -s -p "Creating baseline report for this machine, make sure cuckoo is running and hit ENTER"
+echo
 cuckoo submit --machine $name --baseline
 echo -e "${YELLOW}VM creation completed!${NC}"
