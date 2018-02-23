@@ -6,7 +6,7 @@ NC='\033[0m'
 gitdir=$PWD
 
 ##Logging setup
-logfile=/var/log/vmcloak_install.log
+logfile=~/import_ova.log
 mkfifo ${logfile}.pipe
 tee < ${logfile}.pipe $logfile &
 exec &> ${logfile}.pipe
