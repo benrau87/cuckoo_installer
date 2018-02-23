@@ -134,13 +134,13 @@ error_check 'Interface configured'
 echo -e "${YELLOW}Creating VM, hold on to your butts.${NC}"
 if [ -z "$serial" ]
 then
-su - $user -c "vmcloak init --$distro --ip $ip --ramsize $ram --cpus $cpu --iso-mount /mnt/$name $name" &>> $logfile
+su - $user -c "vmcloak init --$distro --ramsize $ram --cpus $cpu --iso-mount /mnt/$name $name" &>> $logfile
 #vmcloak -u $user init --$distro --ramsize $ram --cpus $cpu --iso-mount /mnt/$name $name &>> $logfile
 umount /mnt/$name
 rm -rf /mnt/$name
 error_check 'Created VM'
 else
-su - $user -c "vmcloak init --$distro --ip $ip --serial-key $serial --ramsize $ram --cpus $cpu --iso-mount /mnt/$name $name" &>> $logfile
+su - $user -c "vmcloak init --$distro --serial-key $serial --ramsize $ram --cpus $cpu --iso-mount /mnt/$name $name" &>> $logfile
 #vmcloak -u $user init --$distro --serial-key $serial --ramsize $ram --cpus $cpu --iso-mount /mnt/$name $name &>> $logfile
 error_check 'Created VM'
 fi
@@ -250,14 +250,9 @@ sudo -i -u $user VBoxManage startvm $name --type headless
 
 read -n 1 -s -p "VM started, you can RDP to the running box at port $rdp, MAKE SURE TO ASSIGN A UNIQUE IP, make any changes, hit ENTER to take a snapshot and shutdown the machine."
 echo
-sudo -i -u $user VBoxManage snapshot $name take vmcloak_modified --live
-sudo -i -u $user VBoxManage controlvm $name poweroff
+sudo -i -u $user VBoxManage controlvm $name acpipowerbutton
 
-echo -e "${YELLOW}Registering machine with Cuckoo...${NC}"
-bash /home/$user/restart_cuckoo.sh
-su - $user -c "cuckoo machine --add $name $ip --platform windows --snapshot vmcloak_modified"
-
-echo -e "${YELLOW}Creating baseline report for machine...${NC}"
-sudo -i -u $user cuckoo submit --machine $name --baseline
+echo -e "${YELLOW}Exporting OVA as golden image...${NC}"
+sudo -i -u $user vboxmanage export $name --output $PWD/"$name""_golden.ova"
 
 echo -e "${YELLOW}VM creation completed!${NC}"
