@@ -136,6 +136,7 @@ if [ -z "$serial" ]
 then
 su - $user -c "vmcloak init --$distro --ip $ip --ramsize $ram --cpus $cpu --iso-mount /mnt/$name $name" &>> $logfile
 #vmcloak -u $user init --$distro --ramsize $ram --cpus $cpu --iso-mount /mnt/$name $name &>> $logfile
+rm -rf /mnt/$name
 error_check 'Created VM'
 else
 su - $user -c "vmcloak init --$distro --ip $ip --serial-key $serial --ramsize $ram --cpus $cpu --iso-mount /mnt/$name $name" &>> $logfile
