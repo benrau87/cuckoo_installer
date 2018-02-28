@@ -91,8 +91,6 @@ dir_check /mnt/office_ISO &>> $logfile
 #read user
 echo -e "${YELLOW}What is the name for this machine?${NC}"
 read name
-echo -e "${YELLOW}What RDP port would you like to assign to this machine?${NC}"
-read rdp
 echo -e "${YELLOW}How much RAM would you like to allocate for this machine?${NC}"
 read ram
 echo -e "${YELLOW}How many CPU cores would you like to allocate for this machine?${NC}"
@@ -240,13 +238,13 @@ fi
  sudo -i -u $user VBoxManage setextradata $name VBoxInternal/CPUM/HostCPUID/80000004/edx  0x00202020
  sudo -i -u $user VBoxManage modifyvm $name --paravirtprovider legacy  
  sudo -i -u $user VBoxManage modifyvm $name --vrde on
- sudo -i -u $user VBoxManage modifyvm $name --vrdeport $rdp
+ sudo -i -u $user VBoxManage modifyvm $name --vrdeport 3389
 
 echo -e "${YELLOW}Starting VM and waiting for response...${NC}"
 sudo -i -u $user VBoxManage startvm $name --type headless
 #while true; do ping -c 1 $ip > /dev/null && break; done
 
-read -n 1 -s -p "VM started, you can RDP to the running box at port $rdp, make any changes, hit ENTER when done to create a template machine."
+read -n 1 -s -p "VM started, you can RDP to the running box at port 3389 on this host's IP address, make any changes, hit ENTER when done to create a template machine."
 echo
 
 echo -e "${YELLOW}Shutting down VM...${NC}"
@@ -256,4 +254,4 @@ sleep 20
 echo -e "${YELLOW}Exporting OVA as golden image...${NC}"
 sudo -i -u $user vboxmanage export $name --output $PWD/"$name""_golden.ova"
 
-echo -e "${YELLOW}VM creation completed!${NC}"
+echo -e "${YELLOW}VM creation completed, you can import this ova to cuckoo using the import_ova.sh script!${NC}"
