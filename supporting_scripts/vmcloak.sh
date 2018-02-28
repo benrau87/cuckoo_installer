@@ -91,8 +91,6 @@ dir_check /mnt/office_ISO &>> $logfile
 #read user
 echo -e "${YELLOW}What is the name for this machine?${NC}"
 read name
-echo -e "${YELLOW}What IP would you like to assign to this machine (nneds to be in the 192.168.56.0/24 space)?${NC}"
-read ip
 echo -e "${YELLOW}What RDP port would you like to assign to this machine?${NC}"
 read rdp
 echo -e "${YELLOW}How much RAM would you like to allocate for this machine?${NC}"
@@ -154,7 +152,7 @@ else
 mv /mnt/office_ISO/* /mnt/office_ISO/office.iso &>> $logfile
 su - $user -c "vmcloak install $name office office.isopath=/mnt/office_ISO/office.iso office.serialkey=$office_serial"
 #vmcloak -u $user install $name office office.isopath=/mnt/office_ISO/office.iso office.serialkey=$office_serial
-su - $user -c "vmcloak install $name adobe9 dotnet cuteftp flash wic python27 pillow java removetooltips wallpaper winrar chrome ie11" 
+su - $user -c "vmcloak install $name python27 pillow adobe9 dotnet cuteftp flash chrome ie11 wic pillow java removetooltips wallpaper winrar chrome ie11" 
 #vmcloak -u $user install $name adobe9 dotnet cuteftp flash wic python27 pillow java removetooltips wallpaper winrar chrome ie11
 error_check 'Installed apps on VMs'
 fi
@@ -248,7 +246,7 @@ echo -e "${YELLOW}Starting VM and waiting for response...${NC}"
 sudo -i -u $user VBoxManage startvm $name --type headless
 #while true; do ping -c 1 $ip > /dev/null && break; done
 
-read -n 1 -s -p "VM started, you can RDP to the running box at port $rdp, MAKE SURE TO ASSIGN THE MACHINE THE $ip ADDRESS!!!, make any changes, hit ENTER to take a snapshot and shutdown the machine."
+read -n 1 -s -p "VM started, you can RDP to the running box at port $rdp, make any changes, hit ENTER when done to create a template machine."
 echo
 
 echo -e "${YELLOW}Shutting down VM...${NC}"
