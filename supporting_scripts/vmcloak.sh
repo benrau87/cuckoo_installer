@@ -248,9 +248,12 @@ echo -e "${YELLOW}Starting VM and waiting for response...${NC}"
 sudo -i -u $user VBoxManage startvm $name --type headless
 #while true; do ping -c 1 $ip > /dev/null && break; done
 
-read -n 1 -s -p "VM started, you can RDP to the running box at port $rdp, MAKE SURE TO ASSIGN A UNIQUE IP, make any changes, hit ENTER to take a snapshot and shutdown the machine."
+read -n 1 -s -p "VM started, you can RDP to the running box at port $rdp, MAKE SURE TO ASSIGN THE MACHINE THE $ip ADDRESS!!!, make any changes, hit ENTER to take a snapshot and shutdown the machine."
 echo
+
+echo -e "${YELLOW}Shutting down VM...${NC}"
 sudo -i -u $user VBoxManage controlvm $name acpipowerbutton
+sleep 20
 
 echo -e "${YELLOW}Exporting OVA as golden image...${NC}"
 sudo -i -u $user vboxmanage export $name --output $PWD/"$name""_golden.ova"
