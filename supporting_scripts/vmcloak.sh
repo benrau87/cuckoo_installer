@@ -251,7 +251,8 @@ echo -e "${YELLOW}Shutting down VM...${NC}"
 sudo -i -u $user VBoxManage controlvm $name acpipowerbutton
 sleep 20
 
-echo -e "${YELLOW}Exporting OVA as golden image...${NC}"
+echo -e "${YELLOW}Exporting OVA as golden image and removing vm...${NC}"
 sudo -i -u $user vboxmanage export $name --output $PWD/"$name""_golden.ova"
+sudo -i -u $user vboxmanage unregistervm $name --delete
 
 echo -e "${YELLOW}VM creation completed, you can import this ova to cuckoo using the import_ova.sh script!${NC}"
