@@ -1,5 +1,5 @@
 #!/bin/bash
-apt-get install uml-utilities bridge-utils
+apt-get install uml-utilities bridge-utils python-dev
 apt-get install systemtap gcc patch linux-headers-$(uname -r)
 apt-key adv --keyserver keyserver.ubuntu.com --recv-keys C8CAB6595FDFF622
 
