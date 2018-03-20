@@ -263,6 +263,7 @@ pip install -U pip weasyprint &>> $logfile
 pip install -U pip yara-python &>> $logfile
 #pip install -U pip cuckoo==2.0.4a5 &>> $logfile
 pip install -U pip cuckoo &>> $logfile
+pip install m2crypto==0.24.0
 error_check 'Cuckoo and depos downloaded and installed'
 
 ##Start MongoDB
