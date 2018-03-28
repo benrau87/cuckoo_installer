@@ -84,8 +84,8 @@ export DEBIAN_FRONTEND=noninteractive
 echo -e "${YELLOW}We need to create a local account to run your Cuckoo sandbox from; What would you like your Cuckoo account username to be?${NC}"
 read name
 adduser $name --gecos ""
-echo -e "${YELLOW}Please type in a Moloch admin password${NC}"
-read cuckoo_moloch_pass
+#echo -e "${YELLOW}Please type in a Moloch admin password${NC}"
+#read cuckoo_moloch_pass
 echo -e "${YELLOW}Please type in a MySQL root password${NC}"
 read root_mysql_pass
 echo -e "${YELLOW}Please type in a MySQL cuckoo password${NC}"
@@ -100,7 +100,7 @@ echo -e "${YELLOW}What is the name of the interface you wish to route traffic th
 read interface
 #echo -e "${YELLOW}If you want to use Snort, please type in your Oinkcode, if you do not have it now you will need to append it to /etc/snort/pulledpork.conf in the future, the cron job will take care of updating it.${NC}"
 #read oinkcode
-echo -e "${RED}Hang around for a few minutes to setup moloch, it will require some input.${NC}"
+#echo -e "${RED}Hang around for a few minutes to setup moloch, it will require some input.${NC}"
 
 ##Create directories and scripts for later
 print_status "${YELLOW}Configuring local files and scripts${NC}"
@@ -161,9 +161,9 @@ fi
 if [ "$(locate /etc/systemd/system/elasticsearch.service | wc -l)" -ge "1" ]; then
  elasticservice_check=true
 fi
-if [ "$(locate /etc/systemd/system/molochviewer.service | wc -l)" -ge "1" ]; then
- moloch_check=true
-fi
+#if [ "$(locate /etc/systemd/system/molochviewer.service | wc -l)" -ge "1" ]; then
+# moloch_check=true
+#fi
 if [ "$(which yara | wc -l)" -ge "1" ]; then
  yara_check=true
 fi
@@ -241,7 +241,7 @@ while fuser /var/lib/dpkg/lock >/dev/null 2>&1; do
 done
 
 ### System updates
-print_status "${YELLOW}You will need to enter some stuff in for Moloch after the system update, dont go too far...${NC}"
+#print_status "${YELLOW}You will need to enter some stuff in for Moloch after the system update, dont go too far...${NC}"
 print_status "${YELLOW}Performing apt-get update and upgrade (May take a while if this is a fresh install)..${NC}"
 apt-get update &>> $logfile && apt-get -y dist-upgrade &>> $logfile
 error_check 'Updated system'
@@ -308,24 +308,24 @@ exit 1
 fi
 
 ##Moloch
-if [ "$moloch_check" == "true" ]; then
-print_status "${YELLOW}Moloch Service enabled, skipping config${NC}"
-else
-print_status "${YELLOW}Setting up Moloch${NC}"
-cd $gitdir
-wget https://files.molo.ch/builds/ubuntu-16.04/moloch_0.18.2-1_amd64.deb &>> $logfile
-dpkg -i moloch_0.18.2-1_amd64.deb
-print_status "${YELLOW}Use ${RED}vboxnet0${YELLOW} as the interface to sniff and keep the rest as default.${NC}"
-/data/moloch/bin/Configure
-perl /data/moloch/db/db.pl http://localhost:9200 init &>> $logfile
-/data/moloch/bin/moloch_add_user.sh admin "Admin User" $cuckoo_moloch_pass --admin &>> $logfile
-/data/moloch/bin/moloch_add_user.sh cuckoo "Cuckoo User" toor &>> $logfile
-systemctl start molochcapture.service &>> $logfile
-service molochcapture start &>> $logfile
-systemctl start molochviewer.service &>> $logfile
-service molochviewer start &>> $logfile
-error_check 'Moloch Installed'
-fi
+#if [ "$moloch_check" == "true" ]; then
+#print_status "${YELLOW}Moloch Service enabled, skipping config${NC}"
+#else
+#print_status "${YELLOW}Setting up Moloch${NC}"
+#cd $gitdir
+#wget https://files.molo.ch/builds/ubuntu-16.04/moloch_0.18.2-1_amd64.deb &>> $logfile
+#dpkg -i moloch_0.18.2-1_amd64.deb
+#print_status "${YELLOW}Use ${RED}vboxnet0${YELLOW} as the interface to sniff and keep the rest as default.${NC}"
+#/data/moloch/bin/Configure
+#perl /data/moloch/db/db.pl http://localhost:9200 init &>> $logfile
+#/data/moloch/bin/moloch_add_user.sh admin "Admin User" $cuckoo_moloch_pass --admin &>> $logfile
+#/data/moloch/bin/moloch_add_user.sh cuckoo "Cuckoo User" toor &>> $logfile
+#systemctl start molochcapture.service &>> $logfile
+#service molochcapture start &>> $logfile
+#systemctl start molochviewer.service &>> $logfile
+#service molochviewer start &>> $logfile
+#error_check 'Moloch Installed'
+#fi
 
 ##Yara
 if [ "$yara_check" == "true" ]; then
