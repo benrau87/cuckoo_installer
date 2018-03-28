@@ -118,6 +118,8 @@ cp $gitdir/conf/* /home/$name/conf
 #cp $gitdir/supporting_scripts/firstrun.sh /home/$name/
 cp $gitdir/supporting_scripts/vmcloak.sh /home/$name/
 chmod +x /home/$name/vmcloak.sh
+/home/$name/import_vbox_ova.sh /home/$name/
+chmod +x /home/$name/import_vbox_ova.sh
 chmod +x  $gitdir/supporting_scripts/update_signatures.sh
 cp $gitdir/supporting_scripts/update_signatures.sh /home/$name/
 chown $name:$name -R /home/$name/conf
