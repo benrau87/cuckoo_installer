@@ -117,6 +117,8 @@ sed -i "s/ens160/$interface/g" $gitdir/lib/snort.service &>> $logfile
 cp $gitdir/conf/* /home/$name/conf
 #cp $gitdir/supporting_scripts/firstrun.sh /home/$name/
 cp $gitdir/supporting_scripts/vmcloak.sh /home/$name/
+cp $gitdir/supporting_scripts/start_routing.sh /home/$name/
+chmod +x /home/$name/start_routing.sh
 chmod +x /home/$name/vmcloak.sh
 /home/$name/import_vbox_ova.sh /home/$name/
 chmod +x /home/$name/import_vbox_ova.sh
