@@ -66,15 +66,6 @@ hexchars="0123456789ABCDEF"
 end=$( for i in {1..6} ; do echo -n ${hexchars:$(( $RANDOM % 16 )):1} ; done | sed -e 's/\(..\)/\1/g' )
 macadd="0019EC$end"
 
-if [ "$t1" = "$t2" ]; then
-  VBoxManage hostonlyif ipconfig vboxnet0 --ip 192.168.56.1 &>> $logfile
-else
-  VBoxManage hostonlyif create &>> $logfile
-  VBoxManage hostonlyif ipconfig vboxnet0 --ip 192.168.56.1 &>> $logfile
-fi
-
-vmcloak-iptables 192.168.56.0/24 ens160
-
 if [ "$#" -eq 0 ];then
 	echo "Enter the name of the .ova to import "
         exit
@@ -86,11 +77,29 @@ if [ ! -f $ova ];then
 	echo "$1 does not exist, are you using the full path?"
 	exit
 fi
+if [ "$t1" = "$t2" ]; then
+  VBoxManage hostonlyif ipconfig vboxnet0 --ip 192.168.56.1 &>> $logfile
+else
+  VBoxManage hostonlyif create &>> $logfile
+  VBoxManage hostonlyif ipconfig vboxnet0 --ip 192.168.56.1 &>> $logfile
+fi
+
+echo -e "${RED}Active interfaces${NC}"
+for iface in $(ifconfig | cut -d ' ' -f1| tr '\n' ' ')
+do 
+  addr=$(ip -o -4 addr list $iface | awk '{print $4}' | cut -d/ -f1)
+  printf "$iface\t$addr\n"
+done
+echo -e "${YELLOW}What is the name of the interface which has an internet connection?(ex: eth0)${NC}"
+read interface
+
+vmcloak-iptables 192.168.56.0/24 $interface
+
 echo -e "${YELLOW}What is the name for this machine?${NC}"
 read name
 echo -e "${YELLOW}What RDP port would you like to assign this machine?${NC}"
 read rdp
-echo -e "${YELLOW}What IP would you like to assign this machine?${NC}"
+echo -e "${YELLOW}What IP would you like to assign this machine (192.168.56.X)?${NC}"
 read ip
 VBoxManage import $ova --vsys 0 --vmname $name
 echo -e "${YELLOW}Setting up machine machine${NC}"
