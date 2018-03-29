@@ -66,6 +66,8 @@ hexchars="0123456789ABCDEF"
 end=$( for i in {1..6} ; do echo -n ${hexchars:$(( $RANDOM % 16 )):1} ; done | sed -e 's/\(..\)/\1/g' )
 macadd="0019EC$end"
 
+print_notification MAKE SURE TO RUN THIS AS YOUR CUCKOO USER!!!!
+
 if [ "$#" -eq 0 ];then
 	echo "Enter the name of the .ova to import "
         exit
