@@ -73,6 +73,8 @@ else
   VBoxManage hostonlyif ipconfig vboxnet0 --ip 192.168.56.1 &>> $logfile
 fi
 
+vmcloak-iptables 192.168.56.0/24 ens160
+
 if [ "$#" -eq 0 ];then
 	echo "Enter the name of the .ova to import "
         exit
