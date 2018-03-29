@@ -77,23 +77,15 @@ if [ ! -f $ova ];then
 	echo "$1 does not exist, are you using the full path?"
 	exit
 fi
+
+print_status "${YELLOW}Checking for host only interface${NC}"
+t1=$(ifconfig -a | grep -o vboxnet0)
+t2='vboxnet0'
 if [ "$t1" = "$t2" ]; then
-  VBoxManage hostonlyif ipconfig vboxnet0 --ip 192.168.56.1 &>> $logfile
+  print_good "${YELLOW}Vboxnet0 interface found${NC}"
 else
-  VBoxManage hostonlyif create &>> $logfile
-  VBoxManage hostonlyif ipconfig vboxnet0 --ip 192.168.56.1 &>> $logfile
+  print_error "${YELLOW}Vboxnet0 not found please turn on using the start_routing.sh script${NC}"
 fi
-
-echo -e "${RED}Active interfaces${NC}"
-for iface in $(ifconfig | cut -d ' ' -f1| tr '\n' ' ')
-do 
-  addr=$(ip -o -4 addr list $iface | awk '{print $4}' | cut -d/ -f1)
-  printf "$iface\t$addr\n"
-done
-echo -e "${YELLOW}What is the name of the interface which has an internet connection?(ex: eth0)${NC}"
-read interface
-
-vmcloak-iptables 192.168.56.0/24 $interface
 
 echo -e "${YELLOW}What is the name for this machine?${NC}"
 read name
