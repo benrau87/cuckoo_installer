@@ -79,16 +79,16 @@ interface=qwe123
 dir_check /mnt/windows_ISO &>> $logfile
 dir_check /mnt/office_ISO &>> $logfile
 
-#echo -e "${RED}Active interfaces${NC}"
-#for iface in $(ifconfig | cut -d ' ' -f1| tr '\n' ' ')
-#do 
-#  addr=$(ip -o -4 addr list $iface | awk '{print $4}' | cut -d/ -f1)
-#  printf "$iface\t$addr\n"
-#done
-#echo -e "${YELLOW}What is the name of the interface which has an internet connection?(ex: eth0)${NC}"
-#read interface
-#echo -e "${YELLOW}What is the name for the Cuckoo user on this machine?${NC}"
-#read user
+echo -e "${RED}Active interfaces${NC}"
+for iface in $(ifconfig | cut -d ' ' -f1| tr '\n' ' ')
+do 
+  addr=$(ip -o -4 addr list $iface | awk '{print $4}' | cut -d/ -f1)
+  printf "$iface\t$addr\n"
+done
+echo -e "${YELLOW}What is the name of the interface which has an internet connection?(ex: eth0)${NC}"
+read interface
+echo -e "${YELLOW}What is the name for the Cuckoo user on this machine?${NC}"
+read user
 echo -e "${YELLOW}What is the name for this machine?${NC}"
 read name
 echo -e "${YELLOW}How much RAM would you like to allocate for this machine?${NC}"
