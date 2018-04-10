@@ -75,7 +75,8 @@ fi
 ##Depos add
 #this is a nice little hack I found in stack exchange to suppress messages during package installation.
 export DEBIAN_FRONTEND=noninteractive
-apt-get install vagrant -y
+wget https://releases.hashicorp.com/vagrant/2.0.3/vagrant_2.0.3_x86_64.deb
+dpkg -i vagrant*
 #Checks
 if [ "$(lscpu | grep VT-x | wc -l)" != "1" ]; then
 	echo -e "${YELLOW}You cannot install 64-bit VMs or IRMA on this machine due to VT-x instruction set missing${NC}"
