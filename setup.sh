@@ -184,7 +184,7 @@ fi
 if [ "$(cat /home/$name/conf/cuckoo.conf | grep localhost/cuckoo | wc -l)" -ge "1" ]; then
  mysqlconf_check=true
 fi
-if [ "$(locate /usr/local/bin/vol.py | wc -1)" -ge "1" ]; then
+if [ "$(locate /usr/local/bin/vol.py | wc -l)" -ge "1" ]; then
  vol_check=true
 fi
 
