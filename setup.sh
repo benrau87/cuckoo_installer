@@ -118,9 +118,9 @@ cp $gitdir/conf/* /home/$name/conf
 #cp $gitdir/supporting_scripts/firstrun.sh /home/$name/
 cp $gitdir/supporting_scripts/vmcloak.sh /home/$name/
 cp $gitdir/supporting_scripts/start_routing.sh /home/$name/
+cp $gitdir/supporting_scripts/import_vbox_ova.sh /home/$name/
 chmod +x /home/$name/start_routing.sh
 chmod +x /home/$name/vmcloak.sh
-/home/$name/import_vbox_ova.sh /home/$name/
 chmod +x /home/$name/import_vbox_ova.sh
 chown $name:$name /home/$name/import_vbox_ova.sh
 chmod +x  $gitdir/supporting_scripts/update_signatures.sh
@@ -184,7 +184,7 @@ fi
 if [ "$(cat /home/$name/conf/cuckoo.conf | grep localhost/cuckoo | wc -l)" -ge "1" ]; then
  mysqlconf_check=true
 fi
-if [ "$(locate /usr/local/bin/vol.py)" -ge "1" ]; then
+if [ "$(locate /usr/local/bin/vol.py | wc -1)" -ge "1" ]; then
  vol_check=true
 fi
 
