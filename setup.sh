@@ -260,16 +260,16 @@ install_packages python python-dev python-pip python-setuptools python-sqlalchem
 error_check 'Depos installed'
 ##Python Modules
 print_status "${YELLOW}Downloading and installing Cuckoo and Python dependencies${NC}"
-pip install --upgrade pip==9.0.3 &>> $logfile
+pip install --upgrade pip &>> $logfile
 pip install -U pip setuptools &>> $logfile
 pip install -U pip flex &>> $logfile
 pip install -U pip distorm3 &>> $logfile
 pip install -U pip pycrypto &>> $logfile
 pip install -U pip weasyprint &>> $logfile
 pip install -U pip yara-python &>> $logfile
+pip install -U pip  m2crypto==0.24.0  &>> $logfile
 #pip install -U pip cuckoo==2.0.4a5 &>> $logfile
 pip install -U pip cuckoo &>> $logfile
-pip install m2crypto==0.24.0
 error_check 'Cuckoo and depos downloaded and installed'
 
 ##Start MongoDB
