@@ -260,7 +260,7 @@ install_packages python python-dev python-pip python-setuptools python-sqlalchem
 error_check 'Depos installed'
 ##Python Modules
 print_status "${YELLOW}Downloading and installing Cuckoo and Python dependencies${NC}"
-pip install --upgrade pip &>> $logfile
+pip install --upgrade pip==9.0.3 &>> $logfile
 pip install -U pip setuptools &>> $logfile
 pip install -U pip flex &>> $logfile
 pip install -U pip distorm3 &>> $logfile
