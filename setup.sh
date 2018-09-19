@@ -241,7 +241,7 @@ fi
 ####End of repos
 ##Holding pattern for dpkg...
 print_status "${YELLOW}Waiting for dpkg process to free up...${NC}"
-print_status "${YELLOW}If this takes too long try running ${RED}sudo rm -f /var/lib/dpkg/lock${YELLOW} in another terminal window.${NC}"
+print_status "${YELLOW}If this takes too long try running ${RED}sudo rm -f /var/lib/dpkg/lock${YELLOW} in another terminal window. You can also check the stdout for any issues by running tail -f /var/log/cuckoo_install.log${NC}"
 while fuser /var/lib/dpkg/lock >/dev/null 2>&1; do
    sleep 1
 done
