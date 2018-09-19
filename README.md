@@ -20,6 +20,4 @@ FIN
 
 A Moloch admin will be created, but a standard user named 'cuckoo' with password 'toor' will be available there are some fields that need to be provided during the Moloch installation so hang around.
 
-IRMA will be installed if you have VT-x 
-
 If using vmcloak to install VMs and you do not have VT-x, you can only use 1 core!
