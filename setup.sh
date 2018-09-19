@@ -85,6 +85,7 @@ if [ "$(lscpu | grep VT-x | wc -l)" != "1" ]; then
 echo -e "${YELLOW}NOTICE: You cannot install 64-bit VMs or IRMA on this machine due to VT-x instruction set missing.${NC}"
 else
 vtx=true
+echo -e "${GREEN}VT-x instruction set found.${NC}"
 fi
 ##Cuckoo user accounts
 echo -e "${YELLOW}We need to create a local account to run your Cuckoo sandbox from; What would you like your Cuckoo account username to be?${NC}"
