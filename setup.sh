@@ -547,13 +547,13 @@ git clone https://github.com/benrau87/antivmdetect.git  &>> $logfile
 error_check 'Antivm tools downloaded'
 
 ##Guacamole Setup
-mkdir /tmp/guac-build && cd /tmp/guac-build
-wget https://www.apache.org/dist/guacamole/0.9.14/source/guacamole-server-0.9.14.tar.gz
-tar xvf guacamole-server-0.9.14.tar.gz && cd guacamole-server-0.9.14
-./configure --with-init-dir=/etc/init.d
-make && make install && cd ..
-ldconfig
-etc/init.d/guacd start
+mkdir /tmp/guac-build && cd /tmp/guac-build  &>> $logfile
+wget https://www.apache.org/dist/guacamole/0.9.14/source/guacamole-server-0.9.14.tar.gz  &>> $logfile
+tar xvf guacamole-server-0.9.14.tar.gz && cd guacamole-server-0.9.14  &>> $logfile
+./configure --with-init-dir=/etc/init.d  &>> $logfile
+make && make install && cd ..  &>> $logfile
+ldconfig  &>> $logfile
+etc/init.d/guacd start  &>> $logfile
 
 ##TOR
 print_status "${YELLOW}Installing Tor..${NC}"
