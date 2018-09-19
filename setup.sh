@@ -80,6 +80,12 @@ fi
 export DEBIAN_FRONTEND=noninteractive
 #/etc/apt/apt.conf.d/10periodic
 #APT::Periodic::Update-Package-Lists "0";
+print_status "${YELLOW}Running VT-x check${NC}"
+if [ "$(lscpu | grep VT-x | wc -l)" != "1" ]; then
+echo -e "${YELLOW}NOTICE: You cannot install 64-bit VMs or IRMA on this machine due to VT-x instruction set missing.${NC}"
+else
+vtx=true
+fi
 ##Cuckoo user accounts
 echo -e "${YELLOW}We need to create a local account to run your Cuckoo sandbox from; What would you like your Cuckoo account username to be?${NC}"
 read name
@@ -134,12 +140,6 @@ cp $gitdir/supporting_scripts/restart_cuckoo.sh /home/$name/
 cd tools/
 
 ##Checks
-print_status "${YELLOW}Running system checks${NC}"
-if [ "$(lscpu | grep VT-x | wc -l)" != "1" ]; then
-echo -e "${YELLOW}You cannot install 64-bit VMs or IRMA on this machine due to VT-x instruction set missing${NC}"
-else
-vtx=true
-fi
 apt-get install locate -y  &>> $logfile
 updatedb  &>> $logfile
 if [ "$(cat /etc/apt/sources.list | grep multiverse | wc -l)" -ge "1" ]; then
@@ -254,6 +254,14 @@ error_check 'Updated system'
 ##APT Packages
 print_status "${YELLOW}Downloading and installing depos${NC}"
 apt-get install -y build-essential checkinstall &>> $logfile
+error_check 'Build Essentials Installed'
+##Java 
+print_status "${YELLOW}Installing Java${NC}"
+#echo debconf shared/accepted-oracle-license-v1-1 select true | \
+#  sudo debconf-set-selections &>> $logfile
+#apt-get install oracle-java8-installer -y &>> $logfile
+apt-get install -y --no-install-recommends openjdk-8-jre-headless -y &>> $logfile
+error_check 'Java Installed'
 chmod u+rwx /usr/local/src &>> $logfile
 apt-get install -y linux-headers-$(uname -r) &>> $logfile
 install_packages python python-dev python-pip python-setuptools python-sqlalchemy python-virtualenv make automake libdumbnet-dev libarchive-dev libcap2-bin libconfig-dev libcrypt-ssleay-perl libelf-dev libffi-dev libfuzzy-dev libgeoip-dev libjansson-dev libjpeg-dev liblwp-useragent-determined-perl liblzma-dev libmagic-dev libpcap-dev libpcre++-dev libpq-dev libssl-dev libtool apparmor-utils apt-listchanges bison byacc clamav clamav-daemon clamav-freshclam dh-autoreconf elasticsearch fail2ban flex gcc mongodb-org suricata swig tcpdump tesseract-ocr unattended-upgrades uthash-dev virtualbox zlib1g-dev wkhtmltopdf xvfb xfonts-100dpi libstdc++6:i386 libgcc1:i386 zlib1g:i386 libncurses5:i386 apt-transport-https software-properties-common python-software-properties libwww-perl libjson-perl ethtool parallel vagrant virtualbox-ext-pack exfat-utils exfat-fuse xterm uwsgi uwsgi-plugin-python nginx libguac-client-rdp0 libguac-client-vnc0 libguac-client-ssh0 guacd
@@ -285,13 +293,6 @@ error_check 'Cuckoo and depos downloaded and installed'
 #fi
 
 ##Cuckoo Add-ons
-##Java 
-print_status "${YELLOW}Installing Java${NC}"
-echo debconf shared/accepted-oracle-license-v1-1 select true | \
-  sudo debconf-set-selections &>> $logfile
-apt-get install oracle-java8-installer -y &>> $logfile
-error_check 'Java Installed'
-
 ##Elasticsearch
 if [ "$elasticservice_check" == "true" ]; then
 print_status "${YELLOW}Elastic Service enabled, skipping config${NC}"
