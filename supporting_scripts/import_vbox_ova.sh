@@ -87,6 +87,7 @@ if [ "$t1" = "$t2" ]; then
   print_good "${YELLOW}Vboxnet0 interface found${NC}"
 else
   print_error "${YELLOW}Vboxnet0 not found please turn on using the start_routing.sh script${NC}"
+  exit
 fi
 
 echo -e "${YELLOW}What is the name for this machine?${NC}"
