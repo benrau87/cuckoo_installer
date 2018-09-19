@@ -1,6 +1,6 @@
 # cuckoo_test
 
-**Tested on v2.0.5 with Ubuntu Server 16.04**
+**Tested on v2.0.6 with Ubuntu Server 16.04**
 
 Limited error and input checking, use at your own risk!
 
