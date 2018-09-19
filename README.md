@@ -8,8 +8,6 @@ Chmod +x and run the setup.sh
 
 Reboot and login to your cuckoo user
 
-Run the firstrun.sh script in your home directory
-
 Create some VMs using the vmcloak.sh script in your home directory and add them to the virtualbox.conf file.
 
 Start cuckoo with the start_cuckoo.sh script on your cuckoo user in their home directory
