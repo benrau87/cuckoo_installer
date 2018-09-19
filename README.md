@@ -18,6 +18,6 @@ FIN
 
 **Notes**
 
-A Moloch admin will be created, but a standard user named 'cuckoo' with password 'toor' will be available there are some fields that need to be provided during the Moloch installation so hang around.
+When creating a Windows VM, you want to disable Windows updates and firewall. Use msconfig to turn off any update services that are not Microsoft related. If you installed Office, you should enable macros in the Trust Center. 
 
 If using vmcloak to install VMs and you do not have VT-x, you can only use 1 core!
