@@ -488,15 +488,11 @@ fi
 
 ##Other tools
 cd /home/$name/tools/
-print_status "${YELLOW}Waiting for dpkg process to free up...${NC}"
-print_status "${YELLOW}If this takes too long try running ${RED}sudo rm -f /var/lib/dpkg/lock${YELLOW} in another terminal window.${NC}"
-while fuser /var/lib/dpkg/lock >/dev/null 2>&1; do
-   sleep 1
-done
-print_status "${YELLOW}Installing additional tools${NC}"
-cd $gitdir
+
+print_status "${YELLOW}Installing PyV8${NC}"
 sudo -H pip install git+https://github.com/buffer/pyv8 &>> $logfile
-print_status "${YELLOW}Installing antivmdetect${NC}"
+
+print_status "${YELLOW}Installing Antivmdetect${NC}"
 ##Folder setup
 dir_check /usr/bin/cd-drive
 ##Antivm download
@@ -504,7 +500,7 @@ git clone https://github.com/benrau87/antivmdetect.git  &>> $logfile
 error_check 'Antivm tools downloaded'
 
 ##Guacamole Setup
-print_status "${YELLOW}Installing Gucamole..${NC}"
+print_status "${YELLOW}Installing Gucamole${NC}"
 mkdir /tmp/guac-build && cd /tmp/guac-build  &>> $logfile
 wget https://www.apache.org/dist/guacamole/0.9.14/source/guacamole-server-0.9.14.tar.gz  &>> $logfile
 tar xvf guacamole-server-0.9.14.tar.gz  &>> $logfile
@@ -516,7 +512,7 @@ etc/init.d/guacd start  &>> $logfile
 error_check 'Guacamole installed'
 
 ##TOR
-print_status "${YELLOW}Installing Tor..${NC}"
+print_status "${YELLOW}Installing Tor${NC}"
 apt-get install tor deb.torproject.org-keyring -f -y &>> $logfile
 echo "TransPort 192.168.56.1:9040" | tee -a /etc/tor/torrc
 echo "DNSPort 192.168.56.1:5353" | tee -a /etc/tor/torrc
