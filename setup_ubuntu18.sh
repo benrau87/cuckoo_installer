@@ -555,6 +555,8 @@ sudo adduser www-data $name  &>> $logfile
 
 sudo -i -u $name cuckoo web --uwsgi | tee /tmp/cuckoo-web.ini  &>> $logfile
 mv /tmp/cuckoo-web.ini /etc/uwsgi/apps-available/  &>> $logfile
+echo "processes = 1" | tee -a /etc/uwsgi/apps-available/cuckoo-web.ini &>> $logfile
+echo "threads = 4" | tee -a /etc/uwsgi/apps-available/cuckoo-web.ini &>> $logfile
 ln -s /etc/uwsgi/apps-available/cuckoo-web.ini /etc/uwsgi/apps-enabled/  &>> $logfile
 
 sudo -i -u $name cuckoo web --nginx | tee /tmp/cuckoo-web  &>> $logfile
