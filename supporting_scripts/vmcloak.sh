@@ -130,13 +130,13 @@ error_check 'Interface configured'
 echo -e "${YELLOW}Creating VM, hold on to your butts.${NC}"
 if [ -z "$serial" ]
 then
-su - $user -c "vmcloak init --$distro --ramsize $ram --cpus $cpu --iso-mount /mnt/$name $name" &>> $logfile
+su - $user -c "vmcloak init --$distro --ramsize $ram --cpus $cpu --iso-mount /mnt/$name $name"
 #vmcloak -u $user init --$distro --ramsize $ram --cpus $cpu --iso-mount /mnt/$name $name &>> $logfile
 umount /mnt/$name
 rm -rf /mnt/$name
 error_check 'Created VM'
 else
-su - $user -c "vmcloak init --$distro --serial-key $serial --ramsize $ram --cpus $cpu --iso-mount /mnt/$name $name" &>> $logfile
+su - $user -c "vmcloak init --$distro --serial-key $serial --ramsize $ram --cpus $cpu --iso-mount /mnt/$name $name" 
 #vmcloak -u $user init --$distro --serial-key $serial --ramsize $ram --cpus $cpu --iso-mount /mnt/$name $name &>> $logfile
 error_check 'Created VM'
 fi
