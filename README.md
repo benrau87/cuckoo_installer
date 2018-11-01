@@ -28,4 +28,4 @@ FIN
 
 **Notes**
 
-If using vmcloak to install VMs and you do not have VT-x, you can only use 1 core!
+If using vmcloak.sh to install VMs and you do not have VT-x, you can only use 1 core and x86!
