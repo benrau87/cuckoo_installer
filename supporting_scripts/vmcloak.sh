@@ -242,14 +242,14 @@ fi
 
 echo -e "${YELLOW}Starting VM and waiting for response...${NC}"
 sudo -i -u $user VBoxManage startvm $name --type headless
-#while true; do ping -c 1 $ip > /dev/null && break; done
 
 read -n 1 -s -p "VM started, you can RDP to the running box at port 3389 on this host's IP address, make any changes, hit ENTER when done to create a template machine."
 echo
 
 echo -e "${YELLOW}Shutting down VM...${NC}"
 sudo -i -u $user VBoxManage controlvm $name acpipowerbutton
-sleep 20
+#wait for machine to power down, not the most elegant solution...
+sleep 60
 
 echo -e "${YELLOW}Exporting OVA as golden image and removing vm...${NC}"
 sudo -i -u $user vboxmanage export $name --output $PWD/"$name""_golden.ova"
