@@ -8,9 +8,13 @@ Chmod +x and run the setup.sh
 
 Reboot and login to your cuckoo user
 
-Create some VMs using the vmcloak.sh script in your home directory and add them to the virtualbox.conf file.
+Create some VM templates using the vmcloak.sh script in your home directory 
 
-Start cuckoo with the start_cuckoo.sh script on your cuckoo user in their home directory
+After that you can import them to virtualbox with the import_ova.sh, VMs created this way will be hardened against
+some anti-vm defenses and have many default applications installed. They will also be added to your conf files for
+immediate use after running restart_cuckoo.sh
+
+Start cuckoo with the restart_cuckoo.sh script on your cuckoo user in their home directory
 
 Open your browser and point it at your host IP:8000
 
