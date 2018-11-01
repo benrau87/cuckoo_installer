@@ -9,6 +9,7 @@ Chmod +x and run the setup.sh
 Reboot and login to your cuckoo user
 
 Create some VM templates using the vmcloak.sh script in your home directory, you will need a local copy of a Windows ISO.
+OVAs will be placed in the home directory for your Cuckoo user with golden.ova appended to the name you supply.
 
 After that you can import them to virtualbox with the import_ova.sh, VMs created this way will be hardened against
 some anti-vm defenses and have many default applications installed. You will need to manually assign an IP address 
