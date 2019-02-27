@@ -248,12 +248,13 @@ echo
 
 echo -e "${YELLOW}Shutting down VM...${NC}"
 #sudo -i -u $user VBoxManage controlvm $name acpipowerbutton
-sudo -i -u $user VBoxManage controlvm $name acpipowerbutton
-while [ sudo -i -u $user VBoxManage list runningvms != "" ]
-do
-	echo -e "${YELLOW}Waiting for VMs to shutdown...${NC}"
+su -c "VBoxManage controlvm $name acpipowerbutton" -s /bin/bash $user
+    while [ "`su -c 'VBoxManage list runningvms' -s /bin/bash $user`" != "" ]
+    do
+        echo -e "${YELLOW}Waiting for VMs to shutdown...${NC}"
         sleep 3
-done
+    done
+    
 #saftey catch for machine to power down, not the most elegant solution...
 sleep 30
 
