@@ -244,6 +244,10 @@ else
 wget -q https://www.virtualbox.org/download/oracle_vbox_2016.asc -O- | sudo apt-key add -
 wget -q https://www.virtualbox.org/download/oracle_vbox.asc -O- | sudo apt-key add -
 sudo sh -c 'echo "deb http://download.virtualbox.org/virtualbox/debian $(lsb_release -sc) contrib" >> /etc/apt/sources.list.d/virtualbox.list'
+#vboxversion=$(wget -qO - http://download.virtualbox.org/virtualbox/LATEST.TXT) &>> $logfile
+#wget "http://download.virtualbox.org/virtualbox/${vboxversion}/Oracle_VM_VirtualBox_Extension_Pack-${vboxversion}.vbox-extpack" &>> $logfile
+#echo "y" | vboxmanage extpack install --replace Oracle_VM_VirtualBox_Extension_Pack-${vboxversion}.vbox-extpack &>> $logfile
+echo virtualbox-ext-pack virtualbox-ext-pack/license select true | sudo debconf-set-selections
 error_check 'Virtualbox repo added'
 fi
 
@@ -275,15 +279,8 @@ chmod u+rwx /usr/local/src &>> $logfile
 apt-get install -y linux-headers-$(uname -r) &>> $logfile
 #libstdc++6:i386 libgcc1:i386 zlib1g:i386 libncurses5:i386
 print_status "${YELLOW}Installing Apt Depos${NC}"
-install_packages python python-dev python-pip python-setuptools python-sqlalchemy python-virtualenv make automake libboost-all-dev libdumbnet-dev libarchive-dev libcap2-bin libconfig-dev libcrypt-ssleay-perl libelf-dev libffi-dev libfuzzy-dev libgeoip-dev libjansson-dev libjpeg-dev liblwp-useragent-determined-perl liblzma-dev libmagic-dev libpcap-dev libpcre++-dev libpq-dev libssl-dev libtool apparmor-utils apt-listchanges bison byacc clamav clamav-daemon clamav-freshclam dh-autoreconf elasticsearch fail2ban flex gcc mongodb-org suricata swig tcpdump tesseract-ocr unattended-upgrades uthash-dev zlib1g-dev wkhtmltopdf xvfb xfonts-100dpi apt-transport-https software-properties-common libwww-perl libjson-perl ethtool parallel vagrant exfat-utils exfat-fuse xterm uwsgi uwsgi-plugin-python nginx libguac-client-rdp0 libguac-client-vnc0 libguac-client-ssh0 guacd virtualbox-5.2
+install_packages python python-dev python-pip python-setuptools python-sqlalchemy python-virtualenv make automake libboost-all-dev libdumbnet-dev libarchive-dev libcap2-bin libconfig-dev libcrypt-ssleay-perl libelf-dev libffi-dev libfuzzy-dev libgeoip-dev libjansson-dev libjpeg-dev liblwp-useragent-determined-perl liblzma-dev libmagic-dev libpcap-dev libpcre++-dev libpq-dev libssl-dev libtool apparmor-utils apt-listchanges bison byacc clamav clamav-daemon clamav-freshclam dh-autoreconf elasticsearch fail2ban flex gcc mongodb-org suricata swig tcpdump tesseract-ocr unattended-upgrades uthash-dev zlib1g-dev wkhtmltopdf xvfb xfonts-100dpi apt-transport-https software-properties-common libwww-perl libjson-perl ethtool parallel vagrant exfat-utils exfat-fuse xterm uwsgi uwsgi-plugin-python nginx libguac-client-rdp0 libguac-client-vnc0 libguac-client-ssh0 guacd virtualbox-5.2 virtualbox-ext-pack
 error_check 'Apt Depos installed'
-
-print_status "${YELLOW}Downloading and installing Virtualbox Extension${NC}"
-#vboxversion=$(wget -qO - http://download.virtualbox.org/virtualbox/LATEST.TXT) &>> $logfile
-#wget "http://download.virtualbox.org/virtualbox/${vboxversion}/Oracle_VM_VirtualBox_Extension_Pack-${vboxversion}.vbox-extpack" &>> $logfile
-#echo "y" | vboxmanage extpack install --replace Oracle_VM_VirtualBox_Extension_Pack-${vboxversion}.vbox-extpack &>> $logfile
-echo virtualbox-ext-pack virtualbox-ext-pack/license select true | sudo debconf-set-selections
-error_check 'Virtualbox Extensions installed'
 
 ##Python Modules
 print_status "${YELLOW}Downloading and installing Cuckoo and Python dependencies${NC}"
