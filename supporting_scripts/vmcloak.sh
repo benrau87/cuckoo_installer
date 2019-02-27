@@ -249,15 +249,12 @@ echo
 echo -e "${YELLOW}Shutting down VM...${NC}"
 #sudo -i -u $user VBoxManage controlvm $name acpipowerbutton
 su -c "VBoxManage controlvm $name acpipowerbutton" -s /bin/bash $user
-    while [ "`su -c 'VBoxManage list runningvms' -s /bin/bash $user`" != "" ]
-    do
-        echo -e "${YELLOW}Waiting for VMs to shutdown...${NC}"
-        sleep 3
-    done
-    
-#saftey catch for machine to power down, not the most elegant solution...
-sleep 30
-
+while [ "`su -c 'VBoxManage list runningvms' -s /bin/bash $user`" != "" ]
+do
+	echo -e "${YELLOW}Waiting for VMs to shutdown...${NC}"
+	sleep 10
+done
+echo -e "${YELLOW}VM Shutdown${NC}"
 echo -e "${YELLOW}Exporting OVA as golden image and removing vm...${NC}"
 sudo -i -u $user vboxmanage export $name --output $PWD/"$name""_golden.ova"
 sudo -i -u $user vboxmanage unregistervm $name --delete
