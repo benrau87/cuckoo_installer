@@ -143,14 +143,14 @@ fi
 echo -e "${YELLOW}Installing programs on VM.${NC}"
 if [ -z "$office_serial" ]
 then
-su - $user -c "vmcloak install $name adobe9 dotnet cuteftp flash python27 pillow java removetooltips wallpaper winrar chrome"
+su - $user -c "vmcloak install $name adobe9 sysmon dotnet flash python27 pillow java removetooltips wallpaper winrar chrome"
 #vmcloak -u $user install $name adobe9 dotnet cuteftp flash wic python27 pillow java removetooltips wallpaper winrar chrome ie11
 error_check 'Installed apps on VMs'
 else
 mv /mnt/office_ISO/* /mnt/office_ISO/office.iso &>> $logfile
 su - $user -c "vmcloak install $name office office.isopath=/mnt/office_ISO/office.iso office.serialkey=$office_serial"
 #vmcloak -u $user install $name office office.isopath=/mnt/office_ISO/office.iso office.serialkey=$office_serial
-su - $user -c "vmcloak install $name python27 pillow adobe9 dotnet cuteftp flash chrome ie11 pillow java removetooltips wallpaper winrar chrome" 
+su - $user -c "vmcloak install $name python27 pillow adobe9 sysmon dotnet flash chrome ie11 pillow java removetooltips wallpaper winrar chrome" 
 #vmcloak -u $user install $name adobe9 dotnet cuteftp flash wic python27 pillow java removetooltips wallpaper winrar chrome ie11
 error_check 'Installed apps on VMs'
 fi
