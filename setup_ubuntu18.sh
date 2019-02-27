@@ -202,7 +202,7 @@ print_status "${YELLOW}Skipping Tor Repos${NC}"
 else
 echo "deb https://deb.torproject.org/torproject.org bionic main" |  sudo tee -a /etc/apt/sources.list &>> $logfile
 echo "deb-src https://deb.torproject.org/torproject.org bionic main" |  sudo tee -a /etc/apt/sources.list &>> $logfile
-curl https://deb.torproject.org/torproject.org/A3C4F0F979CAA22CDBA8F512EE8CBC9E886DDD89.asc &>> $logfile
+curl https://deb.torproject.org/torproject.org/A3C4F0F979CAA22CDBA8F512EE8CBC9E886DDD89.asc | gpg --import &>> $logfile
 gpg --export A3C4F0F979CAA22CDBA8F512EE8CBC9E886DDD89 | sudo apt-key add - &>> $logfile
 error_check 'Tor repo added'
 fi
