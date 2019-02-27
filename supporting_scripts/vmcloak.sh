@@ -117,7 +117,8 @@ chown root:staff /usr/local/lib/python2.7/dist-packages/vmcloak/data/bootstrap/a
 if [ "$(vboxmanage list extpacks | grep Extension | wc -l)" -ge "2" ]; then
 print_status "${YELLOW}VB Extension Pack installed${NC}"
 else
-echo virtualbox-ext-pack virtualbox-ext-pack/license select true | sudo debconf-set-selections && apt install virtualbox-ext-pack
+echo virtualbox-ext-pack virtualbox-ext-pack/license select true | sudo debconf-set-selections  &>> $logfile
+apt install -y virtualbox-ext-pack  &>> $logfile
 fi
 
 print_status "${YELLOW}Checking for host only interface${NC}"
