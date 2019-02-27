@@ -279,9 +279,10 @@ install_packages python python-dev python-pip python-setuptools python-sqlalchem
 error_check 'Apt Depos installed'
 
 print_status "${YELLOW}Downloading and installing Virtualbox Extension${NC}"
-vboxversion=$(wget -qO - http://download.virtualbox.org/virtualbox/LATEST.TXT) &>> $logfile
-wget "http://download.virtualbox.org/virtualbox/${vboxversion}/Oracle_VM_VirtualBox_Extension_Pack-${vboxversion}.vbox-extpack" &>> $logfile
-echo "y" | vboxmanage extpack install --replace Oracle_VM_VirtualBox_Extension_Pack-${vboxversion}.vbox-extpack &>> $logfile
+#vboxversion=$(wget -qO - http://download.virtualbox.org/virtualbox/LATEST.TXT) &>> $logfile
+#wget "http://download.virtualbox.org/virtualbox/${vboxversion}/Oracle_VM_VirtualBox_Extension_Pack-${vboxversion}.vbox-extpack" &>> $logfile
+#echo "y" | vboxmanage extpack install --replace Oracle_VM_VirtualBox_Extension_Pack-${vboxversion}.vbox-extpack &>> $logfile
+echo virtualbox-ext-pack virtualbox-ext-pack/license select true | sudo debconf-set-selections
 error_check 'Virtualbox Extensions installed'
 
 ##Python Modules
