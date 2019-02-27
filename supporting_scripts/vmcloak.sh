@@ -247,9 +247,15 @@ read -n 1 -s -p "VM started, you can RDP to the running box at port 3389 on this
 echo
 
 echo -e "${YELLOW}Shutting down VM...${NC}"
+#sudo -i -u $user VBoxManage controlvm $name acpipowerbutton
 sudo -i -u $user VBoxManage controlvm $name acpipowerbutton
-#wait for machine to power down, not the most elegant solution...
-sleep 60
+while [ sudo -i -u $user VBoxManage list runningvms != "" ]
+do
+	echo -e "${YELLOW}Waiting for VMs to shutdown...${NC}"
+        sleep 3
+done
+#saftey catch for machine to power down, not the most elegant solution...
+sleep 30
 
 echo -e "${YELLOW}Exporting OVA as golden image and removing vm...${NC}"
 sudo -i -u $user vboxmanage export $name --output $PWD/"$name""_golden.ova"
