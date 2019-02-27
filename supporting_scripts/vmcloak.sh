@@ -161,6 +161,7 @@ su - $user -c "vmcloak snapshot $name $name" &>> $logfile
 error_check 'Created snapshot'
 echo
 
+echo -e "${YELLOW}Applying Hardware Anti-Virtualization Hardware IDs and settings to VM.${NC}"  
 hexchars="0123456789ABCDEF"
 end=$( for i in {1..6} ; do echo -n ${hexchars:$(( $RANDOM % 16 )):1} ; done | sed -e 's/\(..\)/\1/g' )
 macadd="0019EC$end"
