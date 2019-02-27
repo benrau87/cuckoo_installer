@@ -110,9 +110,15 @@ mount -o loop,ro /mnt/windows_ISO/* /mnt/$name &>> $logfile
 chown $user:$user /mnt/office_ISO/* &>> $logfile
 error_check 'Mounted ISOs'
 
-print_status "${YELLOW}Updating Agent${NC}"
+print_status "${YELLOW}Updating Agent and checking installed packages${NC}"
 cp /home/$user/.cuckoo/agent/agent.py  /usr/local/lib/python2.7/dist-packages/vmcloak/data/bootstrap/ &>> $logfile
 chown root:staff /usr/local/lib/python2.7/dist-packages/vmcloak/data/bootstrap/agent.py &>> $logfile
+
+if [ "$(vboxmanage list extpacks | grep Extension | wc -l)" -ge "2" ]; then
+print_status "${YELLOW}VB Extension Pack installed${NC}"
+else
+echo virtualbox-ext-pack virtualbox-ext-pack/license select true | sudo debconf-set-selections && apt install virtualbox-ext-pack
+fi
 
 print_status "${YELLOW}Checking for host only interface${NC}"
 t1=$(ifconfig -a | grep -o vboxnet0)
