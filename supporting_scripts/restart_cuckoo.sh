@@ -83,7 +83,7 @@ kill $(ps aux | grep '/usr/local/bin/cuckoo' | awk '{print $2}') &>> $logfile
 
 print_status "${YELLOW}Starting essential services${NC}"
 #up_check mongod elasticsearch mysql molochcapture molochviewer suricata tor uwsgi nginx
-up_check mongod elasticsearch mysql suricata tor uwsgi nginx
+up_check mongod elasticsearch mysql suricata tor uwsgi nginx inetsim
 error_check 'All services running'
 sleep 1
 #start virtual network interface
