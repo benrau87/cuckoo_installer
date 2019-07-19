@@ -92,7 +92,7 @@ fi
 
 echo -e "${YELLOW}What is the name for this machine?${NC}"
 read name
-echo -e "${YELLOW}What RDP port would you like to assign this machine?${NC}"
+echo -e "${YELLOW}What RDP port would you like to assign this machine (depending on your configuration, you want to chose something between 5000-5050?${NC}"
 read rdp
 echo -e "${YELLOW}What IP would you like to assign this machine (192.168.56.X)?${NC}"
 read ip
