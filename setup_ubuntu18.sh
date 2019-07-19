@@ -185,6 +185,9 @@ fi
 if [ "$(cat /etc/apt/sources.list | grep torproject | wc -l)" -ge "1" ]; then
  tor_check=true
 fi
+if [ "$(which inetsim | wc -l)" -ge "1" ]; then
+ inetsim_check=true
+fi
 
 ###Depo Additions
 ##Mongodb
@@ -241,15 +244,25 @@ fi
 if [ "$virtualbox_check" == "true" ]; then
 print_status "${YELLOW}Skipping Virtualbox Repos${NC}"
 else
-wget -q https://www.virtualbox.org/download/oracle_vbox_2016.asc -O- | sudo apt-key add -
-wget -q https://www.virtualbox.org/download/oracle_vbox.asc -O- | sudo apt-key add -
+wget -q https://www.virtualbox.org/download/oracle_vbox_2016.asc -O- | sudo apt-key add - &>> $logfile
+wget -q https://www.virtualbox.org/download/oracle_vbox.asc -O- | sudo apt-key add - &>> $logfile
 sudo sh -c 'echo "deb http://download.virtualbox.org/virtualbox/debian $(lsb_release -sc) contrib" >> /etc/apt/sources.list.d/virtualbox.list'
 #vboxversion=$(wget -qO - http://download.virtualbox.org/virtualbox/LATEST.TXT) &>> $logfile
 #wget "http://download.virtualbox.org/virtualbox/${vboxversion}/Oracle_VM_VirtualBox_Extension_Pack-${vboxversion}.vbox-extpack" &>> $logfile
 #echo "y" | vboxmanage extpack install --replace Oracle_VM_VirtualBox_Extension_Pack-${vboxversion}.vbox-extpack &>> $logfile
-echo virtualbox-ext-pack virtualbox-ext-pack/license select true | sudo debconf-set-selections
+echo virtualbox-ext-pack virtualbox-ext-pack/license select true | sudo debconf-set-selections &>> $logfile
 error_check 'Virtualbox repo added'
 fi
+
+##iNetsim
+if [ "$inetsim_check" == "true" ]; then
+print_status "${YELLOW}Skipping iNetsim Repos${NC}"
+else
+echo "deb http://www.inetsim.org/debian/ binary/" | sudo tee /etc/apt/sources.list.d/inetsim.list &>> $logfile
+wget -O - http://www.inetsim.org/inetsim-archive-signing-key.asc | sudo apt-key add - &>> $logfile
+error_check 'iNetsim repo added'
+fi
+
 
 ####End of repos
 ##Holding pattern for dpkg...
@@ -272,14 +285,15 @@ error_check 'Build Essentials Installed'
 
 ##Java 
 print_status "${YELLOW}Installing Java${NC}"
-apt-get install -y --no-install-recommends openjdk-8-jre-headless -y &>> $logfile
+#apt-get install -y --no-install-recommends openjdk-8-jre-headless -y &>> $logfile
+apt-get install -y --no-install-recommends default-jre-headless -y &>> $logfile
 error_check 'Java Installed'
 
 chmod u+rwx /usr/local/src &>> $logfile
 apt-get install -y linux-headers-$(uname -r) &>> $logfile
 #libstdc++6:i386 libgcc1:i386 zlib1g:i386 libncurses5:i386
 print_status "${YELLOW}Installing Apt Depos${NC}"
-install_packages python python-dev python-pip python-setuptools python-sqlalchemy python-virtualenv make automake libboost-all-dev libdumbnet-dev libarchive-dev libcap2-bin libconfig-dev libcrypt-ssleay-perl libelf-dev libffi-dev libfuzzy-dev libgeoip-dev libjansson-dev libjpeg-dev liblwp-useragent-determined-perl liblzma-dev libmagic-dev libpcap-dev libpcre++-dev libpq-dev libssl-dev libtool apparmor-utils apt-listchanges bison byacc clamav clamav-daemon clamav-freshclam dh-autoreconf elasticsearch fail2ban flex gcc mongodb-org suricata swig tcpdump tesseract-ocr unattended-upgrades uthash-dev zlib1g-dev wkhtmltopdf xvfb xfonts-100dpi apt-transport-https software-properties-common libwww-perl libjson-perl ethtool parallel vagrant exfat-utils exfat-fuse xterm uwsgi uwsgi-plugin-python nginx libguac-client-rdp0 libguac-client-vnc0 libguac-client-ssh0 guacd virtualbox-5.2 virtualbox-ext-pack
+install_packages python python-dev python-pip python-setuptools python-sqlalchemy python-virtualenv make automake libboost-all-dev libdumbnet-dev libarchive-dev libcap2-bin libconfig-dev libcrypt-ssleay-perl libelf-dev libffi-dev libfuzzy-dev libgeoip-dev libjansson-dev libjpeg-dev liblwp-useragent-determined-perl liblzma-dev libmagic-dev libpcap-dev libpcre++-dev libpq-dev libssl-dev libtool apparmor-utils apt-listchanges bison byacc clamav clamav-daemon clamav-freshclam dh-autoreconf elasticsearch kibana fail2ban flex gcc mongodb-org suricata swig tcpdump tesseract-ocr unattended-upgrades uthash-dev zlib1g-dev wkhtmltopdf xvfb xfonts-100dpi apt-transport-https software-properties-common libwww-perl libjson-perl ethtool parallel vagrant exfat-utils exfat-fuse xterm uwsgi uwsgi-plugin-python nginx libguac-client-rdp0 libguac-client-vnc0 libguac-client-ssh0 guacd virtualbox-5.2 virtualbox-ext-pack libjpeg-turbo8-dev libpng-dev libossp-uuid-dev libfreerdp-dev libcairo2-dev
 error_check 'Apt Depos installed'
 
 ##Python Modules
@@ -289,7 +303,7 @@ pip install setuptools &>> $logfile
 pip install flex &>> $logfile
 pip install distorm3 &>> $logfile
 pip install pycrypto &>> $logfile
-pip install weasyprint &>> $logfile
+pip install weasyprint==0.36 &>> $logfile
 pip install yara-python &>> $logfile
 pip install m2crypto==0.24.0  &>> $logfile
 #pip install -U pip cuckoo==2.0.4a5 &>> $logfile
@@ -354,10 +368,10 @@ print_status "${YELLOW}Volatility installed, skipping config${NC}"
 else
 cd $gitdir
 print_status "${YELLOW}Setting up Volatility${NC}"
-wget https://github.com/volatilityfoundation/volatility/archive/2.5.zip &>> $logfile
+wget https://github.com/volatilityfoundation/volatility/archive/2.6.zip &>> $logfile
 error_check 'Volatility downloaded'
-unzip 2.5.zip &>> $logfile
-cd volatility-2.5 &>> $logfile
+unzip 2.6.zip &>> $logfile
+cd volatility-2.6 &>> $logfile
 python setup.py build &>> $logfile
 python setup.py install &>> $logfile
 error_check 'Volatility installed'
@@ -484,6 +498,18 @@ replace "connection =" "connection = mysql://cuckoo:$cuckoo_mysql_pass@localhost
 error_check 'Configuration files modified'
 fi
 
+##iNetsim
+if [ "$inetsim_check" == "true" ]; then
+print_status "${YELLOW}iNetsim installed, skipping installation${NC}"
+else
+apt install -y inetsim
+error_check 'iNetsim installed'
+sed -i 's/ENABLED=0/ENABLED=1/g' /etc/default/inetsim
+echo "service_bind_address  192.168.56.1" | tee -a /etc/inetsim/inetsim.conf
+echo "dns_default_ip  192.168.56.1" | tee -a /etc/inetsim/inetsim.conf
+error_check 'iNetsim setup'
+fi
+
 ##Other tools
 cd /home/$name/tools/
 
@@ -498,16 +524,20 @@ git clone https://github.com/benrau87/antivmdetect.git  &>> $logfile
 error_check 'Antivm tools downloaded'
 
 ##Guacamole Setup
-#print_status "${YELLOW}Installing Gucamole${NC}"
-#mkdir /tmp/guac-build && cd /tmp/guac-build  &>> $logfile
+print_status "${YELLOW}Installing Gucamole${NC}"
+mkdir /tmp/guac-build && cd /tmp/guac-build  &>> $logfile
 #wget https://www.apache.org/dist/guacamole/0.9.14/source/guacamole-server-0.9.14.tar.gz  &>> $logfile
-#tar xvf guacamole-server-0.9.14.tar.gz  &>> $logfile
-#cd guacamole-server-0.9.14  &>> $logfile
-#./configure --with-init-dir=/etc/init.d  &>> $logfile
-#make && make install && cd ..  &>> $logfile
-#ldconfig  &>> $logfile
+wget https://www.apache.org/dist/guacamole/1.0.0/source/guacamole-server-1.0.0.tar.gz &>> $logfile
+tar xvf guacamole-server*.tar.gz &>> $logfile
+rm guacamole-server*.tar.gz &>> $logfile
+cd guacamole-server* &>> $logfile
+./configure --with-init-dir=/etc/init.d &>> $logfile
+make &>> $logfile
+make install &>> $logfile
+cd .. &>> $logfile
+ldconfig &>> $logfile
 #etc/init.d/guacd start  &>> $logfile
-#error_check 'Guacamole installed'
+error_check 'Guacamole installed'
 
 ##TOR
 print_status "${YELLOW}Installing Tor${NC}"
@@ -545,8 +575,12 @@ error_check "Routing configured"
 print_status "${YELLOW}Setting up Cuckoo signatures${NC}"
 sudo -i -u $name cuckoo &
 sleep 20
+dir_check /home/$name/.cuckoo/backup_conf
+cp /home/$name/.cuckoo/conf/* /home/$name/.cuckoo/backup_conf
 sudo -i -u $name cp /home/$name/conf/* /home/$name/.cuckoo/conf
-sudo -i -u $name cuckoo community
+print_status "${YELLOW}Adding community signatures${NC}"
+sudo -i -u $name cuckoo community &>> $logfile
+error_check "Signatures added"
 
 print_status "${YELLOW}Configuring webserver${NC}"
 sudo adduser www-data $name  &>> $logfile
@@ -590,4 +624,3 @@ print_status "${YELLOW}Doing some cleanup${NC}"
 apt-get -y autoremove &>> $logfile && apt-get -y autoclean &>> $logfile
 error_check "House keeping finished"
 echo -e "${YELLOW}Installation complete, login as $name and open the terminal. Run restart_cuckoo.sh if needed. To get started as fast as possible you will need to create a VM with the vmcloak.sh script provided in your home directory. This will require you have a local copy of the Windows ISO you wish to use. You can then navigate to $HOSTNAME:8000 and submit samples.${NC}"
-
