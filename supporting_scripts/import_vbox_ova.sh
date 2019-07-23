@@ -92,18 +92,18 @@ fi
 
 echo -e "${YELLOW}What is the name for this machine?${NC}"
 read name
-echo -e "${YELLOW}What RDP port would you like to assign this machine (depending on your configuration, you want to chose something between 5000-5050?${NC}"
-read rdp
+#echo -e "${YELLOW}What RDP port would you like to assign this machine (depending on your configuration, you want to chose something between 5000-5050?${NC}"
+#read rdp
 echo -e "${YELLOW}What IP would you like to assign this machine (192.168.56.X)?${NC}"
 read ip
 VBoxManage import $ova --vsys 0 --vmname $name
 echo -e "${YELLOW}Setting up machine machine${NC}"
 VBoxManage modifyvm $name --macaddress1	$macadd
 VBoxManage modifyvm $name --vrde on
-VBoxManage modifyvm $name --vrdeport $rdp
+#VBoxManage modifyvm $name --vrdeport $rdp
 echo -e "${YELLOW}Starting VM and waiting for response...${NC}"
 VBoxManage startvm $name --type headless
-read -n 1 -s -p "VM started, you can RDP to the running box at port $rdp, MAKE SURE TO ASSIGN THE IP $ip, make any changes, hit ENTER to take a snapshot and shutdown the machine."
+read -n 1 -s -p "VM started, you can RDP to the running box at port 5000 on the host's IP address, MAKE SURE TO ASSIGN THE IP $ip, make any changes, hit ENTER to take a snapshot and shutdown the machine."
 echo
 VBoxManage snapshot $name take vmcloak_modified --live
 VBoxManage controlvm $name poweroff
