@@ -83,7 +83,7 @@ kill $(ps aux | grep '/usr/local/bin/cuckoo' | awk '{print $2}') &>> $logfile
 
 print_status "${YELLOW}Starting essential services${NC}"
 #up_check mongod elasticsearch mysql molochcapture molochviewer suricata tor uwsgi nginx
-up_check mongod elasticsearch mysql suricata tor uwsgi nginx inetsim
+up_check mongod elasticsearch mysql suricata nginx
 error_check 'All services running'
 sleep 1
 #start virtual network interface
@@ -110,6 +110,7 @@ cuckoo rooter &
 sleep 5
 service uwsgi restart &>> $logfile
 service tor restart &>> $logfile
+service inetsim restart &>> $logfile
 error_check 'Routing configured'
 
 print_status "${YELLOW}Launching Cuckoo...${NC}"
