@@ -307,6 +307,7 @@ pip install weasyprint==0.36 &>> $logfile
 pip install yara-python &>> $logfile
 pip install m2crypto==0.24.0  &>> $logfile
 pip install cryptography==2.8 &>> $logfile
+pip install distorm3==3.4.4 &>> $logfile
 #pip install -U pip cuckoo==2.0.4a5 &>> $logfile
 pip install cuckoo &>> $logfile
 error_check 'Cuckoo and depos downloaded and installed'
